@@ -21,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl" className={`${heebo.variable} h-full`}>
       <body className="min-h-full flex flex-col antialiased" style={{ fontFamily: "var(--font-heebo), sans-serif" }}>
+        <script src="https://cdn.enable.co.il/licenses/enable-L55124s8cp12k3gg-0526-81985/init.js"></script>
         {children}
       </body>
     </html>

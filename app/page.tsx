@@ -99,7 +99,11 @@ export default function HomePage() {
       </section>
 
       <footer className="border-t border-gray-200 py-6 text-center text-sm text-gray-400 bg-white">
-        © 2024 Signly. כל הזכויות שמורות.
+        © 2025 Signly. כל הזכויות שמורות.
+        {" · "}
+        <Link href="/accessibility" className="underline hover:text-gray-600">
+          הצהרת נגישות
+        </Link>
       </footer>
     </main>
   );
