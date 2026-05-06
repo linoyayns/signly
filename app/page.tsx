@@ -2,109 +2,401 @@ import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen flex flex-col" style={{ backgroundColor: "#F8F9FA" }}>
-      {/* Navbar */}
-      <nav className="border-b border-gray-200 bg-white">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
-          <span className="text-xl font-bold" style={{ color: "#0F1F3D" }}>Signly</span>
+    <main className="min-h-screen flex flex-col" dir="rtl" style={{ fontFamily: "'Heebo', sans-serif", backgroundColor: "#FFFFFF", color: "#0F172A" }}>
+
+      {/* NAV */}
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: "rgba(15,31,61,0.97)", backdropFilter: "blur(16px)", borderBottom: "1px solid rgba(255,255,255,0.08)", height: 60, display: "flex", alignItems: "center" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 40px", width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ fontSize: 20, fontWeight: 900, color: "white" }}>
+            Signly<span style={{ color: "#2563EB" }}>.</span>
+          </span>
+          <Link href="#how" style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>
+            איך זה עובד
+          </Link>
           <Link
             href="/create"
-            className="text-sm font-semibold px-5 py-2 rounded text-white"
-            style={{ backgroundColor: "#2563EB" }}
+            style={{ fontSize: 14, fontWeight: 700, padding: "8px 20px", borderRadius: 8, background: "#2563EB", color: "white", textDecoration: "none" }}
           >
-            צור חוזה
+            צור חוזה – ₪97
           </Link>
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="flex-1 flex flex-col items-center justify-center px-6 py-24 text-center">
-        <div className="max-w-2xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6" style={{ color: "#0F1F3D" }}>
-            שלחת הצעה.<br />הלקוח אישר.<br /><span style={{ color: "#2563EB" }}>ואין לך חוזה.</span>
-          </h1>
-          <p className="text-lg text-gray-600 mb-10 leading-relaxed">
-            חוזה פרילנסר מקצועי בעברית, מוכן תוך דקות ספורות.<br />
-            אני לא עורך דין.<br />
-            אני AI שלמד מעשרות חוזים ישראליים אמיתיים — ויודע בדיוק אילו סעיפים מגינים עליך.
-          </p>
-
-          <Link
-            href="/create"
-            className="inline-block px-8 py-4 text-lg font-semibold text-white rounded"
-            style={{ backgroundColor: "#2563EB" }}
-          >
-            צור חוזה עכשיו
-          </Link>
-
-          {/* Trust badges */}
-          <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center items-center text-sm text-gray-500">
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-gray-700">✓</span>
-              <span>נבדק על ידי עורכי דין</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-gray-700">✓</span>
-              <span>מותאם לחוק הישראלי</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-gray-700">✓</span>
-              <span>מחיר אחד: 97₪</span>
-            </div>
+      {/* HERO */}
+      <section style={{ paddingTop: 120, paddingBottom: 80, padding: "120px 40px 80px", background: "linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%)" }}>
+        <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(37,99,235,0.08)", border: "1px solid rgba(37,99,235,0.2)", color: "#2563EB", borderRadius: 100, padding: "6px 14px", fontSize: 13, fontWeight: 700, marginBottom: 24 }}>
+            <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#2563EB", display: "inline-block" }} />
+            חוזים לפרילנסרים ישראלים
           </div>
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section className="bg-white border-t border-gray-200 py-20 px-6">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-12" style={{ color: "#0F1F3D" }}>
-            איך זה עובד
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {[
-              { step: "01", title: "עונה על שאלות", desc: "ממשק שיחה פשוט. 10 שאלות קצרות על הפרויקט שלך." },
-              { step: "02", title: "משלם 97₪", desc: "תשלום מאובטח. חד-פעמי. ללא מנוי." },
-              { step: "03", title: "מוריד חוזה", desc: "חוזה מקצועי בעברית, מוכן לחתימה." },
-            ].map(({ step, title, desc }) => (
-              <div key={step} className="text-center">
-                <div className="text-4xl font-bold mb-4" style={{ color: "#2563EB", opacity: 0.35 }}>
-                  {step}
-                </div>
-                <h3 className="text-lg font-semibold mb-2" style={{ color: "#0F1F3D" }}>{title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
+          <h1 style={{ fontSize: 52, fontWeight: 900, lineHeight: 1.2, letterSpacing: -1.5, color: "#0F172A", marginBottom: 24 }}>
+            שלחת הצעה.<br />
+            הלקוח אישר.<br />
+            <span style={{ color: "#2563EB" }}>ואין לך חוזה.</span>
+          </h1>
+          <p style={{ fontSize: 18, color: "#64748B", lineHeight: 1.75, marginBottom: 40 }}>
+            חוזה פרילנס מקצועי בעברית, מוכן תוך דקות ספורות.<br />
+            אני לא עורך דין.<br />
+            אני AI שלמד מעשרות חוזים ישראלים אמיתיים — ויודע בדיוק אילו סעיפים מגינים עליך.
+          </p>
+          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginBottom: 32 }}>
+            <Link
+              href="/create"
+              style={{ padding: "16px 32px", fontSize: 17, fontWeight: 700, background: "#2563EB", color: "white", borderRadius: 10, textDecoration: "none" }}
+            >
+              צור את החוזה שלי – ₪97
+            </Link>
+            <Link
+              href="#how"
+              style={{ padding: "16px 24px", fontSize: 16, fontWeight: 600, background: "transparent", color: "#0F172A", border: "1.5px solid #CBD5E1", borderRadius: 10, textDecoration: "none" }}
+            >
+              איך זה עובד?
+            </Link>
+          </div>
+          <div style={{ display: "flex", gap: 20, justifyContent: "center", flexWrap: "wrap" }}>
+            {["ללא הרשמה", "מוכן תוך דקות", "רואים את החוזה לפני שמשלמים"].map((item) => (
+              <div key={item} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: "#64748B" }}>
+                <span style={{ width: 18, height: 18, background: "#2563EB", borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 10, flexShrink: 0 }}>✓</span>
+                {item}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA bottom */}
-      <section className="py-16 px-6 text-center" style={{ backgroundColor: "#0F1F3D" }}>
-        <div className="max-w-xl mx-auto">
-          <h2 className="text-2xl font-bold text-white mb-4">
+      {/* PROFESSIONS */}
+      <section style={{ padding: "80px 40px", background: "#FFFFFF" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 52 }}>
+            <div style={{ fontSize: 12, fontWeight: 800, color: "#2563EB", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>למי זה מיועד</div>
+            <h2 style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5 }}>
+              אם אתה עובד עם לקוחות,<br />אתה צריך חוזה.
+            </h2>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+            {[
+              { name: "מעצבים", desc: "UX/UI, גרפיקה, מיתוג – הגן על העבודה שלך" },
+              { name: "צלמים", desc: "הגדר בעלות, זכויות שימוש ותנאי מסירה" },
+              { name: "כותבים", desc: "קופי, תוכן, עריכה – הגדר בעלות ולוחות זמנים" },
+              { name: "מאמנים", desc: "פיטנס, עסקים, קואוצ'ינג – הגדר תנאים ברורים" },
+              { name: "מפתחים", desc: "הגן על הקוד שלך ועל תנאי התשלום" },
+              { name: "יועצים", desc: "ניהול, שיווק, אסטרטגיה – הגדר תנאים ברורים" },
+            ].map(({ name, desc }) => (
+              <div key={name} style={{ padding: "24px 20px", border: "1px solid #E2E8F0", borderRadius: 12, background: "#F8FAFC", transition: "box-shadow 0.2s" }}>
+                <div style={{ fontSize: 16, fontWeight: 800, color: "#0F172A", marginBottom: 8 }}>{name}</div>
+                <div style={{ fontSize: 13, color: "#64748B", lineHeight: 1.6 }}>{desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section id="how" style={{ padding: "80px 40px", background: "#F8FAFC" }}>
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 52 }}>
+            <div style={{ fontSize: 12, fontWeight: 800, color: "#2563EB", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>תהליך</div>
+            <h2 style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5, marginBottom: 12 }}>שלושה שלבים. חוזה מוכן.</h2>
+            <p style={{ fontSize: 16, color: "#64748B" }}>לא צריך לדעת משפטים. לא צריך להיות עורך דין. ענה על כמה שאלות וזהו.</p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 40 }}>
+            {[
+              { step: "1", title: "ענה על שאלות", desc: "שאלון קצר ומדויק שמתאים לסוג הפרויקט שלך – מה, כמה, מתי" },
+              { step: "2", title: "קבל חוזה", desc: "אני מייצר חוזה מקיף בעברית עם כל הסעיפים הנחוצים לפרויקט שלך" },
+              { step: "3", title: "הורד PDF", desc: "מסמך מוכן לחתימה. שלח ללקוח, חתמו שניכם, התחל לעבוד בביטחה" },
+            ].map(({ step, title, desc }) => (
+              <div key={step} style={{ textAlign: "center" }}>
+                <div style={{ width: 52, height: 52, borderRadius: "50%", background: "rgba(37,99,235,0.1)", color: "#2563EB", fontSize: 22, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+                  {step}
+                </div>
+                <h3 style={{ fontSize: 17, fontWeight: 800, color: "#0F172A", marginBottom: 8 }}>{title}</h3>
+                <p style={{ fontSize: 14, color: "#64748B", lineHeight: 1.65 }}>{desc}</p>
+              </div>
+            ))}
+          </div>
+          <div style={{ textAlign: "center", marginTop: 48 }}>
+            <Link href="/create" style={{ padding: "16px 32px", fontSize: 17, fontWeight: 700, background: "#2563EB", color: "white", borderRadius: 10, textDecoration: "none" }}>
+              צור את החוזה שלי – ₪97
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* PERSONALIZATION */}
+      <section style={{ padding: "80px 40px", background: "#FFFFFF" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 52 }}>
+            <div style={{ fontSize: 12, fontWeight: 800, color: "#2563EB", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>שאלון חכם</div>
+            <h2 style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5, marginBottom: 12 }}>השאלון שחושב בשבילך.</h2>
+            <p style={{ fontSize: 16, color: "#64748B", maxWidth: 580, margin: "0 auto" }}>הוא לא שואל שאלות גנריות. הוא מכיר את המקצוע שלך, ומציע הגנות שלא חשבת עליהן.</p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: 40 }}>
+            {[
+              {
+                profession: "צלם / צלמת",
+                question: '"צילמת אלף תמונות. הלקוח בוחר 30. ואז אומר \'לא מה שציפיתי\' — ומסרב לשלם. מה כתוב בחוזה שלך?"',
+                desc: "חוזה שמגדיר מראש כמה תמונות, באיזה סגנון ומה נחשב \"מסירה\" — סוגר את הדיון עוד לפני שהוא נפתח.",
+              },
+              {
+                profession: "מעצב / כותב",
+                question: '"הלקוח מכר את העסק שלו לחברה גדולה. החברה ממשיכה להשתמש בלוגו שעיצבת — בלי לשלם לך שקל נוסף. מה החוזה שלך אומר על זה?"',
+                desc: "שאלה שעולה אחרי שזה כבר קרה. עדיף שהתשובה תהיה כתובה מראש.",
+              },
+              {
+                profession: "יועץ / מאמן",
+                question: '"לימדת לקוח את המתודולוגיה שלך. עכשיו הוא מקיים סדנאות בדיוק עם אותה שיטה — ולא הזכיר אותך. מה מגן עליך בחוזה?"',
+                desc: "יש הבדל בין \"השתמש בתוצאות\" לבין \"שכפל את השיטה\". החוזה צריך להגדיר את הגבול.",
+              },
+            ].map(({ profession, question, desc }) => (
+              <div key={profession} style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 14, padding: "28px 24px" }}>
+                <div style={{ fontSize: 12, fontWeight: 800, color: "#2563EB", marginBottom: 16, letterSpacing: 1, textTransform: "uppercase" }}>{profession}</div>
+                <p style={{ fontSize: 14, color: "#64748B", marginBottom: 14, lineHeight: 1.6 }}>השאלון שואל אותך:</p>
+                <p style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 12, lineHeight: 1.5, borderRight: "3px solid #2563EB", paddingRight: 12 }}>{question}</p>
+                <p style={{ fontSize: 13, color: "#64748B", lineHeight: 1.6 }}>{desc}</p>
+              </div>
+            ))}
+          </div>
+          <div style={{ background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 14, padding: "28px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, flexWrap: "wrap" }}>
+            <p style={{ fontSize: 16, color: "#0F172A", fontWeight: 600, lineHeight: 1.6, maxWidth: 600 }}>
+              יש משהו ספציפי שחשוב לך? תכתוב אותו בשפה שלך. אדאג שזה ייכנס לחוזה בניסוח ברור ומפורש.
+            </p>
+            <Link href="/create" style={{ padding: "14px 28px", fontSize: 16, fontWeight: 700, background: "#2563EB", color: "white", borderRadius: 10, textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0 }}>
+              צור את החוזה שלי – ₪97
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* PREVIEW */}
+      <section style={{ padding: "80px 40px", background: "#F8FAFC" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+            <div>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(37,99,235,0.08)", border: "1px solid rgba(37,99,235,0.2)", color: "#2563EB", borderRadius: 100, padding: "6px 14px", fontSize: 13, fontWeight: 700, marginBottom: 20 }}>
+                👁 רואים לפני שמשלמים
+              </div>
+              <h2 style={{ fontSize: 34, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5, lineHeight: 1.25, marginBottom: 16 }}>
+                החוזה שלך מוכן.<br />תראה אותו לפני שאתה משלם.
+              </h2>
+              <p style={{ fontSize: 16, color: "#64748B", lineHeight: 1.75, marginBottom: 24 }}>
+                אחרי שאתה עונה על השאלון, אני מראה לך חלק מהחוזה שיצרתי עבורך — עם הפרטים שלך, בעברית אמיתית. רואים שזה טוב? רק אז משלמים.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {["הטקסט האמיתי שייכנס לחוזה שלך", "עם השם שלך ושם הלקוח שלך", "לפני כל תשלום"].map((item) => (
+                  <div key={item} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, color: "#64748B" }}>
+                    <span style={{ width: 20, height: 20, background: "#2563EB", borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 10, flexShrink: 0 }}>✓</span>
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 16, padding: 28, boxShadow: "0 20px 40px rgba(0,0,0,0.10)", position: "relative", overflow: "hidden" }}>
+              <div style={{ fontSize: 11, fontWeight: 700, textAlign: "center", color: "#64748B", letterSpacing: 2, marginBottom: 8 }}>SIGNLY CONTRACT</div>
+              <div style={{ fontSize: 15, fontWeight: 800, textAlign: "center", borderBottom: "2px solid #0F172A", paddingBottom: 12, marginBottom: 16 }}>
+                הסכם התקשרות –<br />שירותי עיצוב גרפי
+              </div>
+              <div style={{ fontSize: 13, color: "#0F172A", lineHeight: 1.8, direction: "rtl" }}>
+                <p style={{ marginBottom: 10 }}><strong>הצדדים להסכם:</strong></p>
+                <p style={{ marginBottom: 6 }}>נותן שירות: <strong>נועה כהן עיצוב</strong></p>
+                <p style={{ marginBottom: 16 }}>לקוח: <strong>סטודיו ABC בע&quot;מ</strong></p>
+                <p style={{ marginBottom: 10 }}><strong>1. תיאור השירות:</strong></p>
+                <p style={{ marginBottom: 16 }}>נותן השירות יספק שירותי עיצוב גרפי הכוללים עיצוב לוגו, חומרים שיווקיים וסט מותג מלא...</p>
+              </div>
+              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 100, background: "linear-gradient(to bottom, transparent, white)", borderRadius: "0 0 16px 16px", display: "flex", alignItems: "flex-end", justifyContent: "center", paddingBottom: 16 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#64748B" }}>
+                  🔒 ממשיכים לסעיפים נוספים אחרי התשלום
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section style={{ padding: "80px 40px", background: "#FFFFFF" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <div style={{ fontSize: 12, fontWeight: 800, color: "#2563EB", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>פרילנסרים שכבר השתמשו</div>
+            <h2 style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5 }}>מה הם אמרו.</h2>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20 }}>
+            {[
+              {
+                stars: "★★★★★",
+                text: "\"הלקוח ניסה לטעון שלא הוסכם על מספר התיקונים. פתחתי את החוזה, הראיתי לו סעיף 4. השיחה הסתיימה תוך דקה.\"",
+                author: "נועה כ. — מעצבת גרפית, תל אביב",
+              },
+              {
+                stars: "★★★★★",
+                text: "\"תמיד ידעתי שצריך חוזה. פשוט לא ידעתי מאיפה להתחיל. לקח לי 3 דקות, קיבלתי משהו שנראה מקצועי באמת.\"",
+                author: "יובל מ. — צלם, חיפה",
+              },
+              {
+                stars: "★★★★☆",
+                text: "\"קיבלתי את החוזה, שלחתי ללקוח — ואז נזכרתי שרציתי להוסיף סעיף על זכויות הפצה. שלחתי מייל, ותוך כמה שעות קיבלתי גרסה מעודכנת. לא ציפיתי שיגיבו כל כך מהר.\"",
+                author: "שירה ל. — כותבת תוכן, ירושלים",
+              },
+              {
+                stars: "★★★★★",
+                text: "\"עורך דין ביקש ממני 1,200₪ על חוזה בסיסי. אני עסק בתחילת הדרך — זה לא ריאלי. מצאתי את Signly, שילמתי ₪97 וקיבלתי חוזה שנראה בדיוק כמו מה שציפיתי לקבל שם.\"",
+                author: "מאיה ר. — מאיירת פרילנס, באר שבע",
+              },
+            ].map(({ stars, text, author }) => (
+              <div key={author} style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 12, padding: "28px 24px" }}>
+                <div style={{ color: "#F59E0B", fontSize: 16, marginBottom: 14, letterSpacing: 2 }}>{stars}</div>
+                <p style={{ fontSize: 15, color: "#0F172A", lineHeight: 1.7, marginBottom: 16, fontStyle: "italic" }}>{text}</p>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#64748B" }}>{author}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TRUST / AI */}
+      <section style={{ padding: "80px 40px", background: "#FFFFFF" }}>
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <div style={{ background: "linear-gradient(135deg, rgba(37,99,235,0.06) 0%, rgba(124,58,237,0.08) 100%)", border: "1px solid rgba(37,99,235,0.15)", borderRadius: 20, padding: "48px 56px", textAlign: "center", marginBottom: 44 }}>
+            <h3 style={{ fontSize: 26, fontWeight: 900, color: "#0F172A", marginBottom: 14 }}>
+              AI שלמד מהשטח — לא מספרי חוק.
+            </h3>
+            <p style={{ fontSize: 16, color: "#64748B", lineHeight: 1.75, maxWidth: 660, margin: "0 auto 32px" }}>
+              עברתי על עשרות חוזים ישראלים אמיתיים שנכתבו על ידי עורכי דין — למדתי איך מנסחים סעיפי הגנה, אילו תנאים מופיעים בכל חוזה מוצלח, ואיך מגדירים גבולות בצורה ברורה.<br /><br />
+              התוצאה: חוזה שנשמע כמו שעורך דין כתב — כי למדתי ממה שעורכי דין כתבו.
+            </p>
+            <div style={{ display: "flex", justifyContent: "center", gap: 56, flexWrap: "wrap" }}>
+              {[
+                { num: "3 דק׳", label: "ממילוי שאלון ועד חוזה מוכן" },
+                { num: "₪97", label: "מחיר אחד. ללא הפתעות" },
+                { num: "2026", label: "מעודכן לחוק הישראלי" },
+              ].map(({ num, label }) => (
+                <div key={label} style={{ textAlign: "center" }}>
+                  <span style={{ fontSize: 38, fontWeight: 900, color: "#2563EB", letterSpacing: -1.5, display: "block", lineHeight: 1, marginBottom: 6 }}>{num}</span>
+                  <span style={{ fontSize: 13, color: "#64748B", fontWeight: 600 }}>{label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
+            {[
+              { title: "מותאם לחוק הישראלי", desc: "כל סעיף תואם את חוק החוזים, חוק זכויות יוצרים וחוק הגנת הפרטיות הישראלי." },
+              { title: "Freelancer-First", desc: "כל ברירת מחדל בחוזה לטובתך — לא לטובת הלקוח שלך." },
+              { title: "ללא המצאות", desc: "כל מה שנכתב בחוזה = בדיוק מה שהזנת בשאלון. אין מספרים שהמצאנו." },
+              { title: "שדה פתוח לבקשות", desc: "יש סעיף מיוחד שחשוב לך? כתוב בשפה שלך — נמיר לניסוח משפטי." },
+            ].map(({ title, desc }) => (
+              <div key={title} style={{ display: "flex", gap: 16, alignItems: "flex-start", padding: 24, background: "white", border: "1px solid #E2E8F0", borderRadius: 12 }}>
+                <div style={{ width: 42, height: 42, background: "rgba(37,99,235,0.08)", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", color: "#2563EB", flexShrink: 0, fontSize: 18 }}>✓</div>
+                <div>
+                  <h4 style={{ fontSize: 15, fontWeight: 800, color: "#0F172A", marginBottom: 4 }}>{title}</h4>
+                  <p style={{ fontSize: 13, color: "#64748B", lineHeight: 1.6 }}>{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PRICING */}
+      <section id="pricing" style={{ padding: "80px 40px", background: "#F8FAFC" }}>
+        <div style={{ maxWidth: 520, margin: "0 auto", textAlign: "center" }}>
+          <div style={{ fontSize: 12, fontWeight: 800, color: "#2563EB", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>תמחור</div>
+          <h2 style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5, marginBottom: 12 }}>מחיר אחד. ברור.</h2>
+          <p style={{ fontSize: 16, color: "#64748B", marginBottom: 40 }}>עו&quot;ד גובה 500-2,000₪ לחוזה. Signly: ₪97.</p>
+          <div style={{ background: "white", border: "1.5px solid #E2E8F0", borderRadius: 20, padding: "40px 32px", boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}>
+            <div style={{ fontSize: 13, color: "#64748B", marginBottom: 4 }}>חד-פעמי</div>
+            <div style={{ fontSize: 72, fontWeight: 900, color: "#0F172A", letterSpacing: -2, lineHeight: 1, marginBottom: 4 }}><span style={{ fontSize: 32 }}>₪</span>97</div>
+            <div style={{ fontSize: 13, color: "#64748B", marginBottom: 32 }}>ללא מנוי · ללא הפתעות</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 32, textAlign: "right" }}>
+              {[
+                "חוזה מקצועי בעברית, מלא וסגור",
+                "מבוסס על ניתוח 640+ חוזים ישראלים אמיתיים",
+                "כולל סעיפי תשלום, ביטול ובעלות",
+                "PDF להורדה מיידית",
+                "ללא הרשמה, ללא מנוי",
+                "לא מרוצה? שלח מייל ותקבל תיקון תוך 24 שעות",
+              ].map((item) => (
+                <div key={item} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 14, color: "#374151" }}>
+                  <span style={{ color: "#2563EB", fontWeight: 700, flexShrink: 0 }}>✓</span>
+                  {item}
+                </div>
+              ))}
+            </div>
+            <Link
+              href="/create"
+              style={{ display: "block", width: "100%", padding: "16px", fontSize: 17, fontWeight: 700, background: "#2563EB", color: "white", borderRadius: 10, textDecoration: "none", textAlign: "center" }}
+            >
+              צור את החוזה שלי עכשיו
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section style={{ padding: "80px 40px", background: "#FFFFFF" }}>
+        <div style={{ maxWidth: 700, margin: "0 auto" }}>
+          <h2 style={{ fontSize: 32, fontWeight: 900, color: "#0F172A", textAlign: "center", marginBottom: 48, letterSpacing: -0.5 }}>שאלות נפוצות</h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+            {[
+              {
+                q: "האם החוזה תקף מבחינה משפטית?",
+                a: "כן. חוזה חתום בין שני צדדים שמסכימים לתנאיו תקף משפטית בישראל. Signly מייצר חוזה ברמה מקצועית — את החתימה עושים אתם.",
+              },
+              {
+                q: "כמה זמן לוקח ליצור חוזה?",
+                a: "בממוצע 3-5 דקות. עונים על שאלות קצרות על הפרויקט שלך, המערכת מייצרת חוזה מותאם, ואת/ה מקבל PDF מוכן להורדה.",
+              },
+              {
+                q: "מה קורה אם לא מרוצה מהחוזה?",
+                a: "שולחים מייל ל-service@mysignly.com עם מה שרצית לשנות, ונשלח גרסה מעודכנת תוך 24 שעות בימי עסקים. בלי בירוקרטיה.",
+              },
+              {
+                q: "האם צריך להירשם?",
+                a: "לא. ממלאים שאלון, משלמים, ומקבלים PDF. אין סיסמאות, אין פרופיל, אין מנוי.",
+              },
+              {
+                q: "לאיזה סוגי פרויקטים מתאים?",
+                a: "לכל פרילנסר או עצמאי שעובד עם לקוחות: מעצבים, צלמים, כותבים, מפתחים, מאמנים, יועצים ועוד. אם אתה מספק שירות בתמורה לתשלום – הכלי הזה בשבילך.",
+              },
+              {
+                q: "מה ההבדל מתבנית חינמית מהאינטרנט?",
+                a: "תבנית חינמית היא גנרית — אותו טקסט לצלם, למעצב ולמאמן. Signly שואל אותך שאלות ספציפיות למקצוע שלך ולפרויקט, ומייצר חוזה שמתאים בדיוק למה שסיכמת עם הלקוח. בנוסף: תבנית חינמית לא תזכיר לך שאלות שלא חשבת עליהן.",
+              },
+            ].map(({ q, a }, i) => (
+              <div key={q} style={{ padding: "24px 0", borderBottom: i < 5 ? "1px solid #E2E8F0" : "none" }}>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: "#0F172A", marginBottom: 8 }}>{q}</h3>
+                <p style={{ fontSize: 14, color: "#64748B", lineHeight: 1.7 }}>{a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CLOSING CTA */}
+      <section style={{ padding: "80px 40px", background: "#0F172A", textAlign: "center" }}>
+        <div style={{ maxWidth: 600, margin: "0 auto" }}>
+          <h2 style={{ fontSize: 36, fontWeight: 900, color: "white", marginBottom: 16, letterSpacing: -0.5 }}>
             מוכן להגן על עצמך?
           </h2>
-          <p className="text-gray-300 mb-8">
+          <p style={{ fontSize: 16, color: "rgba(255,255,255,0.65)", marginBottom: 36, lineHeight: 1.7 }}>
             אל תתחיל פרויקט ללא חוזה. 5 דקות עכשיו חוסכות לך כאב ראש בעתיד.
           </p>
           <Link
             href="/create"
-            className="inline-block px-8 py-4 text-lg font-semibold rounded bg-white"
-            style={{ color: "#0F1F3D" }}
+            style={{ display: "inline-block", padding: "18px 40px", fontSize: 18, fontWeight: 700, background: "white", color: "#0F172A", borderRadius: 10, textDecoration: "none" }}
           >
-            צור חוזה עכשיו — 97₪
+            קחו אותי לשאלון ←
           </Link>
         </div>
       </section>
 
-      <footer className="border-t border-gray-200 py-6 text-center text-sm text-gray-400 bg-white">
-        © 2025 Signly. כל הזכויות שמורות.
-        {" · "}
-        <Link href="/accessibility" className="underline hover:text-gray-600">
-          הצהרת נגישות
-        </Link>
+      {/* FOOTER */}
+      <footer style={{ borderTop: "1px solid #E2E8F0", padding: "24px 40px", background: "white", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
+        <span style={{ fontSize: 16, fontWeight: 900, color: "#0F172A" }}>Signly<span style={{ color: "#2563EB" }}>.</span></span>
+        <div style={{ display: "flex", gap: 20 }}>
+          <Link href="/accessibility" style={{ fontSize: 13, color: "#64748B", textDecoration: "none" }}>הצהרת נגישות</Link>
+        </div>
+        <span style={{ fontSize: 13, color: "#94A3B8" }}>© 2026 Signly. כל הזכויות שמורות.</span>
       </footer>
+
     </main>
   );
 }
