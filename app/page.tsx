@@ -395,6 +395,8 @@ export default function HomePage() {
         <span style={{ fontSize: 16, fontWeight: 900, color: "#0F172A" }}>Signly<span style={{ color: "#2563EB" }}>.</span></span>
         <div style={{ display: "flex", gap: 20 }}>
           <Link href="/accessibility" style={{ fontSize: 13, color: "#64748B", textDecoration: "none" }}>הצהרת נגישות</Link>
+          <Link href="/terms" style={{ fontSize: 13, color: "#64748B", textDecoration: "none" }}>תקנון</Link>
+          <Link href="/privacy" style={{ fontSize: 13, color: "#64748B", textDecoration: "none" }}>מדיניות פרטיות</Link>
         </div>
         <span style={{ fontSize: 13, color: "#94A3B8" }}>© 2026 Signly. כל הזכויות שמורות.</span>
       </footer>
