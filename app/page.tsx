@@ -17,7 +17,7 @@ export default function HomePage() {
             href="/create"
             style={{ fontSize: 14, fontWeight: 700, padding: "8px 20px", borderRadius: 8, background: "#2563EB", color: "white", textDecoration: "none" }}
           >
-            צור חוזה – ₪97
+            צור חוזה
           </Link>
         </div>
       </nav>
@@ -44,7 +44,7 @@ export default function HomePage() {
               href="/create"
               style={{ padding: "16px 32px", fontSize: 17, fontWeight: 700, background: "#2563EB", color: "white", borderRadius: 10, textDecoration: "none" }}
             >
-              צור את החוזה שלי – ₪97
+              צור את החוזה שלי
             </Link>
             <Link
               href="#how"
@@ -88,6 +88,9 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+          <p style={{ textAlign: "center", marginTop: 24, fontSize: 14, color: "#64748B" }}>
+            ועוד המון מקצועות — אם אתה עובד עם לקוחות ומספק שירות, הכלי הזה בשבילך.
+          </p>
         </div>
       </section>
 
@@ -116,7 +119,7 @@ export default function HomePage() {
           </div>
           <div style={{ textAlign: "center", marginTop: 48 }}>
             <Link href="/create" style={{ padding: "16px 32px", fontSize: 17, fontWeight: 700, background: "#2563EB", color: "white", borderRadius: 10, textDecoration: "none" }}>
-              צור את החוזה שלי – ₪97
+              צור את החוזה שלי
             </Link>
           </div>
         </div>
@@ -161,7 +164,7 @@ export default function HomePage() {
               יש משהו ספציפי שחשוב לך? תכתוב אותו בשפה שלך. אדאג שזה ייכנס לחוזה בניסוח ברור ומפורש.
             </p>
             <Link href="/create" style={{ padding: "14px 28px", fontSize: 16, fontWeight: 700, background: "#2563EB", color: "white", borderRadius: 10, textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0 }}>
-              צור את החוזה שלי – ₪97
+              צור את החוזה שלי
             </Link>
           </div>
         </div>
@@ -257,11 +260,11 @@ export default function HomePage() {
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
           <div style={{ background: "linear-gradient(135deg, rgba(37,99,235,0.06) 0%, rgba(124,58,237,0.08) 100%)", border: "1px solid rgba(37,99,235,0.15)", borderRadius: 20, padding: "48px 56px", textAlign: "center", marginBottom: 44 }}>
             <h3 style={{ fontSize: 26, fontWeight: 900, color: "#0F172A", marginBottom: 14 }}>
-              AI שלמד מהשטח — לא מספרי חוק.
+              למדנו ממי שעושה את זה הכי טוב.
             </h3>
             <p style={{ fontSize: 16, color: "#64748B", lineHeight: 1.75, maxWidth: 660, margin: "0 auto 32px" }}>
-              עברתי על עשרות חוזים ישראלים אמיתיים שנכתבו על ידי עורכי דין — למדתי איך מנסחים סעיפי הגנה, אילו תנאים מופיעים בכל חוזה מוצלח, ואיך מגדירים גבולות בצורה ברורה.<br /><br />
-              התוצאה: חוזה שנשמע כמו שעורך דין כתב — כי למדתי ממה שעורכי דין כתבו.
+              עברנו על עשרות חוזים ישראלים אמיתיים שנכתבו על ידי עורכי דין מנוסים — כדי להבין מה הם שמים בפועל כשמגנים על פרילנסר. אילו סעיפים תמיד נכנסים, אילו ניסוחים עומדים בלחץ, ואיך גבולות נקבעים בצורה ברורה ואכיפה.<br /><br />
+              התוצאה: חוזה שנכתב לפי אותם כללים שמקצוענים עובדים איתם — מותאם לפרויקט שלך, בעברית אמיתית.
             </p>
             <div style={{ display: "flex", justifyContent: "center", gap: 56, flexWrap: "wrap" }}>
               {[
@@ -276,11 +279,10 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
             {[
               { title: "מותאם לחוק הישראלי", desc: "כל סעיף תואם את חוק החוזים, חוק זכויות יוצרים וחוק הגנת הפרטיות הישראלי." },
-              { title: "Freelancer-First", desc: "כל ברירת מחדל בחוזה לטובתך — לא לטובת הלקוח שלך." },
-              { title: "ללא המצאות", desc: "כל מה שנכתב בחוזה = בדיוק מה שהזנת בשאלון. אין מספרים שהמצאנו." },
+              { title: "בצד שלך, תמיד", desc: "דאגנו לכל הסעיפים שמגנים עליך ועל הזכויות שלך — כולל כאלה שאולי לא ידעת שצריך לבקש." },
               { title: "שדה פתוח לבקשות", desc: "יש סעיף מיוחד שחשוב לך? כתוב בשפה שלך — נמיר לניסוח משפטי." },
             ].map(({ title, desc }) => (
               <div key={title} style={{ display: "flex", gap: 16, alignItems: "flex-start", padding: 24, background: "white", border: "1px solid #E2E8F0", borderRadius: 12 }}>
@@ -299,8 +301,8 @@ export default function HomePage() {
       <section id="pricing" style={{ padding: "80px 40px", background: "#F8FAFC" }}>
         <div style={{ maxWidth: 520, margin: "0 auto", textAlign: "center" }}>
           <div style={{ fontSize: 12, fontWeight: 800, color: "#2563EB", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>תמחור</div>
-          <h2 style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5, marginBottom: 12 }}>מחיר אחד. ברור.</h2>
-          <p style={{ fontSize: 16, color: "#64748B", marginBottom: 40 }}>עו&quot;ד גובה 500-2,000₪ לחוזה. Signly: ₪97.</p>
+          <h2 style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5, marginBottom: 12 }}>מחיר אחד. ללא הפתעות.</h2>
+          <p style={{ fontSize: 16, color: "#64748B", marginBottom: 40 }}>אנחנו לוקחים ₪97. חד-פעמי, ללא מנוי, ללא תוספות נסתרות.</p>
           <div style={{ background: "white", border: "1.5px solid #E2E8F0", borderRadius: 20, padding: "40px 32px", boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}>
             <div style={{ fontSize: 13, color: "#64748B", marginBottom: 4 }}>חד-פעמי</div>
             <div style={{ fontSize: 72, fontWeight: 900, color: "#0F172A", letterSpacing: -2, lineHeight: 1, marginBottom: 4 }}><span style={{ fontSize: 32 }}>₪</span>97</div>
