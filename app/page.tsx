@@ -302,7 +302,7 @@ export default function HomePage() {
         <div style={{ maxWidth: 520, margin: "0 auto", textAlign: "center" }}>
           <div style={{ fontSize: 12, fontWeight: 800, color: "#2563EB", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>תמחור</div>
           <h2 style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5, marginBottom: 12 }}>מחיר אחד. ללא הפתעות.</h2>
-          <p style={{ fontSize: 16, color: "#64748B", marginBottom: 40 }}>אנחנו לוקחים ₪97. חד-פעמי, ללא מנוי, ללא תוספות נסתרות.</p>
+          <p style={{ fontSize: 16, color: "#64748B", marginBottom: 40 }}>עורכי דין לוקחים בין 500-1,800₪ על חוזה. אנחנו לוקחים 97₪.</p>
           <div style={{ background: "white", border: "1.5px solid #E2E8F0", borderRadius: 20, padding: "40px 32px", boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}>
             <div style={{ fontSize: 13, color: "#64748B", marginBottom: 4 }}>חד-פעמי</div>
             <div style={{ fontSize: 72, fontWeight: 900, color: "#0F172A", letterSpacing: -2, lineHeight: 1, marginBottom: 4 }}><span style={{ fontSize: 32 }}>₪</span>97</div>
