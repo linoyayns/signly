@@ -78,7 +78,7 @@ export default function PrivacyPage() {
 
             <h3 style={{ fontSize: 16, fontWeight: 700, color: "#0F172A", marginBottom: 10 }}>2.2 נתוני תשלום</h3>
             <p style={{ fontSize: 15, color: "#374151", lineHeight: 1.85, marginBottom: 12 }}>
-              פרטי כרטיס האשראי מוזנים ישירות לממשק של Stripe ו<strong>אינם עוברים דרך שרתי Signly ואינם נשמרים אצלנו בשום צורה.</strong> אנו שומרים אך ורק את: מזהה עסקה, סכום, מטבע, ומועד התשלום — לצרכי רישום חשבונאי ועמידה בדרישות חוק.
+              פרטי כרטיס האשראי מוזנים ישירות לממשק של Invoice4U ו<strong>אינם עוברים דרך שרתי Signly ואינם נשמרים אצלנו בשום צורה.</strong> אנו שומרים אך ורק את: מזהה עסקה, סכום, ומועד התשלום — לצרכי רישום חשבונאי ועמידה בדרישות חוק.
             </p>
 
             <h3 style={{ fontSize: 16, fontWeight: 700, color: "#0F172A", marginBottom: 10 }}>2.3 נתונים טכניים</h3>
@@ -136,7 +136,7 @@ export default function PrivacyPage() {
             </p>
             <ul style={{ fontSize: 15, color: "#374151", lineHeight: 1.85, paddingRight: 20, marginBottom: 12 }}>
               <li style={{ marginBottom: 8 }}><strong>עוגיות סשן (Session Cookies)</strong> — נחוצות להפעלת השאלון ולשמירת ההתקדמות בתהליך. נמחקות עם סיום הדפדפן.</li>
-              <li style={{ marginBottom: 0 }}><strong>עוגיות תשלום</strong> — שמשמשות את Stripe לאבטחת תהליך התשלום. כפופות למדיניות הפרטיות של Stripe.</li>
+              <li style={{ marginBottom: 0 }}><strong>עוגיות תשלום</strong> — שמשמשות את Invoice4U לאבטחת תהליך התשלום. כפופות למדיניות הפרטיות של Invoice4U.</li>
             </ul>
             <p style={{ fontSize: 15, color: "#374151", lineHeight: 1.85, marginBottom: 0 }}>
               <strong>אין שימוש בעוגיות מעקב, עוגיות פרסום, או כלי ניתוח צד שלישי כגון Google Analytics.</strong> ניתן להגדיר את הדפדפן לחסום עוגיות, אך הדבר עשוי לפגוע בפונקציונליות השאלון.
@@ -153,11 +153,11 @@ export default function PrivacyPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {[
                 {
-                  name: "Stripe",
+                  name: "Invoice4U",
                   role: "עיבוד תשלומים",
-                  data: "מידע עסקה (לא פרטי כרטיס — אלה עוברים ישירות ל-Stripe)",
-                  link: "https://stripe.com/privacy",
-                  linkText: "מדיניות פרטיות Stripe",
+                  data: "מידע עסקה (לא פרטי כרטיס — אלה עוברים ישירות ל-Invoice4U)",
+                  link: "https://www.invoice4u.co.il/privacy",
+                  linkText: "מדיניות פרטיות Invoice4U",
                 },
                 {
                   name: "Vercel",
