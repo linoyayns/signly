@@ -7,7 +7,7 @@ import { downloadContractAsPdf } from "@/lib/pdf";
 
 function ContractContent() {
   const params = useSearchParams();
-  const sessionId = params.get("session_id");
+  const clearingId = params.get("clearing_id");
 
   const [contract, setContract] = useState<string>("");
   const [loading, setLoading] = useState(true);
@@ -16,7 +16,7 @@ function ContractContent() {
   const emailSentRef = useRef(false);
 
   useEffect(() => {
-    if (!sessionId) {
+    if (!clearingId) {
       setError("לא נמצא מזהה תשלום תקין");
       setLoading(false);
       return;
@@ -24,18 +24,26 @@ function ContractContent() {
 
     async function fetchContract() {
       try {
-        const verifyRes = await fetch(`/api/verify-session?session_id=${sessionId}`);
-        const verifyData = await verifyRes.json();
+        // 1. Get contractData from sessionStorage
+        const stored = sessionStorage.getItem(`cd_${clearingId}`);
+        if (!stored) {
+          setError("לא ניתן לאחזר את פרטי החוזה. אנא פנה לתמיכה.");
+          return;
+        }
+        const contractData = JSON.parse(stored);
 
-        if (!verifyRes.ok || !verifyData.contractData) {
+        // 2. Verify payment with Invoice4U
+        const verifyRes = await fetch(`/api/verify-session?clearing_id=${clearingId}`);
+        if (!verifyRes.ok) {
           setError("לא ניתן לאמת את התשלום");
           return;
         }
 
+        // 3. Generate contract
         const genRes = await fetch("/api/generate-contract", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(verifyData.contractData),
+          body: JSON.stringify(contractData),
         });
 
         const genData = await genRes.json();
@@ -47,8 +55,8 @@ function ContractContent() {
 
         setContract(genData.contract);
 
-        // Send email automatically — once per page load
-        if (!emailSentRef.current && verifyData.contractData?.deliveryEmail) {
+        // 4. Send email automatically — once per page load
+        if (!emailSentRef.current && contractData?.deliveryEmail) {
           emailSentRef.current = true;
           setEmailStatus("sending");
           fetch("/api/send-contract", {
@@ -56,10 +64,10 @@ function ContractContent() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               contractText: genData.contract,
-              email: verifyData.contractData.deliveryEmail,
-              freelancerName: verifyData.contractData.freelancerName,
-              clientName: verifyData.contractData.clientName,
-              sessionId,
+              email: contractData.deliveryEmail,
+              freelancerName: contractData.freelancerName,
+              clientName: contractData.clientName,
+              sessionId: clearingId,
             }),
           })
             .then((r) => setEmailStatus(r.ok ? "sent" : "failed"))
@@ -73,15 +81,13 @@ function ContractContent() {
     }
 
     fetchContract();
-  }, [sessionId]);
+  }, [clearingId]);
 
   if (loading) {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center px-6" style={{ backgroundColor: "#F8F9FA" }}>
         <div className="text-center">
-          <div
-            className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"
-          />
+          <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
           <p className="text-gray-600 font-medium">מייצר את החוזה שלך...</p>
           <p className="text-sm text-gray-400 mt-1">זה עשוי לקחת כ-30 שניות</p>
         </div>

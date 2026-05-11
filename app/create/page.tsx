@@ -893,6 +893,7 @@ export default function CreatePage() {
   const [data, setData] = useState<FormData>(initialData);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [paymentIframe, setPaymentIframe] = useState<{ iframeUrl: string; clearingId: string } | null>(null);
 
   const update = (field: keyof FormData, value: string | null) => {
     setData((prev) => ({ ...prev, [field]: value }));
@@ -919,7 +920,14 @@ export default function CreatePage() {
         body: JSON.stringify({ contractData: data }),
       });
       const json = await res.json();
-      if (json.url) window.location.href = json.url;
+      if (json.iframeUrl && json.clearingId) {
+        // Store contractData in sessionStorage so contract page can retrieve it
+        sessionStorage.setItem(`cd_${json.clearingId}`, JSON.stringify(data));
+        sessionStorage.setItem("pending_clearing_id", json.clearingId);
+        setPaymentIframe({ iframeUrl: json.iframeUrl, clearingId: json.clearingId });
+      } else {
+        alert(json.error || "שגיאה בחיבור לתשלום. נסה שוב.");
+      }
     } catch {
       alert("שגיאה בחיבור לתשלום. נסה שוב.");
     } finally {
@@ -950,6 +958,28 @@ export default function CreatePage() {
 
   return (
     <div dir="rtl" style={{ fontFamily: "'Heebo', sans-serif", minHeight: "100vh", display: "flex", flexDirection: "column", background: "#F8FAFC", color: "#0F172A" }}>
+
+      {/* PAYMENT IFRAME OVERLAY */}
+      {paymentIframe && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.65)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+          <div style={{ background: "white", borderRadius: 16, overflow: "hidden", width: "100%", maxWidth: 520, maxHeight: "90vh", display: "flex", flexDirection: "column", boxShadow: "0 24px 64px rgba(0,0,0,0.3)" }}>
+            {/* Header */}
+            <div style={{ padding: "16px 20px", borderBottom: "1px solid #E2E8F0", display: "flex", justifyContent: "space-between", alignItems: "center", background: "#0F1F3D" }}>
+              <span style={{ fontWeight: 800, color: "white", fontSize: 16 }}>Signly<span style={{ color: "#2563EB" }}>.</span> — תשלום מאובטח</span>
+              <button
+                onClick={() => setPaymentIframe(null)}
+                style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, color: "rgba(255,255,255,0.6)", lineHeight: 1 }}
+              >✕</button>
+            </div>
+            {/* iframe */}
+            <iframe
+              src={paymentIframe.iframeUrl}
+              style={{ flex: 1, border: "none", minHeight: 480 }}
+              title="תשלום מאובטח"
+            />
+          </div>
+        </div>
+      )}
 
       {/* NAV */}
       <nav style={{ background: "rgba(15,31,61,0.97)", height: 56, display: "flex", alignItems: "center", padding: "0 24px", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 100 }}>
