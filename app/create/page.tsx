@@ -898,6 +898,7 @@ export default function CreatePage() {
   const [couponStatus, setCouponStatus] = useState<"idle" | "checking" | "valid" | "invalid">("idle");
   const [couponMessage, setCouponMessage] = useState("");
   const [finalPrice, setFinalPrice] = useState(97);
+  const [showCouponField, setShowCouponField] = useState(false);
 
   const update = (field: keyof FormData, value: string | null) => {
     setData((prev) => ({ ...prev, [field]: value }));
@@ -1484,30 +1485,41 @@ export default function CreatePage() {
               </div>
 
               {/* COUPON */}
-              <div style={{ marginBottom: 16 }}>
-                <div style={{ display: "flex", gap: 8 }}>
-                  <input
-                    className="signly-field"
-                    style={{ ...inputStyle, flex: 1, marginBottom: 0 }}
-                    type="text"
-                    placeholder="קוד קופון (אופציונלי)"
-                    value={couponCode}
-                    onChange={(e) => { setCouponCode(e.target.value); setCouponStatus("idle"); setFinalPrice(97); }}
-                    onKeyDown={(e) => e.key === "Enter" && validateCoupon()}
-                  />
+              <div style={{ marginBottom: 16, textAlign: "center" }}>
+                {!showCouponField && couponStatus !== "valid" && (
                   <button
-                    onClick={validateCoupon}
-                    disabled={!couponCode.trim() || couponStatus === "checking"}
-                    style={{ padding: "0 18px", background: "#F1F5F9", border: "1px solid #E2E8F0", borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: "pointer", color: "#0F172A", whiteSpace: "nowrap" }}
+                    onClick={() => setShowCouponField(true)}
+                    style={{ background: "none", border: "none", color: "#94A3B8", fontSize: 13, cursor: "pointer", textDecoration: "underline" }}
                   >
-                    {couponStatus === "checking" ? "..." : "החל"}
+                    יש לך קוד קופון?
                   </button>
-                </div>
-                {couponStatus === "valid" && (
-                  <p style={{ fontSize: 13, color: "#16A34A", marginTop: 6, fontWeight: 600 }}>{couponMessage}</p>
+                )}
+                {showCouponField && couponStatus !== "valid" && (
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <input
+                      className="signly-field"
+                      style={{ ...inputStyle, flex: 1, marginBottom: 0 }}
+                      type="text"
+                      placeholder="הכנס קוד קופון"
+                      value={couponCode}
+                      onChange={(e) => { setCouponCode(e.target.value); setCouponStatus("idle"); setFinalPrice(97); }}
+                      onKeyDown={(e) => e.key === "Enter" && validateCoupon()}
+                      autoFocus
+                    />
+                    <button
+                      onClick={validateCoupon}
+                      disabled={!couponCode.trim() || couponStatus === "checking"}
+                      style={{ padding: "0 18px", background: "#F1F5F9", border: "1px solid #E2E8F0", borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: "pointer", color: "#0F172A", whiteSpace: "nowrap" }}
+                    >
+                      {couponStatus === "checking" ? "..." : "החל"}
+                    </button>
+                  </div>
                 )}
                 {couponStatus === "invalid" && (
                   <p style={{ fontSize: 13, color: "#DC2626", marginTop: 6 }}>{couponMessage}</p>
+                )}
+                {couponStatus === "valid" && (
+                  <p style={{ fontSize: 13, color: "#16A34A", fontWeight: 600 }}>{couponMessage}</p>
                 )}
               </div>
 
