@@ -48,9 +48,10 @@ function ownershipLabel(o: ContractData["ownership"]): string {
 export async function generateContract(data: ContractData): Promise<string> {
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-  const deposit = data.depositPercent
-    ? `${data.depositPercent}% מקדמה (${Math.round((Number(data.totalPrice) * Number(data.depositPercent)) / 100)} ₪) בעת חתימת החוזה`
-    : "לא סוכמה מקדמה";
+  const depositNum = Number(data.depositPercent);
+  const deposit = data.depositPercent && depositNum > 0
+    ? `${data.depositPercent}% מקדמה (${Math.round((Number(data.totalPrice) * depositNum) / 100)} ₪) בעת חתימת החוזה`
+    : "אין מקדמה — כל התשלום ישולם בתשלום אחד בתום העבודה";
 
   const specialSection = data.specialRequests?.trim()
     ? `\n\nסעיפים מיוחדים שהתבקשו:\n${data.specialRequests}`
@@ -112,6 +113,8 @@ ${specialSection}
 
 2. שפה: משפטית אך ברורה וקריאה. משפטים קצרים.
 3. הכנס את כל הפרטים שסופקו — אל תמציא פרטים שלא צוינו.
+4. **אסור להשתמש בטבלאות markdown** (תווי |). כתוב כל פרט תשלום בשורה נפרדת בתוך הטקסט.
+5. אם אין מקדמה — כתוב בפירוש "אין תשלום מראש. כל התשלום ישולם בתשלום אחד בתום העבודה." ואל תזכיר 0 ₪.
 4. הסעיף "שיפוט" — בתי המשפט המוסמכים יהיו בעיר ${data.freelancerCity}.
 5. כלול שורת חתימה עם תאריך לשני הצדדים.
 6. אם מצוין שהפרילנסר עוסק פטור — ציין זאת בסעיף התשלום והדגש שלא תצורף חשבונית מע"מ.`;

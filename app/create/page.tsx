@@ -1195,7 +1195,28 @@ export default function CreatePage() {
               </div>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>אמצעי תשלום מקובלים</label>
-                <input className="signly-field" style={inputStyle} placeholder="העברה בנקאית / ביט" value={data.paymentMethod} onChange={(e) => update("paymentMethod", e.target.value)} />
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 4 }}>
+                  {["העברה בנקאית", "ביט", "מזומן", "צ'ק"].map((method) => {
+                    const selected = data.paymentMethod.split(" / ").filter(Boolean);
+                    const isChecked = selected.includes(method);
+                    return (
+                      <label key={method} style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", fontSize: 14, background: isChecked ? "#EFF6FF" : "#F8FAFC", border: `1px solid ${isChecked ? "#2563EB" : "#E2E8F0"}`, borderRadius: 8, padding: "8px 14px", color: isChecked ? "#2563EB" : "#64748B", fontWeight: isChecked ? 600 : 400, transition: "all 0.15s" }}>
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={() => {
+                            const next = isChecked
+                              ? selected.filter(m => m !== method)
+                              : [...selected, method];
+                            update("paymentMethod", next.join(" / "));
+                          }}
+                          style={{ display: "none" }}
+                        />
+                        {isChecked ? "✓ " : ""}{method}
+                      </label>
+                    );
+                  })}
+                </div>
               </div>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>מה קורה אם הלקוח לא שילם בזמן?</label>
