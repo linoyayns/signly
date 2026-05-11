@@ -31,6 +31,7 @@ interface FormData {
   paymentTiming: string;
   paymentMethod: string;
   latePayment: string;
+  signingDate: string;
   startDate: string;
   deliveryDate: string;
   delayConditions: string;
@@ -830,6 +831,7 @@ const initialData: FormData = {
   paymentTiming: "",
   paymentMethod: "",
   latePayment: "",
+  signingDate: "",
   startDate: "",
   deliveryDate: "",
   delayConditions: "",
@@ -1232,7 +1234,36 @@ export default function CreatePage() {
             <>
               <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 5 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>מתי ולמתי?</h2>
-              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 28 }}>תאריך מסירה שלא כתוב בחוזה — לא מחייב אף אחד.</p>
+              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 20 }}>תאריך מסירה שלא כתוב בחוזה — לא מחייב אף אחד.</p>
+
+              {/* Signing date */}
+              <div style={{ background: "#F0FDF4", border: "1px solid #86EFAC", borderRadius: 10, padding: "16px 18px", marginBottom: 24 }}>
+                <label style={{ ...labelStyle, color: "#166534", marginBottom: 8, display: "block" }}>📅 תאריך חתימה על החוזה</label>
+                <p style={{ fontSize: 12, color: "#16A34A", marginBottom: 10 }}>יופיע בראש החוזה ובשורת החתימות.</p>
+                <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const today = new Date().toLocaleDateString("he-IL", { day: "numeric", month: "long", year: "numeric" });
+                      update("signingDate", today);
+                    }}
+                    style={{ padding: "8px 16px", background: data.signingDate ? "#dcfce7" : "#2563EB", color: data.signingDate ? "#166534" : "white", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: "pointer" }}
+                  >
+                    {data.signingDate ? `✓ ${data.signingDate}` : "השתמש בתאריך היום"}
+                  </button>
+                  {data.signingDate && (
+                    <button
+                      type="button"
+                      onClick={() => update("signingDate", "")}
+                      style={{ background: "none", border: "none", color: "#94A3B8", fontSize: 12, cursor: "pointer", textDecoration: "underline" }}
+                    >
+                      הסר
+                    </button>
+                  )}
+                  <span style={{ fontSize: 12, color: "#94A3B8" }}>או השאר ריק לחתימה ידנית</span>
+                </div>
+              </div>
+
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
                 <div>
                   <label style={labelStyle}>{datesConfig.startLabel}</label>

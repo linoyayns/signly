@@ -16,6 +16,7 @@ export interface ContractData {
   paymentTiming: string;
   paymentMethod: string;
   latePayment: string;
+  signingDate?: string;
   startDate: string;
   deliveryDate: string;
   delayConditions: string;
@@ -75,6 +76,9 @@ export async function generateContract(data: ContractData): Promise<string> {
 אמצעי תשלום: ${data.paymentMethod || "העברה בנקאית"}
 איחור בתשלום: ${data.latePayment}
 
+=== תאריך חתימה ===
+${data.signingDate ? `תאריך חתימה על החוזה: ${data.signingDate}` : "תאריך חתימה: יימולא ידנית (השאר שורה ריקה עם קו תחתון)"}
+
 === לוח זמנים ===
 תחילת עבודה: ${data.startDate}
 מסירה: ${data.deliveryDate}
@@ -117,6 +121,7 @@ ${specialSection}
 5. אם אין מקדמה — כתוב בפירוש "אין תשלום מראש. כל התשלום ישולם בתשלום אחד בתום העבודה." ואל תזכיר 0 ₪.
 4. הסעיף "שיפוט" — בתי המשפט המוסמכים יהיו בעיר ${data.freelancerCity}.
 5. כלול שורת חתימה עם תאריך לשני הצדדים.
+6. בשורת "נערך ביום" בראש החוזה ובשורות החתימה — השתמש בתאריך החתימה שצוין. אם לא צוין — הוסף קו תחתון (___________) למילוי ידני.
 6. אם מצוין שהפרילנסר עוסק פטור — ציין זאת בסעיף התשלום והדגש שלא תצורף חשבונית מע"מ.`;
 
   const message = await anthropic.messages.create({
