@@ -10,7 +10,7 @@ type Profession =
   | "coach" | "tutor" | "videoEditor" | "socialMedia" | "translator"
   | "beauty" | "gardener" | "kindergarten" | "renovation" | "musician" | "interiorDesigner"
   | "architect" | "psychologist" | "sportsInstructor" | "privateChef"
-  | "producer" | "eventManager" | "hairdresser"
+  | "producer" | "eventManager" | "hairdresser" | "artist" | "productSeller"
   | "other";
 type VatType = "plus_vat" | "incl_vat" | "exempt" | null;
 type OwnershipType = "full" | "license" | "afterpayment" | null;
@@ -70,6 +70,8 @@ const PROFESSIONS = [
   { id: "producer" as Profession, icon: "🎭", label: "מפיק / מפיקה" },
   { id: "eventManager" as Profession, icon: "🎉", label: "מנהל/ת אירועים" },
   { id: "hairdresser" as Profession, icon: "✂️", label: "ספר / ספרית" },
+  { id: "artist" as Profession, icon: "🖼️", label: "אמן / אומנית" },
+  { id: "productSeller" as Profession, icon: "📦", label: "מוכר/ת מוצר" },
   { id: "other" as Profession, icon: "⚡", label: "אחר" },
 ];
 
@@ -189,6 +191,16 @@ const PROTECTION_QUESTIONS: Record<Profession, { question: string; hint: string;
     hint: "קצצת, צבעת, עיצבת — הלקוח יצא מרוצה. יומיים אחר כך טוען שזה לא מה שביקש.",
     placeholder: "שינויים ניתן לבקש בזמן השירות בלבד. לאחר עזיבת המקום — התוצאה נחשבת מאושרת. תלונות יועברו תוך 24 שעות בלבד.",
   },
+  artist: {
+    question: "האם הלקוח רשאי להשתמש ביצירה לצרכים מסחריים?",
+    hint: "מכרת ציור / איור / פסל. הלקוח מדפיס אותו על חולצות ומוכר — בלי לשלם לך עוד שקל. מה הגדרת?",
+    placeholder: "רכישת היצירה מקנה בעלות פיזית בלבד. שכפול, הדפסה, שיווק מסחרי, או כל שימוש להפקת רווח — מחייבים הסכם נפרד ותמורה נוספת.",
+  },
+  productSeller: {
+    question: "מה קורה אם המוצר לא תואם את ציפיות הלקוח לאחר קבלתו?",
+    hint: "שלחת מוצר מותאם אישית. הלקוח אומר 'זה לא מה שציפיתי' — ורוצה החזר. מה הגדרת מראש?",
+    placeholder: "מוצר מותאם אישית אינו ניתן להחזרה לאחר אישור הפרטים בכתב. פגם ייצור — יוחלף. אי-שביעות רצות מהעיצוב שאושר — אינה מקנה זכות להחזר.",
+  },
   other: {
     question: "האם הלקוח רשאי להשתמש בעבודתך מחוץ לפרויקט הנוכחי?",
     hint: "הגדר מה מותר ללקוח לעשות עם התוצרים — מחוץ להיקף הפרויקט שסוכם.",
@@ -289,6 +301,14 @@ const PROJECT_EXAMPLES: Record<Profession, { description: string; exclusions: st
     description: "עיצוב שיער לאירוע: פגישת ניסיון + ביצוע ביום האירוע, כולל מוצרים.",
     exclusions: "לא כלול: איפור, שושבינות, נסיעה מעל 20 ק\"מ.",
   },
+  artist: {
+    description: "יצירת איור מותאם אישית: קומפוזיציה מוסכמת, טכניקה דיגיטלית, 2 גרסאות צבע, מסירת קובץ מקורי ברזולוציה גבוהה.",
+    exclusions: "לא כלול: הדפסה, מיסגור, שיווק, שכפול מסחרי, שימוש על גבי מוצרים.",
+  },
+  productSeller: {
+    description: "הכנת 20 יחידות עגילים עבודת יד — עיצוב מוסכם, חומרים: כסף 925, מסירה בתוך 3 שבועות.",
+    exclusions: "לא כלול: אריזת מתנה, משלוח מהיר, התאמות עיצוב לאחר אישור הזמנה.",
+  },
   other: {
     description: "תאר את השירות שאתה מספק — מה בדיוק כלול, כמה, ובאיזה פורמט?",
     exclusions: "פרט את מה שאינו כלול בהיקף העבודה שסוכמה.",
@@ -319,6 +339,8 @@ const DATES_CONFIG: Record<Profession, { startLabel: string; endLabel: string }>
   producer:          { startLabel: "תאריך תחילת ההפקה",         endLabel: "תאריך האירוע / המסירה" },
   eventManager:      { startLabel: "תאריך תחילת תכנון האירוע",  endLabel: "תאריך האירוע" },
   hairdresser:       { startLabel: "תאריך פגישת ניסיון (אופציונלי)", endLabel: "תאריך האירוע" },
+  artist:            { startLabel: "תאריך תחילת היצירה",        endLabel: "תאריך מסירת היצירה" },
+  productSeller:     { startLabel: "תאריך אישור ההזמנה",        endLabel: "תאריך מסירה / משלוח" },
   other:             { startLabel: "תאריך התחלה",             endLabel: "תאריך מסירה / סיום" },
 };
 
@@ -509,6 +531,22 @@ const DELAYS_CONFIG: Record<Profession, {
     freelancerLabel: "מה קורה אם לא תוכל/י להגיע ביום האירוע?",
     freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
     freelancerPlaceholder: "במקרה של אי-יכולת להגיע — אמצא מחליף/ה ברמה דומה, או אבצע/י החזר מלא.",
+  },
+  artist: {
+    clientLabel: "מה יגרום לעיכוב מצד הלקוח?",
+    clientHint: "עיכובים שהלקוח גורם להם — לא באחריותך",
+    clientPlaceholder: "עיכוב במסירת רפרנסים, אישורי ביניים, או שינוי ברייף — ידחה את מועד המסירה.",
+    freelancerLabel: "מה קורה אם נוצר עיכוב מצדך?",
+    freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
+    freelancerPlaceholder: "עיכוב מעל 5 ימים יוודע ללקוח מיידית.",
+  },
+  productSeller: {
+    clientLabel: "מה קורה אם הלקוח ביטל הזמנה מותאמת אישית?",
+    clientHint: "ביטול לאחר תחילת ייצור גורם להפסד חומרים וזמן",
+    clientPlaceholder: "ביטול לאחר אישור ותחילת ייצור — יחויב 50% מהמחיר. ביטול לאחר השלמת הייצור — תשלום מלא.",
+    freelancerLabel: "מה קורה אם לא תוכל לעמוד בלוח הזמנים?",
+    freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
+    freelancerPlaceholder: "עיכוב מעל 7 ימים יוודע ללקוח מיידית. הלקוח יוכל לבטל ולקבל החזר יחסי.",
   },
   other: {
     clientLabel: "מה יגרום לעיכוב מצד הלקוח?",
@@ -736,6 +774,24 @@ const REVISIONS_CONFIG: Record<Profession, {
     definitionLabel: "מתי העיצוב נחשב מאושר?",
     definitionPlaceholder: "שינויים ניתן לבקש במהלך השירות בלבד. לאחר סיום ועזיבת המקום — העיצוב נחשב מאושר ואין החזרים.",
   },
+  artist: {
+    stepTitle: "כמה סבבי תיקון ביצירה כלולים?",
+    stepSubtitle: "בלי הגדרה ברורה — כל לקוח יפרש 'שינוי קטן' אחרת.",
+    showCountAndCost: true,
+    countLabel: "סבבי תיקון כלולים",
+    countPlaceholder: "2",
+    definitionLabel: "מה נחשב 'תיקון' לעומת יצירה חדשה?",
+    definitionPlaceholder: "שינוי צבע, פרופורציה, פרט קטן — כלול. שינוי קונספט מלא, נושא, סגנון — נחשב יצירה חדשה ויחויב בנפרד.",
+  },
+  productSeller: {
+    stepTitle: "מדיניות החלפות ותיקונים",
+    stepSubtitle: "מוצר מותאם אישית — מה קורה אם יש פגם, ומה לא נחשב פגם?",
+    showCountAndCost: false,
+    countLabel: "",
+    countPlaceholder: "",
+    definitionLabel: "מה נחשב 'פגם' שמקנה זכות להחלפה?",
+    definitionPlaceholder: "פגם ייצור (שבר, אי-התאמה לחומר שהוסכם) — יוחלף ללא עלות. אי-שביעות רצות מעיצוב שאושר, שינוי דעה — אינם מקנים זכות להחזר.",
+  },
   other: {
     stepTitle: "כמה תיקונים / שינויים כלולים?",
     stepSubtitle: "בלי הגדרה ברורה — כל לקוח יפרש 'תיקון' אחרת.",
@@ -771,6 +827,8 @@ const LATE_PAYMENT_CONFIG: Record<Profession, string> = {
   producer:         "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — ההפקה תעצור עד לקבלתו.",
   eventManager:     "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — תיאום הספקים יופסק עד לקבלתו.",
   hairdresser:      "תשלום שלא יתקבל ביום השירות — לא יינתן שירות נוסף עד לסילוק החוב.",
+  artist:           "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — מסירת היצירה תעוכב עד לקבלתו.",
+  productSeller:    "תשלום שלא יתקבל לפני המשלוח — המוצר לא יישלח עד לאישור קבלת התשלום.",
   other:            "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — העבודה מוקפאת עד לקבלתו.",
 };
 
