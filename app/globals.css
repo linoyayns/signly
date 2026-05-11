@@ -65,3 +65,31 @@ nav.nav-shadow { box-shadow: 0 4px 28px rgba(0,0,0,0.28); }
   .card-hover:hover { transform: none !important; }
   .btn-glow:hover { transform: none !important; }
 }
+
+/* ── MOBILE RESPONSIVE ── */
+@media (max-width: 640px) {
+  /* Section padding */
+  section { padding-left: 20px !important; padding-right: 20px !important; }
+
+  /* Hero */
+  .hero-h1 { font-size: 36px !important; letter-spacing: -0.5px !important; line-height: 1.25 !important; }
+
+  /* Nav */
+  .mob-nav { padding: 0 20px !important; }
+
+  /* Collapse grids to single column */
+  .mob-col1 { grid-template-columns: 1fr !important; gap: 12px !important; }
+
+  /* Stats row → vertical */
+  .mob-stats { flex-direction: column !important; align-items: center !important; gap: 28px !important; }
+
+  /* Preview: stack the two columns */
+  .mob-stack { grid-template-columns: 1fr !important; gap: 32px !important; }
+
+  /* Pricing card */
+  .mob-pricing { padding: 28px 20px !important; }
+
+  /* Personalization banner */
+  .mob-banner { flex-direction: column !important; gap: 16px !important; }
+  .mob-banner a { width: 100% !important; text-align: center !important; }
+}

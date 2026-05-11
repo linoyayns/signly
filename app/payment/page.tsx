@@ -81,7 +81,7 @@ function PaymentContent() {
           <div className="border-t border-gray-100 pt-4">
             <div className="flex justify-between items-center">
               <span className="text-lg font-bold" style={{ color: "#0F1F3D" }}>סה״כ לתשלום</span>
-              <span className="text-2xl font-bold" style={{ color: "#2563EB" }}>97₪</span>
+              <span className="text-2xl font-bold" style={{ color: "#2563EB" }}>₪97</span>
             </div>
             <p className="text-xs text-gray-400 mt-1">תשלום חד-פעמי. ללא מנוי.</p>
           </div>
@@ -115,7 +115,7 @@ function PaymentContent() {
           className="w-full py-4 text-lg font-semibold text-white rounded disabled:opacity-50 transition-opacity"
           style={{ backgroundColor: "#2563EB" }}
         >
-          {loading ? "מעביר לתשלום..." : "שלם 97₪ וקבל את החוזה"}
+          {loading ? "מעביר לתשלום..." : "שלם ₪97 וקבל את החוזה"}
         </button>
 
         <p className="text-center text-xs text-gray-400 mt-4">

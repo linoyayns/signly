@@ -5,8 +5,8 @@ export async function POST(req: NextRequest) {
   try {
     const data: ContractData = await req.json();
 
-    if (!data.name || !data.client || !data.service) {
-      return NextResponse.json({ error: "חסרים שדות חובה" }, { status: 400 });
+    if (!data.freelancerName || !data.clientName || !data.projectDescription) {
+      return NextResponse.json({ error: "חסרים שדות חובה: שם פרילנסר, שם לקוח, תיאור פרויקט" }, { status: 400 });
     }
 
     const contract = await generateContract(data);

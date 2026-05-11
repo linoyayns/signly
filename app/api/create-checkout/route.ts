@@ -1,6 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
 
+// Stripe metadata values are limited to 500 chars each.
+// We split the contractData JSON across numbered keys.
+function chunkMetadata(contractData: unknown): Record<string, string> {
+  const json = JSON.stringify(contractData);
+  const CHUNK_SIZE = 490;
+  const metadata: Record<string, string> = {};
+  for (let i = 0; i * CHUNK_SIZE < json.length; i++) {
+    metadata[`cd_${i}`] = json.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
+  }
+  return metadata;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { contractData } = await req.json();
@@ -24,10 +36,8 @@ export async function POST(req: NextRequest) {
       ],
       mode: "payment",
       success_url: `${origin}/contract?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/payment`,
-      metadata: {
-        contractData: JSON.stringify(contractData),
-      },
+      cancel_url: `${origin}/create`,
+      metadata: chunkMetadata(contractData),
     });
 
     return NextResponse.json({ url: session.url });
