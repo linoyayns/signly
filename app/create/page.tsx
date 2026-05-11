@@ -866,8 +866,8 @@ export default function CreatePage() {
       </div>
 
       {/* STEP CONTENT */}
-      <div style={{ flex: 1, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "40px 20px 120px" }}>
-        <div style={{ background: "white", borderRadius: 14, boxShadow: "0 4px 24px rgba(0,0,0,0.08)", padding: "40px 36px", width: "100%", maxWidth: 600 }}>
+      <div className="mob-step-outer" style={{ flex: 1, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "40px 20px 120px" }}>
+        <div className="mob-step-card" style={{ background: "white", borderRadius: 14, boxShadow: "0 4px 24px rgba(0,0,0,0.08)", padding: "40px 36px", width: "100%", maxWidth: 600 }}>
 
           {/* GLOBAL OPTIONAL NOTE — shown on all steps except 1 and 11 */}
           {currentStep > 1 && currentStep < 11 && (
@@ -930,7 +930,7 @@ export default function CreatePage() {
                 <label style={labelStyle}>שמך המלא</label>
                 <input style={inputStyle} placeholder="לדוגמה: נועה כהן" value={data.freelancerName} onChange={(e) => update("freelancerName", e.target.value)} />
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
+              <div className="mob-col1" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
                 <div>
                   <label style={labelStyle}>ת.ז. / ח.פ.</label>
                   <input style={inputStyle} placeholder="123456789" value={data.freelancerId} onChange={(e) => update("freelancerId", e.target.value)} />
@@ -945,7 +945,7 @@ export default function CreatePage() {
                 <label style={labelStyle}>שם הלקוח / החברה</label>
                 <input style={inputStyle} placeholder="לדוגמה: סטודיו ABC בע&quot;מ" value={data.clientName} onChange={(e) => update("clientName", e.target.value)} />
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
+              <div className="mob-col1" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
                 <div>
                   <label style={labelStyle}>ת.ז. / ח.פ. לקוח</label>
                   <input style={inputStyle} placeholder="987654321" value={data.clientId} onChange={(e) => update("clientId", e.target.value)} />
@@ -982,7 +982,7 @@ export default function CreatePage() {
               <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 4 מתוך 11</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>תשלום ותנאים</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 28 }}>מה שמוגדר בכתב — לא יכול להיות שנוי במחלוקת.</p>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
+              <div className="mob-col1" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
                 <div>
                   <label style={labelStyle}>מחיר כולל (₪)</label>
                   <input style={inputStyle} type="number" placeholder="5000" value={data.totalPrice} onChange={(e) => update("totalPrice", e.target.value)} />

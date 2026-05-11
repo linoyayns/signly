@@ -75,7 +75,7 @@ nav.nav-shadow { box-shadow: 0 4px 28px rgba(0,0,0,0.28); }
   .hero-h1 { font-size: 36px !important; letter-spacing: -0.5px !important; line-height: 1.25 !important; }
 
   /* Nav */
-  .mob-nav { padding: 0 20px !important; }
+  .mob-nav { padding: 0 16px !important; }
 
   /* Collapse grids to single column */
   .mob-col1 { grid-template-columns: 1fr !important; gap: 12px !important; }
@@ -92,4 +92,18 @@ nav.nav-shadow { box-shadow: 0 4px 28px rgba(0,0,0,0.28); }
   /* Personalization banner */
   .mob-banner { flex-direction: column !important; gap: 16px !important; }
   .mob-banner a { width: 100% !important; text-align: center !important; }
+
+  /* Create page — questionnaire card */
+  .mob-step-outer { padding: 20px 16px 100px !important; }
+  .mob-step-card  { padding: 24px 20px !important; }
+
+  /* Testimonials keep 2 cols but reduce gap */
+  .mob-testimonials { grid-template-columns: 1fr !important; gap: 12px !important; }
+
+  /* Trust stats row */
+  .mob-trust-stats { gap: 28px !important; }
+  .mob-trust-stats span:first-child { font-size: 28px !important; }
+
+  /* Footer */
+  .mob-footer { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
 }

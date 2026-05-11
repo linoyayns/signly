@@ -7,7 +7,7 @@ export default function HomePage() {
 
       {/* NAV */}
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: "rgba(15,31,61,0.97)", backdropFilter: "blur(16px)", borderBottom: "1px solid rgba(255,255,255,0.08)", height: 60, display: "flex", alignItems: "center" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 40px", width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div className="mob-nav" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 40px", width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <span style={{ fontSize: 20, fontWeight: 900, color: "white" }}>
             Signly<span style={{ color: "#2563EB" }}>.</span>
           </span>
@@ -75,7 +75,7 @@ export default function HomePage() {
               אם אתה עובד עם לקוחות,<br />אתה צריך חוזה.
             </h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+          <div className="mob-col1" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
             {[
               { name: "מעצבים", desc: "UX/UI, גרפיקה, מיתוג – הגן על העבודה שלך" },
               { name: "צלמים", desc: "הגדר בעלות, זכויות שימוש ותנאי מסירה" },
@@ -104,7 +104,7 @@ export default function HomePage() {
             <h2 style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5, marginBottom: 12 }}>שלושה שלבים. חוזה מוכן.</h2>
             <p style={{ fontSize: 16, color: "#64748B" }}>לא צריך לדעת משפטים. לא צריך להיות עורך דין. ענה על כמה שאלות וזהו.</p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 40 }}>
+          <div className="mob-col1" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 40 }}>
             {[
               { step: "1", title: "ענה על שאלות", desc: "שאלון קצר ומדויק שמתאים לסוג הפרויקט שלך – מה, כמה, מתי" },
               { step: "2", title: "קבל חוזה", desc: "אני מייצר חוזה מקיף בעברית עם כל הסעיפים הנחוצים לפרויקט שלך" },
@@ -135,7 +135,7 @@ export default function HomePage() {
             <h2 style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5, marginBottom: 12 }}>השאלון שחושב בשבילך.</h2>
             <p style={{ fontSize: 16, color: "#64748B", maxWidth: 580, margin: "0 auto" }}>הוא לא שואל שאלות גנריות. הוא מכיר את המקצוע שלך, ומציע הגנות שלא חשבת עליהן.</p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: 40 }}>
+          <div className="mob-col1" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: 40 }}>
             {[
               {
                 profession: "צלם / צלמת",
@@ -175,7 +175,7 @@ export default function HomePage() {
       {/* PREVIEW */}
       <section style={{ padding: "80px 40px", background: "#F8FAFC" }}>
         <div className="reveal" style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+          <div className="mob-stack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
             <div>
               <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(37,99,235,0.08)", border: "1px solid rgba(37,99,235,0.2)", color: "#2563EB", borderRadius: 100, padding: "6px 14px", fontSize: 13, fontWeight: 700, marginBottom: 20 }}>
                 👁 רואים לפני שמשלמים
@@ -224,7 +224,7 @@ export default function HomePage() {
             <div style={{ fontSize: 12, fontWeight: 800, color: "#2563EB", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>פרילנסרים שכבר השתמשו</div>
             <h2 style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5 }}>מה הם אמרו.</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20 }}>
+          <div className="mob-testimonials" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20 }}>
             {[
               {
                 stars: "★★★★★",
@@ -281,7 +281,7 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+          <div className="mob-col1" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
             {[
               { title: "מותאם לחוק הישראלי", desc: "כל סעיף תואם את חוק החוזים, חוק זכויות יוצרים וחוק הגנת הפרטיות הישראלי." },
               { title: "בצד שלך, תמיד", desc: "דאגנו לכל הסעיפים שמגנים עליך ועל הזכויות שלך — כולל כאלה שאולי לא ידעת שצריך לבקש." },
@@ -395,7 +395,7 @@ export default function HomePage() {
       <ScrollInit />
 
       {/* FOOTER */}
-      <footer style={{ borderTop: "1px solid #E2E8F0", padding: "24px 40px", background: "white", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
+      <footer className="mob-footer" style={{ borderTop: "1px solid #E2E8F0", padding: "24px 40px", background: "white", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
         <span style={{ fontSize: 16, fontWeight: 900, color: "#0F172A" }}>Signly<span style={{ color: "#2563EB" }}>.</span></span>
         <div style={{ display: "flex", gap: 20 }}>
           <Link href="/accessibility" style={{ fontSize: 13, color: "#64748B", textDecoration: "none" }}>הצהרת נגישות</Link>
