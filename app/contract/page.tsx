@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import ContractDisplay from "@/components/ContractDisplay";
 import { downloadContractAsPdf } from "@/lib/pdf";
@@ -12,6 +12,8 @@ function ContractContent() {
   const [contract, setContract] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [emailStatus, setEmailStatus] = useState<"sending" | "sent" | "failed" | null>(null);
+  const emailSentRef = useRef(false);
 
   useEffect(() => {
     if (!sessionId) {
@@ -44,6 +46,25 @@ function ContractContent() {
         }
 
         setContract(genData.contract);
+
+        // Send email automatically — once per page load
+        if (!emailSentRef.current && verifyData.contractData?.deliveryEmail) {
+          emailSentRef.current = true;
+          setEmailStatus("sending");
+          fetch("/api/send-contract", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contractText: genData.contract,
+              email: verifyData.contractData.deliveryEmail,
+              freelancerName: verifyData.contractData.freelancerName,
+              clientName: verifyData.contractData.clientName,
+              sessionId,
+            }),
+          })
+            .then((r) => setEmailStatus(r.ok ? "sent" : "failed"))
+            .catch(() => setEmailStatus("failed"));
+        }
       } catch {
         setError("שגיאת רשת. נסה לרענן את הדף.");
       } finally {
@@ -105,9 +126,25 @@ function ContractContent() {
             <h1 className="text-2xl font-bold mb-1" style={{ color: "#0F1F3D" }}>
               החוזה שלך מוכן
             </h1>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 mb-3">
               קרא את החוזה, הורד כ-PDF, ושלח ללקוח לחתימה.
             </p>
+            {emailStatus === "sending" && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 8, padding: "8px 14px", fontSize: 13, color: "#1D4ED8" }}>
+                <div style={{ width: 14, height: 14, border: "2px solid #2563EB", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
+                שולח למייל...
+              </div>
+            )}
+            {emailStatus === "sent" && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#F0FDF4", border: "1px solid #86EFAC", borderRadius: 8, padding: "8px 14px", fontSize: 13, color: "#16A34A" }}>
+                ✓ החוזה נשלח למייל שלך
+              </div>
+            )}
+            {emailStatus === "failed" && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#FFF7ED", border: "1px solid #FED7AA", borderRadius: 8, padding: "8px 14px", fontSize: 13, color: "#92400E" }}>
+                ⚠️ שליחת המייל נכשלה — הורד את ה-PDF ידנית
+              </div>
+            )}
           </div>
 
           <ContractDisplay content={contract} />
