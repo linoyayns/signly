@@ -986,7 +986,7 @@ export default function CreatePage() {
             <>
               <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 1 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>מה המקצוע שלך?</h2>
-              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 24 }}>זה קובע אילו שאלות הגנה ייכנסו לחוזה שלך.</p>
+              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 24 }}>השאלון ישתנה לפי המקצוע שלך ויציע הגנות מותאמות.</p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8 }}>
                 {PROFESSIONS.map(({ id, label }) => {
                   const selected = data.profession === id;
@@ -1440,7 +1440,7 @@ export default function CreatePage() {
                 {isSubmitting ? "מעביר לתשלום..." : "לתשלום מאובטח – ₪97 →"}
               </button>
               <p style={{ textAlign: "center", fontSize: 12, color: "#94A3B8", marginTop: 10 }}>
-                🔒 עסקה מאובטחת ומוצפנת | תקבל/י את החוזה תוך דקות
+                🔒 תשלום מאובטח דרך Invoice4U | תקבל/י את החוזה תוך דקות
               </p>
               <p style={{ textAlign: "center", fontSize: 11, color: "#CBD5E1", marginTop: 6, lineHeight: 1.5 }}>
                 Signly אינה משרד עורכי דין. החוזה המיוצר אינו תחליף לייעוץ משפטי פרטני. לעסקאות מורכבות מומלץ להתייעץ עם עו"ד.

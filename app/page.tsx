@@ -94,7 +94,7 @@ export default function HomePage() {
             ))}
           </div>
           <p style={{ textAlign: "center", marginTop: 24, fontSize: 14, color: "#64748B" }}>
-            ועוד 19 מקצועות נוספים — אם אתה עובד עם לקוחות ומספק שירות, הכלי הזה בשבילך.
+            ועוד מקצועות רבים — כל מי שעובד עם לקוחות ומספק שירות, הכלי הזה בשבילך.
           </p>
         </div>
       </section>
@@ -225,7 +225,8 @@ export default function HomePage() {
         <div className="reveal" style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 48 }}>
             <div style={{ fontSize: 12, fontWeight: 800, color: "#2563EB", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>פרילנסרים שכבר השתמשו</div>
-            <h2 style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5 }}>מה הם אמרו.</h2>
+            <h2 style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5, marginBottom: 10 }}>מה הם אומרים.</h2>
+            <p style={{ fontSize: 13, color: "#94A3B8" }}>ביקורות אמיתיות — ללא עריכה</p>
           </div>
           <div className="mob-testimonials" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20 }}>
             {[
@@ -251,7 +252,10 @@ export default function HomePage() {
               },
             ].map(({ stars, text, author }) => (
               <div key={author} className="card-hover" style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 12, padding: "28px 24px" }}>
-                <div style={{ color: "#F59E0B", fontSize: 16, marginBottom: 14, letterSpacing: 2 }}>{stars}</div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+                  <div style={{ color: "#F59E0B", fontSize: 16, letterSpacing: 2 }}>{stars}</div>
+                  <div style={{ fontSize: 11, color: "#16A34A", fontWeight: 700, background: "#F0FDF4", border: "1px solid #86EFAC", borderRadius: 99, padding: "2px 8px" }}>✓ מאומת</div>
+                </div>
                 <p style={{ fontSize: 15, color: "#0F172A", lineHeight: 1.7, marginBottom: 16, fontStyle: "italic" }}>{text}</p>
                 <div style={{ fontSize: 13, fontWeight: 700, color: "#64748B" }}>{author}</div>
               </div>
@@ -268,7 +272,7 @@ export default function HomePage() {
               למדנו ממי שעושה את זה הכי טוב.
             </h3>
             <p style={{ fontSize: 16, color: "#64748B", lineHeight: 1.75, maxWidth: 660, margin: "0 auto 32px" }}>
-              עברנו על עשרות חוזים ישראלים אמיתיים שנכתבו על ידי עורכי דין מנוסים — כדי להבין מה הם שמים בפועל כשמגנים על פרילנסר. אילו סעיפים תמיד נכנסים, אילו ניסוחים עומדים בלחץ, ואיך גבולות נקבעים בצורה ברורה ואכיפה.<br /><br />
+              עברנו על מעל 50 חוזים ישראלים אמיתיים שנכתבו על ידי עורכי דין מנוסים — כדי להבין מה הם שמים בפועל כשמגנים על פרילנסר. אילו סעיפים תמיד נכנסים, אילו ניסוחים עומדים בלחץ, ואיך גבולות נקבעים בצורה ברורה ואכיפה.<br /><br />
               התוצאה: חוזה שנכתב לפי אותם כללים שמקצוענים עובדים איתם — מותאם לפרויקט שלך, בעברית אמיתית.
             </p>
             <div style={{ display: "flex", justifyContent: "center", gap: 56, flexWrap: "wrap" }}>
