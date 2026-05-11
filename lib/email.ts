@@ -106,7 +106,7 @@ export async function sendContractEmail({
 </html>`;
 
   await transporter.sendMail({
-    from: `"Signly" <${process.env.GMAIL_USER}>`,
+    from: `"Signly" <service@mysignly.com>`,
     to,
     subject: `החוזה שלך מוכן — ${freelancerName} / ${clientName}`,
     html,
