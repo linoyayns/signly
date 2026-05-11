@@ -909,12 +909,14 @@ export default function CreatePage() {
   const nextStep = () => {
     if (currentStep < TOTAL_STEPS && isStepValid(currentStep, data)) {
       setCurrentStep(currentStep + 1);
+      window.scrollTo({ top: 0, behavior: "instant" });
     }
   };
 
   const prevStep = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
+      window.scrollTo({ top: 0, behavior: "instant" });
     }
   };
 
