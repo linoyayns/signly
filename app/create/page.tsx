@@ -10,7 +10,7 @@ type Profession =
   | "coach" | "tutor" | "videoEditor" | "socialMedia" | "translator"
   | "beauty" | "gardener" | "kindergarten" | "renovation" | "musician" | "interiorDesigner"
   | "architect" | "psychologist" | "sportsInstructor" | "privateChef"
-  | "producer" | "eventManager" | "hairdresser" | "artist" | "productSeller"
+  | "producer" | "eventManager" | "artist" | "productSeller"
   | "other";
 type VatType = "plus_vat" | "incl_vat" | "exempt" | null;
 type OwnershipType = "full" | "license" | "afterpayment" | null;
@@ -69,7 +69,6 @@ const PROFESSIONS = [
   { id: "renovation" as Profession, icon: "🔨", label: "שיפוצים / קבלן" },
   { id: "producer" as Profession, icon: "🎭", label: "מפיק / מפיקה" },
   { id: "eventManager" as Profession, icon: "🎉", label: "מנהל/ת אירועים" },
-  { id: "hairdresser" as Profession, icon: "✂️", label: "ספר / ספרית" },
   { id: "artist" as Profession, icon: "🖼️", label: "אמן / אומנית" },
   { id: "productSeller" as Profession, icon: "📦", label: "מוכר/ת מוצר" },
   { id: "other" as Profession, icon: "⚡", label: "אחר" },
@@ -186,11 +185,6 @@ const PROTECTION_QUESTIONS: Record<Profession, { question: string; hint: string;
     hint: "תיאמת קייטרינג, DJ, צלם — אחד מהם לא הגיע. הלקוח מאשים אותך. מה הגדרת?",
     placeholder: "מנהל האירועים אחראי לתיאום בלבד. אחריות ביצועית של ספקים חיצוניים חלה עליהם ישירות. ביטוח ספקים — באחריות הספק.",
   },
-  hairdresser: {
-    question: "מה קורה אם הלקוח לא מרוצה מהתוצאה לאחר עזיבת המקום?",
-    hint: "קצצת, צבעת, עיצבת — הלקוח יצא מרוצה. יומיים אחר כך טוען שזה לא מה שביקש.",
-    placeholder: "שינויים ניתן לבקש בזמן השירות בלבד. לאחר עזיבת המקום — התוצאה נחשבת מאושרת. תלונות יועברו תוך 24 שעות בלבד.",
-  },
   artist: {
     question: "האם הלקוח רשאי להשתמש ביצירה לצרכים מסחריים?",
     hint: "מכרת ציור / איור / פסל. הלקוח מדפיס אותו על חולצות ומוכר — בלי לשלם לך עוד שקל. מה הגדרת?",
@@ -297,10 +291,6 @@ const PROJECT_EXAMPLES: Record<Profession, { description: string; exclusions: st
     description: "ניהול אירוע חתונה: תכנון, תיאום ספקים (צלם, DJ, קייטרינג, פרחים), ניהול באירוע עצמו.",
     exclusions: "לא כלול: עלויות ספקים ישירים, הסעות, ציוד מיוחד שלא צוין בהצעה.",
   },
-  hairdresser: {
-    description: "עיצוב שיער לאירוע: פגישת ניסיון + ביצוע ביום האירוע, כולל מוצרים.",
-    exclusions: "לא כלול: איפור, שושבינות, נסיעה מעל 20 ק\"מ.",
-  },
   artist: {
     description: "יצירת איור מותאם אישית: קומפוזיציה מוסכמת, טכניקה דיגיטלית, 2 גרסאות צבע, מסירת קובץ מקורי ברזולוציה גבוהה.",
     exclusions: "לא כלול: הדפסה, מיסגור, שיווק, שכפול מסחרי, שימוש על גבי מוצרים.",
@@ -338,7 +328,6 @@ const DATES_CONFIG: Record<Profession, { startLabel: string; endLabel: string }>
   renovation:        { startLabel: "תאריך תחילת העבודות",     endLabel: "תאריך סיום מתוכנן" },
   producer:          { startLabel: "תאריך תחילת ההפקה",         endLabel: "תאריך האירוע / המסירה" },
   eventManager:      { startLabel: "תאריך תחילת תכנון האירוע",  endLabel: "תאריך האירוע" },
-  hairdresser:       { startLabel: "תאריך פגישת ניסיון (אופציונלי)", endLabel: "תאריך האירוע" },
   artist:            { startLabel: "תאריך תחילת היצירה",        endLabel: "תאריך מסירת היצירה" },
   productSeller:     { startLabel: "תאריך אישור ההזמנה",        endLabel: "תאריך מסירה / משלוח" },
   other:             { startLabel: "תאריך התחלה",             endLabel: "תאריך מסירה / סיום" },
@@ -523,14 +512,6 @@ const DELAYS_CONFIG: Record<Profession, {
     freelancerLabel: "מה קורה אם לא תוכל לנהל את האירוע?",
     freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
     freelancerPlaceholder: "במקרה של אי-יכולת להגיע — אמצא מחליף ברמה דומה, או אבצע החזר מלא.",
-  },
-  hairdresser: {
-    clientLabel: "מה קורה אם הלקוח מבטל ברגע האחרון?",
-    clientHint: "ביטול מאוחר גורם לאבד הכנסה שאי אפשר למלא",
-    clientPlaceholder: "ביטול פחות מ-48 שעות לפני — 50% ממחיר השירות. ביטול ביום האירוע — תשלום מלא.",
-    freelancerLabel: "מה קורה אם לא תוכל/י להגיע ביום האירוע?",
-    freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
-    freelancerPlaceholder: "במקרה של אי-יכולת להגיע — אמצא מחליף/ה ברמה דומה, או אבצע/י החזר מלא.",
   },
   artist: {
     clientLabel: "מה יגרום לעיכוב מצד הלקוח?",
@@ -765,15 +746,6 @@ const REVISIONS_CONFIG: Record<Profession, {
     definitionLabel: "עד מתי ניתן לשנות את תוכנית האירוע?",
     definitionPlaceholder: "שינויים בתוכנית האירוע מתקבלים עד 14 יום לפניו. שינויים מאוחרים — לפי שיקול הדעת ובהתאם לזמינות ספקים.",
   },
-  hairdresser: {
-    stepTitle: "אישור התוצאה",
-    stepSubtitle: "מתי העיצוב נחשב מוכן ומה קורה אם הלקוח רוצה שינוי?",
-    showCountAndCost: false,
-    countLabel: "",
-    countPlaceholder: "",
-    definitionLabel: "מתי העיצוב נחשב מאושר?",
-    definitionPlaceholder: "שינויים ניתן לבקש במהלך השירות בלבד. לאחר סיום ועזיבת המקום — העיצוב נחשב מאושר ואין החזרים.",
-  },
   artist: {
     stepTitle: "כמה סבבי תיקון ביצירה כלולים?",
     stepSubtitle: "בלי הגדרה ברורה — כל לקוח יפרש 'שינוי קטן' אחרת.",
@@ -826,7 +798,6 @@ const LATE_PAYMENT_CONFIG: Record<Profession, string> = {
   renovation:       "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — העבודות יעצרו עד לקבלתו.",
   producer:         "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — ההפקה תעצור עד לקבלתו.",
   eventManager:     "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — תיאום הספקים יופסק עד לקבלתו.",
-  hairdresser:      "תשלום שלא יתקבל ביום השירות — לא יינתן שירות נוסף עד לסילוק החוב.",
   artist:           "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — מסירת היצירה תעוכב עד לקבלתו.",
   productSeller:    "תשלום שלא יתקבל לפני המשלוח — המוצר לא יישלח עד לאישור קבלת התשלום.",
   other:            "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — העבודה מוקפאת עד לקבלתו.",
@@ -881,7 +852,7 @@ function isStepValid(step: number, data: FormData): boolean {
     case 3: return !!(data.projectDescription.trim().length > 5 && data.projectExclusions.trim().length > 2);
     case 4: return !!(data.totalPrice && data.vat && data.paymentTiming.trim() && data.latePayment.trim());
     case 5: {
-      const startOptional = data.profession === "beauty" || data.profession === "privateChef" || data.profession === "hairdresser";
+      const startOptional = data.profession === "beauty" || data.profession === "privateChef";
       return !!((startOptional || data.startDate) && data.deliveryDate);
     }
     case 6: return true;
