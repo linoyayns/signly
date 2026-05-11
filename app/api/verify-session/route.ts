@@ -8,6 +8,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "חסר clearing_id" }, { status: 400 });
   }
 
+  // Free order via 100% coupon — skip payment verification
+  if (clearingId.startsWith("coupon-")) {
+    return NextResponse.json({ paid: true });
+  }
+
   try {
     const status = await getClearingStatus(clearingId);
 

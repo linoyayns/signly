@@ -894,6 +894,10 @@ export default function CreatePage() {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentIframe, setPaymentIframe] = useState<{ iframeUrl: string; clearingId: string } | null>(null);
+  const [couponCode, setCouponCode] = useState("");
+  const [couponStatus, setCouponStatus] = useState<"idle" | "checking" | "valid" | "invalid">("idle");
+  const [couponMessage, setCouponMessage] = useState("");
+  const [finalPrice, setFinalPrice] = useState(97);
 
   const update = (field: keyof FormData, value: string | null) => {
     setData((prev) => ({ ...prev, [field]: value }));
@@ -911,9 +915,43 @@ export default function CreatePage() {
     }
   };
 
+  const validateCoupon = async () => {
+    if (!couponCode.trim()) return;
+    setCouponStatus("checking");
+    try {
+      const res = await fetch("/api/validate-coupon", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: couponCode }),
+      });
+      const json = await res.json();
+      if (json.valid) {
+        setCouponStatus("valid");
+        setCouponMessage(json.message);
+        setFinalPrice(json.finalPrice);
+      } else {
+        setCouponStatus("invalid");
+        setCouponMessage(json.message || "קוד לא תקין");
+        setFinalPrice(97);
+      }
+    } catch {
+      setCouponStatus("invalid");
+      setCouponMessage("שגיאה בבדיקה");
+    }
+  };
+
   const handleCheckout = async () => {
     setIsSubmitting(true);
     try {
+      // Free order (100% coupon) — skip payment entirely
+      if (finalPrice === 0) {
+        const couponId = `coupon-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        sessionStorage.setItem(`cd_${couponId}`, JSON.stringify(data));
+        sessionStorage.setItem("pending_clearing_id", couponId);
+        window.location.href = `/contract?clearing_id=${couponId}`;
+        return;
+      }
+
       const res = await fetch("/api/create-checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -921,7 +959,6 @@ export default function CreatePage() {
       });
       const json = await res.json();
       if (json.iframeUrl && json.clearingId) {
-        // Store contractData in sessionStorage so contract page can retrieve it
         sessionStorage.setItem(`cd_${json.clearingId}`, JSON.stringify(data));
         sessionStorage.setItem("pending_clearing_id", json.clearingId);
         setPaymentIframe({ iframeUrl: json.iframeUrl, clearingId: json.clearingId });
@@ -1446,9 +1483,44 @@ export default function CreatePage() {
                 </label>
               </div>
 
+              {/* COUPON */}
+              <div style={{ marginBottom: 16 }}>
+                <div style={{ display: "flex", gap: 8 }}>
+                  <input
+                    className="signly-field"
+                    style={{ ...inputStyle, flex: 1, marginBottom: 0 }}
+                    type="text"
+                    placeholder="קוד קופון (אופציונלי)"
+                    value={couponCode}
+                    onChange={(e) => { setCouponCode(e.target.value); setCouponStatus("idle"); setFinalPrice(97); }}
+                    onKeyDown={(e) => e.key === "Enter" && validateCoupon()}
+                  />
+                  <button
+                    onClick={validateCoupon}
+                    disabled={!couponCode.trim() || couponStatus === "checking"}
+                    style={{ padding: "0 18px", background: "#F1F5F9", border: "1px solid #E2E8F0", borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: "pointer", color: "#0F172A", whiteSpace: "nowrap" }}
+                  >
+                    {couponStatus === "checking" ? "..." : "החל"}
+                  </button>
+                </div>
+                {couponStatus === "valid" && (
+                  <p style={{ fontSize: 13, color: "#16A34A", marginTop: 6, fontWeight: 600 }}>{couponMessage}</p>
+                )}
+                {couponStatus === "invalid" && (
+                  <p style={{ fontSize: 13, color: "#DC2626", marginTop: 6 }}>{couponMessage}</p>
+                )}
+              </div>
+
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 12, padding: "16px 20px", marginBottom: 20 }}>
                 <span style={{ fontSize: 15, fontWeight: 600, color: "#0F172A" }}>חוזה פרילנס מקצועי</span>
-                <span style={{ fontSize: 22, fontWeight: 900, color: "#2563EB" }}>₪97</span>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  {couponStatus === "valid" && finalPrice < 97 && (
+                    <span style={{ fontSize: 16, color: "#94A3B8", textDecoration: "line-through" }}>₪97</span>
+                  )}
+                  <span style={{ fontSize: 22, fontWeight: 900, color: finalPrice === 0 ? "#16A34A" : "#2563EB" }}>
+                    {finalPrice === 0 ? "חינם" : `₪${finalPrice}`}
+                  </span>
+                </div>
               </div>
 
               <button
@@ -1459,7 +1531,7 @@ export default function CreatePage() {
                   padding: "16px",
                   fontSize: 17,
                   fontWeight: 700,
-                  background: agreedToTerms && data.deliveryEmail.trim() ? "#2563EB" : "#CBD5E1",
+                  background: agreedToTerms && data.deliveryEmail.trim() ? (finalPrice === 0 ? "#16A34A" : "#2563EB") : "#CBD5E1",
                   color: "white",
                   border: "none",
                   borderRadius: 10,
@@ -1467,7 +1539,9 @@ export default function CreatePage() {
                   transition: "background 0.2s",
                 }}
               >
-                {isSubmitting ? "מעביר לתשלום..." : "לתשלום מאובטח – ₪97 →"}
+                {isSubmitting
+                  ? (finalPrice === 0 ? "מייצר חוזה..." : "מעביר לתשלום...")
+                  : (finalPrice === 0 ? "קבל חוזה חינם →" : `לתשלום מאובטח – ₪${finalPrice} →`)}
               </button>
               <p style={{ textAlign: "center", fontSize: 12, color: "#94A3B8", marginTop: 10 }}>
                 🔒 תשלום מאובטח דרך Invoice4U | תקבל/י את החוזה תוך דקות
