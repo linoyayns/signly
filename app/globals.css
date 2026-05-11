@@ -66,6 +66,13 @@ nav.nav-shadow { box-shadow: 0 4px 28px rgba(0,0,0,0.28); }
   .btn-glow:hover { transform: none !important; }
 }
 
+/* ── INPUT FOCUS ── */
+.signly-field:focus {
+  outline: none;
+  border-color: #2563EB !important;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15) !important;
+}
+
 /* ── MOBILE RESPONSIVE ── */
 @media (max-width: 640px) {
   /* Section padding */

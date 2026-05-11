@@ -14,6 +14,9 @@ export default function HomePage() {
           <Link href="#how" style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>
             איך זה עובד
           </Link>
+          <Link href="#pricing" style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>
+            תמחור
+          </Link>
           <Link
             href="/create"
             style={{ fontSize: 14, fontWeight: 700, padding: "8px 20px", borderRadius: 8, background: "#2563EB", color: "white", textDecoration: "none" }}
@@ -24,7 +27,7 @@ export default function HomePage() {
       </nav>
 
       {/* HERO */}
-      <section style={{ paddingTop: 120, paddingBottom: 80, padding: "120px 40px 80px", background: "linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%)" }}>
+      <section style={{ padding: "120px 40px 80px", background: "linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%)" }}>
         <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(37,99,235,0.08)", border: "1px solid rgba(37,99,235,0.2)", color: "#2563EB", borderRadius: 100, padding: "6px 14px", fontSize: 13, fontWeight: 700, marginBottom: 24 }}>
             <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#2563EB", display: "inline-block" }} />
@@ -91,7 +94,7 @@ export default function HomePage() {
             ))}
           </div>
           <p style={{ textAlign: "center", marginTop: 24, fontSize: 14, color: "#64748B" }}>
-            ועוד המון מקצועות — אם אתה עובד עם לקוחות ומספק שירות, הכלי הזה בשבילך.
+            ועוד 19 מקצועות נוספים — אם אתה עובד עם לקוחות ומספק שירות, הכלי הזה בשבילך.
           </p>
         </div>
       </section>
@@ -342,7 +345,7 @@ export default function HomePage() {
             {[
               {
                 q: "האם החוזה תקף מבחינה משפטית?",
-                a: "כן. חוזה שנחתם בין שני צדדים תקף משפטית בישראל. Signly מכינה את המסמך ברמה מקצועית — אתם שולחים ללקוח, חותמים, ומתחילים לעבוד.",
+                a: "חוזה שנחתם בין שני צדדים תקף משפטית בישראל. Signly מכינה את המסמך ברמה מקצועית: שולחים ללקוח, חותמים, ומתחילים לעבוד. Signly אינה משרד עורכי דין. לעסקאות מורכבות מומלץ לקבל ייעוץ פרטני.",
               },
               {
                 q: "כמה זמן לוקח ליצור חוזה?",
@@ -361,7 +364,7 @@ export default function HomePage() {
                 a: "לכל פרילנסר או עצמאי שעובד עם לקוחות: מעצבים, צלמים, כותבים, מפתחים, מאמנים, יועצים ועוד. אם אתה מספק שירות בתמורה לתשלום – הכלי הזה בשבילך.",
               },
               {
-                q: "מה ההבדל מתבנית חינמית מהאינטרנט?",
+                q: "מה ההבדל בין Signly לתבנית חינמית?",
                 a: "תבנית חינמית היא גנרית — אותו טקסט לצלם, למעצב ולמאמן. Signly שואל אותך שאלות ספציפיות למקצוע שלך ולפרויקט, ומייצר חוזה שמתאים בדיוק למה שסיכמת עם הלקוח. בנוסף: תבנית חינמית לא תזכיר לך שאלות שלא חשבת עליהן.",
               },
             ].map(({ q, a }, i) => (
@@ -381,7 +384,7 @@ export default function HomePage() {
             מוכן להגן על עצמך?
           </h2>
           <p style={{ fontSize: 16, color: "rgba(255,255,255,0.65)", marginBottom: 36, lineHeight: 1.7 }}>
-            אל תתחיל פרויקט ללא חוזה. 5 דקות עכשיו חוסכות לך כאב ראש בעתיד.
+            אל תתחיל פרויקט ללא חוזה. 3 דקות עכשיו חוסכות לך כאב ראש בעתיד.
           </p>
           <Link
             href="/create"

@@ -872,7 +872,6 @@ const inputStyle: React.CSSProperties = {
   fontFamily: "inherit",
   color: "#0F172A",
   background: "white",
-  outline: "none",
   direction: "rtl",
 };
 
@@ -954,7 +953,7 @@ export default function CreatePage() {
 
       {/* NAV */}
       <nav style={{ background: "rgba(15,31,61,0.97)", height: 56, display: "flex", alignItems: "center", padding: "0 24px", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 100 }}>
-        <span style={{ fontSize: 20, fontWeight: 800, color: "white" }}>Signly<span style={{ color: "#60A5FA" }}>.</span></span>
+        <span style={{ fontSize: 20, fontWeight: 800, color: "white" }}>Signly<span style={{ color: "#2563EB" }}>.</span></span>
         <span style={{ fontSize: 13, color: "rgba(255,255,255,0.5)" }}>🔒 מאובטח</span>
       </nav>
 
@@ -1034,31 +1033,31 @@ export default function CreatePage() {
               <p style={{ fontSize: 13, fontWeight: 700, color: "#2563EB", marginBottom: 12 }}>הפרטים שלך</p>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>שמך המלא</label>
-                <input style={inputStyle} placeholder="לדוגמה: נועה כהן" value={data.freelancerName} onChange={(e) => update("freelancerName", e.target.value)} />
+                <input className="signly-field" style={inputStyle} placeholder="לדוגמה: נועה כהן" value={data.freelancerName} onChange={(e) => update("freelancerName", e.target.value)} />
               </div>
               <div className="mob-col1" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
                 <div>
                   <label style={labelStyle}>ת.ז. / ח.פ.</label>
-                  <input style={inputStyle} placeholder="123456789" value={data.freelancerId} onChange={(e) => update("freelancerId", e.target.value)} />
+                  <input className="signly-field" style={inputStyle} placeholder="123456789" value={data.freelancerId} onChange={(e) => update("freelancerId", e.target.value)} />
                 </div>
                 <div>
                   <label style={labelStyle}>עיר מגורים</label>
-                  <input style={inputStyle} placeholder="תל אביב" value={data.freelancerCity} onChange={(e) => update("freelancerCity", e.target.value)} />
+                  <input className="signly-field" style={inputStyle} placeholder="תל אביב" value={data.freelancerCity} onChange={(e) => update("freelancerCity", e.target.value)} />
                 </div>
               </div>
               <p style={{ fontSize: 13, fontWeight: 700, color: "#2563EB", marginBottom: 12 }}>פרטי הלקוח</p>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>שם הלקוח / החברה</label>
-                <input style={inputStyle} placeholder="לדוגמה: סטודיו ABC בע&quot;מ" value={data.clientName} onChange={(e) => update("clientName", e.target.value)} />
+                <input className="signly-field" style={inputStyle} placeholder="לדוגמה: סטודיו ABC בע&quot;מ" value={data.clientName} onChange={(e) => update("clientName", e.target.value)} />
               </div>
               <div className="mob-col1" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
                 <div>
                   <label style={labelStyle}>ת.ז. / ח.פ. לקוח</label>
-                  <input style={inputStyle} placeholder="987654321" value={data.clientId} onChange={(e) => update("clientId", e.target.value)} />
+                  <input className="signly-field" style={inputStyle} placeholder="987654321" value={data.clientId} onChange={(e) => update("clientId", e.target.value)} />
                 </div>
                 <div>
                   <label style={labelStyle}>מייל לקוח</label>
-                  <input style={inputStyle} type="email" placeholder="client@email.com" value={data.clientEmail} onChange={(e) => update("clientEmail", e.target.value)} />
+                  <input className="signly-field" style={inputStyle} type="email" placeholder="client@email.com" value={data.clientEmail} onChange={(e) => update("clientEmail", e.target.value)} />
                 </div>
               </div>
             </>
@@ -1072,12 +1071,12 @@ export default function CreatePage() {
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 28 }}>מה שלא כתוב בחוזה — הלקוח יכול לטעון שסיכמתם עליו.</p>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>תיאור הפרויקט — מה כלול?</label>
-                <textarea style={{ ...inputStyle, minHeight: 100 }} placeholder={`לדוגמה: ${projectExamples.description}`} value={data.projectDescription} onChange={(e) => update("projectDescription", e.target.value)} />
+                <textarea className="signly-field" style={{ ...inputStyle, minHeight: 100 }} placeholder={`לדוגמה: ${projectExamples.description}`} value={data.projectDescription} onChange={(e) => update("projectDescription", e.target.value)} />
               </div>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>מה לא כלול?</label>
                 <span style={{ fontSize: 12, color: "#64748B", display: "block", marginBottom: 6 }}>ככל שתהיה יותר ספציפי — כך פחות אי-הבנות בהמשך</span>
-                <textarea style={{ ...inputStyle, minHeight: 80 }} placeholder={`לדוגמה: ${projectExamples.exclusions}`} value={data.projectExclusions} onChange={(e) => update("projectExclusions", e.target.value)} />
+                <textarea className="signly-field" style={{ ...inputStyle, minHeight: 80 }} placeholder={`לדוגמה: ${projectExamples.exclusions}`} value={data.projectExclusions} onChange={(e) => update("projectExclusions", e.target.value)} />
               </div>
             </>
           )}
@@ -1091,11 +1090,11 @@ export default function CreatePage() {
               <div className="mob-col1" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
                 <div>
                   <label style={labelStyle}>מחיר כולל (₪)</label>
-                  <input style={inputStyle} type="number" placeholder="5000" value={data.totalPrice} onChange={(e) => update("totalPrice", e.target.value)} />
+                  <input className="signly-field" style={inputStyle} type="number" placeholder="5000" value={data.totalPrice} onChange={(e) => update("totalPrice", e.target.value)} />
                 </div>
                 <div>
                   <label style={labelStyle}>מקדמה (%)</label>
-                  <input style={inputStyle} type="number" placeholder="30" value={data.depositPercent} onChange={(e) => update("depositPercent", e.target.value)} />
+                  <input className="signly-field" style={inputStyle} type="number" placeholder="30" value={data.depositPercent} onChange={(e) => update("depositPercent", e.target.value)} />
                 </div>
               </div>
               <div style={fieldGroupStyle}>
@@ -1124,16 +1123,16 @@ export default function CreatePage() {
               </div>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>מתי מתקבלת יתרת התשלום?</label>
-                <input style={inputStyle} placeholder="עם מסירת הקבצים הסופיים" value={data.paymentTiming} onChange={(e) => update("paymentTiming", e.target.value)} />
+                <input className="signly-field" style={inputStyle} placeholder="עם מסירת הקבצים הסופיים" value={data.paymentTiming} onChange={(e) => update("paymentTiming", e.target.value)} />
               </div>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>אמצעי תשלום מקובלים</label>
-                <input style={inputStyle} placeholder="העברה בנקאית / ביט" value={data.paymentMethod} onChange={(e) => update("paymentMethod", e.target.value)} />
+                <input className="signly-field" style={inputStyle} placeholder="העברה בנקאית / ביט" value={data.paymentMethod} onChange={(e) => update("paymentMethod", e.target.value)} />
               </div>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>מה קורה אם הלקוח לא שילם בזמן?</label>
                 <span style={{ fontSize: 12, color: "#64748B", display: "block", marginBottom: 6 }}>בלי תנאים ברורים, קשה לדרוש עמידה בלוח הזמנים</span>
-                <input style={inputStyle} placeholder={latePaymentPlaceholder} value={data.latePayment} onChange={(e) => update("latePayment", e.target.value)} />
+                <input className="signly-field" style={inputStyle} placeholder={latePaymentPlaceholder} value={data.latePayment} onChange={(e) => update("latePayment", e.target.value)} />
                 <UseSuggestion field="latePayment" value={latePaymentPlaceholder} />
               </div>
             </>
@@ -1148,23 +1147,23 @@ export default function CreatePage() {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
                 <div>
                   <label style={labelStyle}>{datesConfig.startLabel}</label>
-                  <input style={inputStyle} type="date" value={data.startDate} onChange={(e) => update("startDate", e.target.value)} />
+                  <input className="signly-field" style={inputStyle} type="date" value={data.startDate} onChange={(e) => update("startDate", e.target.value)} />
                 </div>
                 <div>
                   <label style={labelStyle}>{datesConfig.endLabel}</label>
-                  <input style={inputStyle} type="date" value={data.deliveryDate} onChange={(e) => update("deliveryDate", e.target.value)} />
+                  <input className="signly-field" style={inputStyle} type="date" value={data.deliveryDate} onChange={(e) => update("deliveryDate", e.target.value)} />
                 </div>
               </div>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>{delaysConfig.clientLabel}</label>
                 <span style={{ fontSize: 12, color: "#64748B", display: "block", marginBottom: 6 }}>{delaysConfig.clientHint}</span>
-                <input style={inputStyle} placeholder={delaysConfig.clientPlaceholder} value={data.delayConditions} onChange={(e) => update("delayConditions", e.target.value)} />
+                <input className="signly-field" style={inputStyle} placeholder={delaysConfig.clientPlaceholder} value={data.delayConditions} onChange={(e) => update("delayConditions", e.target.value)} />
                 <UseSuggestion field="delayConditions" value={delaysConfig.clientPlaceholder} />
               </div>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>{delaysConfig.freelancerLabel}</label>
                 <span style={{ fontSize: 12, color: "#64748B", display: "block", marginBottom: 6 }}>{delaysConfig.freelancerHint}</span>
-                <input style={inputStyle} placeholder={delaysConfig.freelancerPlaceholder} value={data.freelancerDelay} onChange={(e) => update("freelancerDelay", e.target.value)} />
+                <input className="signly-field" style={inputStyle} placeholder={delaysConfig.freelancerPlaceholder} value={data.freelancerDelay} onChange={(e) => update("freelancerDelay", e.target.value)} />
                 <UseSuggestion field="freelancerDelay" value={delaysConfig.freelancerPlaceholder} />
               </div>
 
@@ -1176,17 +1175,17 @@ export default function CreatePage() {
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
                   <div>
                     <label style={labelStyle}>{revisionsConfig.countLabel}</label>
-                    <input style={inputStyle} type="number" placeholder={revisionsConfig.countPlaceholder} value={data.revisionsIncluded} onChange={(e) => update("revisionsIncluded", e.target.value)} />
+                    <input className="signly-field" style={inputStyle} type="number" placeholder={revisionsConfig.countPlaceholder} value={data.revisionsIncluded} onChange={(e) => update("revisionsIncluded", e.target.value)} />
                   </div>
                   <div>
                     <label style={labelStyle}>עלות נוספת (₪)</label>
-                    <input style={inputStyle} type="number" placeholder="200" value={data.revisionCost} onChange={(e) => update("revisionCost", e.target.value)} />
+                    <input className="signly-field" style={inputStyle} type="number" placeholder="200" value={data.revisionCost} onChange={(e) => update("revisionCost", e.target.value)} />
                   </div>
                 </div>
               )}
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>{revisionsConfig.definitionLabel}</label>
-                <input style={inputStyle} placeholder={revisionsConfig.definitionPlaceholder} value={data.revisionDefinition} onChange={(e) => update("revisionDefinition", e.target.value)} />
+                <input className="signly-field" style={inputStyle} placeholder={revisionsConfig.definitionPlaceholder} value={data.revisionDefinition} onChange={(e) => update("revisionDefinition", e.target.value)} />
                 <UseSuggestion field="revisionDefinition" value={revisionsConfig.definitionPlaceholder} />
               </div>
             </>
@@ -1201,12 +1200,12 @@ export default function CreatePage() {
               <p style={{ fontSize: 13, color: "#94A3B8", marginBottom: 20 }}>אם לא רלוונטי — אפשר לדלג.</p>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>ביטול מצד הלקוח — מה קורה?</label>
-                <input style={inputStyle} placeholder="המקדמה אינה מוחזרת. עבודה שבוצעה תחויב לפי יחס שעות." value={data.clientCancellation} onChange={(e) => update("clientCancellation", e.target.value)} />
+                <input className="signly-field" style={inputStyle} placeholder="המקדמה אינה מוחזרת. עבודה שבוצעה תחויב לפי יחס שעות." value={data.clientCancellation} onChange={(e) => update("clientCancellation", e.target.value)} />
                 <UseSuggestion field="clientCancellation" value="המקדמה אינה מוחזרת. עבודה שבוצעה תחויב לפי יחס שעות." />
               </div>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>ביטול מצדך — מה קורה?</label>
-                <input style={inputStyle} placeholder="החזר מלא של כל סכום ששולם, תוך 7 ימי עסקים." value={data.freelancerCancellation} onChange={(e) => update("freelancerCancellation", e.target.value)} />
+                <input className="signly-field" style={inputStyle} placeholder="החזר מלא של כל סכום ששולם, תוך 7 ימי עסקים." value={data.freelancerCancellation} onChange={(e) => update("freelancerCancellation", e.target.value)} />
                 <UseSuggestion field="freelancerCancellation" value="החזר מלא של כל סכום ששולם, תוך 7 ימי עסקים." />
               </div>
 
@@ -1407,7 +1406,7 @@ export default function CreatePage() {
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>לאיזה מייל לשלוח את החוזה?</label>
                 <span style={{ fontSize: 12, color: "#64748B", display: "block", marginBottom: 6 }}>תקבל/י PDF מוכן לחתימה תוך כמה דקות</span>
-                <input style={inputStyle} type="email" placeholder="your@email.com" value={data.deliveryEmail} onChange={(e) => update("deliveryEmail", e.target.value)} />
+                <input className="signly-field" style={inputStyle} type="email" placeholder="your@email.com" value={data.deliveryEmail} onChange={(e) => update("deliveryEmail", e.target.value)} />
               </div>
 
               <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 20 }}>
@@ -1441,7 +1440,10 @@ export default function CreatePage() {
                 {isSubmitting ? "מעביר לתשלום..." : "לתשלום מאובטח – ₪97 →"}
               </button>
               <p style={{ textAlign: "center", fontSize: 12, color: "#94A3B8", marginTop: 10 }}>
-                🔒 מאובטח על ידי Stripe | תקבל/י את החוזה תוך דקות
+                🔒 עסקה מאובטחת ומוצפנת | תקבל/י את החוזה תוך דקות
+              </p>
+              <p style={{ textAlign: "center", fontSize: 11, color: "#CBD5E1", marginTop: 6, lineHeight: 1.5 }}>
+                Signly אינה משרד עורכי דין. החוזה המיוצר אינו תחליף לייעוץ משפטי פרטני. לעסקאות מורכבות מומלץ להתייעץ עם עו"ד.
               </p>
             </>
           )}
@@ -1456,7 +1458,7 @@ export default function CreatePage() {
             {currentStep === 1 && "בחרי מקצוע כדי להמשיך"}
             {currentStep === 2 && "הכניסי לפחות את שמך כדי להמשיך"}
             {currentStep === 3 && "תארי את הפרויקט ומה לא כלול בו"}
-            {currentStep === 4 && "מלאי מחיר, בחרי אפשרות מע\"מ, ותנאי תשלום מאוחר"}
+            {currentStep === 4 && "מלאי מחיר, בחרי אפשרות מע\"מ, ותנאי איחור בתשלום"}
             {currentStep === 5 && "בחרי לפחות תאריך מסירה / סיום"}
             {currentStep === 8 && "הכניסי מייל לקבלת החוזה ואשרי את התנאים"}
           </div>
