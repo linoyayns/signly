@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const TOTAL_STEPS = 11;
+const TOTAL_STEPS = 8;
 
 type Profession =
   | "photographer" | "designer" | "writer" | "consultant" | "developer"
   | "coach" | "tutor" | "videoEditor" | "socialMedia" | "translator"
   | "beauty" | "gardener" | "kindergarten" | "renovation" | "musician" | "interiorDesigner"
   | "architect" | "psychologist" | "sportsInstructor" | "privateChef"
+  | "producer" | "eventManager" | "hairdresser"
   | "other";
 type VatType = "plus_vat" | "incl_vat" | "exempt" | null;
 type OwnershipType = "full" | "license" | "afterpayment" | null;
@@ -66,6 +67,9 @@ const PROFESSIONS = [
   { id: "kindergarten" as Profession, icon: "🧒", label: "גננת / גן ילדים" },
   { id: "gardener" as Profession, icon: "🌿", label: "גנן / גינון" },
   { id: "renovation" as Profession, icon: "🔨", label: "שיפוצים / קבלן" },
+  { id: "producer" as Profession, icon: "🎭", label: "מפיק / מפיקה" },
+  { id: "eventManager" as Profession, icon: "🎉", label: "מנהל/ת אירועים" },
+  { id: "hairdresser" as Profession, icon: "✂️", label: "ספר / ספרית" },
   { id: "other" as Profession, icon: "⚡", label: "אחר" },
 ];
 
@@ -170,6 +174,21 @@ const PROTECTION_QUESTIONS: Record<Profession, { question: string; hint: string;
     hint: "התחלת שיפוץ לפי תוכנית מוסכמת. הלקוח אומר 'שנה לי גם את זה'. כל שינוי עולה לך זמן וכסף.",
     placeholder: "כל שינוי בהיקף הפרויקט לאחר תחילת העבודה יחויב בנפרד לפי הצעת מחיר מעודכנת שתאושר בכתב לפני ביצוע.",
   },
+  producer: {
+    question: "מה קורה אם ספק חיוני ביטל ברגע האחרון?",
+    hint: "הזמנת ציוד, צוות, לוקיישן — ספק ביטל שעתיים לפני. הלקוח מצפה שהכל יעבוד. מי נושא באחריות?",
+    placeholder: "ביטול מצד ספקים חיצוניים שאינם בשליטת המפיק אינו מקנה ללקוח זכות לפיצוי. המפיק יפעל למציאת חלופה סבירה.",
+  },
+  eventManager: {
+    question: "מי אחראי אם ספק שנשכר לאירוע לא הגיע?",
+    hint: "תיאמת קייטרינג, DJ, צלם — אחד מהם לא הגיע. הלקוח מאשים אותך. מה הגדרת?",
+    placeholder: "מנהל האירועים אחראי לתיאום בלבד. אחריות ביצועית של ספקים חיצוניים חלה עליהם ישירות. ביטוח ספקים — באחריות הספק.",
+  },
+  hairdresser: {
+    question: "מה קורה אם הלקוח לא מרוצה מהתוצאה לאחר עזיבת המקום?",
+    hint: "קצצת, צבעת, עיצבת — הלקוח יצא מרוצה. יומיים אחר כך טוען שזה לא מה שביקש.",
+    placeholder: "שינויים ניתן לבקש בזמן השירות בלבד. לאחר עזיבת המקום — התוצאה נחשבת מאושרת. תלונות יועברו תוך 24 שעות בלבד.",
+  },
   other: {
     question: "האם הלקוח רשאי להשתמש בעבודתך מחוץ לפרויקט הנוכחי?",
     hint: "הגדר מה מותר ללקוח לעשות עם התוצרים — מחוץ להיקף הפרויקט שסוכם.",
@@ -258,6 +277,18 @@ const PROJECT_EXAMPLES: Record<Profession, { description: string; exclusions: st
     description: "שיפוץ חדר אמבטיה: פירוק, ריצוף, אינסטלציה, גבס וצביעה — חומרים כלולים.",
     exclusions: "לא כלול: עבודות חשמל, ריהוט, ציוד סניטרי, חדרים נוספים.",
   },
+  producer: {
+    description: "הפקת אירוע עסקי ל-100 איש: תכנון, לוקיישן, ספקים, ציוד, לוח זמנים וניהול האירוע בפועל.",
+    exclusions: "לא כלול: ביגוד, ציוד שכירות מיוחד, שירות קייטרינג, הסעות.",
+  },
+  eventManager: {
+    description: "ניהול אירוע חתונה: תכנון, תיאום ספקים (צלם, DJ, קייטרינג, פרחים), ניהול באירוע עצמו.",
+    exclusions: "לא כלול: עלויות ספקים ישירים, הסעות, ציוד מיוחד שלא צוין בהצעה.",
+  },
+  hairdresser: {
+    description: "עיצוב שיער לאירוע: פגישת ניסיון + ביצוע ביום האירוע, כולל מוצרים.",
+    exclusions: "לא כלול: איפור, שושבינות, נסיעה מעל 20 ק\"מ.",
+  },
   other: {
     description: "תאר את השירות שאתה מספק — מה בדיוק כלול, כמה, ובאיזה פורמט?",
     exclusions: "פרט את מה שאינו כלול בהיקף העבודה שסוכמה.",
@@ -285,6 +316,9 @@ const DATES_CONFIG: Record<Profession, { startLabel: string; endLabel: string }>
   kindergarten:      { startLabel: "תאריך תחילת שנת הלימודים", endLabel: "תאריך סיום שנת הלימודים" },
   gardener:          { startLabel: "תאריך ביקור ראשון",        endLabel: "תאריך סיום הטיפול" },
   renovation:        { startLabel: "תאריך תחילת העבודות",     endLabel: "תאריך סיום מתוכנן" },
+  producer:          { startLabel: "תאריך תחילת ההפקה",         endLabel: "תאריך האירוע / המסירה" },
+  eventManager:      { startLabel: "תאריך תחילת תכנון האירוע",  endLabel: "תאריך האירוע" },
+  hairdresser:       { startLabel: "תאריך פגישת ניסיון (אופציונלי)", endLabel: "תאריך האירוע" },
   other:             { startLabel: "תאריך התחלה",             endLabel: "תאריך מסירה / סיום" },
 };
 
@@ -451,6 +485,30 @@ const DELAYS_CONFIG: Record<Profession, {
     freelancerLabel: "מה קורה אם נוצר עיכוב מצדך?",
     freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
     freelancerPlaceholder: "עיכוב מעל 3 ימים יוודע ללקוח מיידית ויוצג לוח זמנים מעודכן.",
+  },
+  producer: {
+    clientLabel: "מה קורה אם הלקוח משנה דרישות לאחר אישור תוכנית ההפקה?",
+    clientHint: "שינויים בשלב מתקדם גורמים לעלויות ועיכובים",
+    clientPlaceholder: "שינויים מהותיים לאחר אישור תוכנית ההפקה — יחויבו בנפרד לפי הצעת מחיר מעודכנת.",
+    freelancerLabel: "מה קורה אם נוצר עיכוב מצדך?",
+    freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
+    freelancerPlaceholder: "עיכוב יוודע ללקוח מיידית ויוצג לוח זמנים מעודכן.",
+  },
+  eventManager: {
+    clientLabel: "מה קורה אם הלקוח משנה את תאריך האירוע?",
+    clientHint: "שינוי תאריך גורר ביטול ותיאום מחדש עם כל הספקים",
+    clientPlaceholder: "שינוי תאריך פחות מ-30 יום לפני האירוע — יחויב בדמי ניהול נוספים. זמינות מחדש כפופה ללוח הזמנים.",
+    freelancerLabel: "מה קורה אם לא תוכל לנהל את האירוע?",
+    freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
+    freelancerPlaceholder: "במקרה של אי-יכולת להגיע — אמצא מחליף ברמה דומה, או אבצע החזר מלא.",
+  },
+  hairdresser: {
+    clientLabel: "מה קורה אם הלקוח מבטל ברגע האחרון?",
+    clientHint: "ביטול מאוחר גורם לאבד הכנסה שאי אפשר למלא",
+    clientPlaceholder: "ביטול פחות מ-48 שעות לפני — 50% ממחיר השירות. ביטול ביום האירוע — תשלום מלא.",
+    freelancerLabel: "מה קורה אם לא תוכל/י להגיע ביום האירוע?",
+    freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
+    freelancerPlaceholder: "במקרה של אי-יכולת להגיע — אמצא מחליף/ה ברמה דומה, או אבצע/י החזר מלא.",
   },
   other: {
     clientLabel: "מה יגרום לעיכוב מצד הלקוח?",
@@ -651,6 +709,33 @@ const REVISIONS_CONFIG: Record<Profession, {
     definitionLabel: "כיצד מטפלים בבקשות שינוי לאחר תחילת העבודה?",
     definitionPlaceholder: "כל שינוי בהיקף שהוסכם יגרור הצעת מחיר נוספת שתאושר בכתב לפני ביצוע. לא יבוצעו שינויים ללא אישור כתוב.",
   },
+  producer: {
+    stepTitle: "שינויים בתוכנית ההפקה",
+    stepSubtitle: "שינויים לאחר אישור תוכנית ההפקה — מה כלול ומה יחויב בנפרד?",
+    showCountAndCost: false,
+    countLabel: "",
+    countPlaceholder: "",
+    definitionLabel: "עד מתי ניתן לשנות את תוכנית ההפקה?",
+    definitionPlaceholder: "שינויים מתקבלים עד 7 ימים לפני האירוע. שינויים מאוחרים יותר — בעלות נוספת ולפי שיקול הדעת.",
+  },
+  eventManager: {
+    stepTitle: "שינויים בתוכנית האירוע",
+    stepSubtitle: "שינויים לאחר אישור תוכנית האירוע — מה כלול ומה לא?",
+    showCountAndCost: false,
+    countLabel: "",
+    countPlaceholder: "",
+    definitionLabel: "עד מתי ניתן לשנות את תוכנית האירוע?",
+    definitionPlaceholder: "שינויים בתוכנית האירוע מתקבלים עד 14 יום לפניו. שינויים מאוחרים — לפי שיקול הדעת ובהתאם לזמינות ספקים.",
+  },
+  hairdresser: {
+    stepTitle: "אישור התוצאה",
+    stepSubtitle: "מתי העיצוב נחשב מוכן ומה קורה אם הלקוח רוצה שינוי?",
+    showCountAndCost: false,
+    countLabel: "",
+    countPlaceholder: "",
+    definitionLabel: "מתי העיצוב נחשב מאושר?",
+    definitionPlaceholder: "שינויים ניתן לבקש במהלך השירות בלבד. לאחר סיום ועזיבת המקום — העיצוב נחשב מאושר ואין החזרים.",
+  },
   other: {
     stepTitle: "כמה תיקונים / שינויים כלולים?",
     stepSubtitle: "בלי הגדרה ברורה — כל לקוח יפרש 'תיקון' אחרת.",
@@ -683,6 +768,9 @@ const LATE_PAYMENT_CONFIG: Record<Profession, string> = {
   kindergarten:     "תשלום חודשי שלא יתקבל עד ה-1 בחודש — קבלת הילד לגן תושעה עד לסילוק החוב.",
   gardener:         "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — הביקורים הבאים יושהו עד לסילוק החוב.",
   renovation:       "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — העבודות יעצרו עד לקבלתו.",
+  producer:         "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — ההפקה תעצור עד לקבלתו.",
+  eventManager:     "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — תיאום הספקים יופסק עד לקבלתו.",
+  hairdresser:      "תשלום שלא יתקבל ביום השירות — לא יינתן שירות נוסף עד לסילוק החוב.",
   other:            "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — העבודה מוקפאת עד לקבלתו.",
 };
 
@@ -691,12 +779,9 @@ const STEP_LABELS = [
   "פרטי הצדדים",
   "תיאור הפרויקט",
   "תשלום",
-  "תאריכים",
-  "תיקונים",
-  "ביטול",
-  "בעלות",
-  "שאלת מגן",
-  "בקשות מיוחדות",
+  "תאריכים ותיקונים",
+  "ביטול ובעלות",
+  "הגנה ובקשות",
   "סיכום ותשלום",
 ];
 
@@ -734,20 +819,16 @@ const initialData: FormData = {
 function isStepValid(step: number, data: FormData): boolean {
   switch (step) {
     case 1: return !!data.profession;
-    case 2: return !!(data.freelancerName.trim()); // Only your name is required — rest can be filled manually later
+    case 2: return !!(data.freelancerName.trim());
     case 3: return !!(data.projectDescription.trim().length > 5 && data.projectExclusions.trim().length > 2);
     case 4: return !!(data.totalPrice && data.vat && data.paymentTiming.trim() && data.latePayment.trim());
     case 5: {
-      // Only delivery date is required — the rest is optional
-      const startOptional = data.profession === "beauty" || data.profession === "privateChef";
+      const startOptional = data.profession === "beauty" || data.profession === "privateChef" || data.profession === "hairdresser";
       return !!((startOptional || data.startDate) && data.deliveryDate);
     }
-    case 6: return true;  // Optional — professions without deliverables can skip
-    case 7: return true;  // Optional — can skip if not relevant
-    case 8: return true;  // Optional — ownership not applicable for all professions
-    case 9: return true;  // Optional — protection question can be skipped
-    case 10: return true;
-    case 11: return !!(data.deliveryEmail.trim());
+    case 6: return true;
+    case 7: return true;
+    case 8: return !!(data.deliveryEmail.trim());
     default: return false;
   }
 }
@@ -791,17 +872,13 @@ export default function CreatePage() {
 
   const nextStep = () => {
     if (currentStep < TOTAL_STEPS && isStepValid(currentStep, data)) {
-      const next = currentStep + 1;
-      const skip6 = data.profession === "beauty" || data.profession === "privateChef";
-      setCurrentStep(skip6 && next === 6 ? 7 : next);
+      setCurrentStep(currentStep + 1);
     }
   };
 
   const prevStep = () => {
     if (currentStep > 1) {
-      const prev = currentStep - 1;
-      const skip6 = data.profession === "beauty" || data.profession === "privateChef";
-      setCurrentStep(skip6 && prev === 6 ? 5 : prev);
+      setCurrentStep(currentStep - 1);
     }
   };
 
@@ -869,8 +946,8 @@ export default function CreatePage() {
       <div className="mob-step-outer" style={{ flex: 1, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "40px 20px 120px" }}>
         <div className="mob-step-card" style={{ background: "white", borderRadius: 14, boxShadow: "0 4px 24px rgba(0,0,0,0.08)", padding: "40px 36px", width: "100%", maxWidth: 600 }}>
 
-          {/* GLOBAL OPTIONAL NOTE — shown on all steps except 1 and 11 */}
-          {currentStep > 1 && currentStep < 11 && (
+          {/* GLOBAL OPTIONAL NOTE — shown on all steps except 1 and 8 */}
+          {currentStep > 1 && currentStep < 8 && (
             <div style={{ background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 8, padding: "10px 14px", marginBottom: 24, fontSize: 13, color: "#64748B" }}>
               💡 <strong>לא חייבים למלא הכל עכשיו.</strong> מה שתשאירו ריק — יופיע בחוזה כמקום ריק למילוי ידני לפני החתימה.
             </div>
@@ -879,7 +956,7 @@ export default function CreatePage() {
           {/* STEP 1 — PROFESSION */}
           {currentStep === 1 && (
             <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 1 מתוך 11</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 1 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>מה המקצוע שלך?</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 24 }}>זה קובע אילו שאלות הגנה ייכנסו לחוזה שלך.</p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8 }}>
@@ -922,7 +999,7 @@ export default function CreatePage() {
           {/* STEP 2 — PARTIES */}
           {currentStep === 2 && (
             <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 2 מתוך 11</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 2 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>פרטי הצדדים</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 28 }}>בלי פרטי זיהוי, החוזה קשה לאכיפה — עם הפרטים, הוא מסמך משפטי לכל דבר.</p>
               <p style={{ fontSize: 13, fontWeight: 700, color: "#2563EB", marginBottom: 12 }}>הפרטים שלך</p>
@@ -961,7 +1038,7 @@ export default function CreatePage() {
           {/* STEP 3 — PROJECT */}
           {currentStep === 3 && (
             <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 3 מתוך 11</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 3 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>מה כלול בפרויקט?</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 28 }}>מה שלא כתוב בחוזה — הלקוח יכול לטעון שסיכמתם עליו.</p>
               <div style={fieldGroupStyle}>
@@ -979,7 +1056,7 @@ export default function CreatePage() {
           {/* STEP 4 — PAYMENT */}
           {currentStep === 4 && (
             <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 4 מתוך 11</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 4 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>תשלום ותנאים</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 28 }}>מה שמוגדר בכתב — לא יכול להיות שנוי במחלוקת.</p>
               <div className="mob-col1" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
@@ -1033,10 +1110,10 @@ export default function CreatePage() {
             </>
           )}
 
-          {/* STEP 5 — DATES */}
+          {/* STEP 5 — DATES + REVISIONS */}
           {currentStep === 5 && (
             <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 5 מתוך 11</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 5 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>מתי ולמתי?</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 28 }}>תאריך מסירה שלא כתוב בחוזה — לא מחייב אף אחד.</p>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
@@ -1061,16 +1138,11 @@ export default function CreatePage() {
                 <input style={inputStyle} placeholder={delaysConfig.freelancerPlaceholder} value={data.freelancerDelay} onChange={(e) => update("freelancerDelay", e.target.value)} />
                 <UseSuggestion field="freelancerDelay" value={delaysConfig.freelancerPlaceholder} />
               </div>
-            </>
-          )}
 
-          {/* STEP 6 — REVISIONS (DYNAMIC PER PROFESSION) */}
-          {currentStep === 6 && (
-            <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 6 מתוך 11</span>
-              <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>{revisionsConfig.stepTitle}</h2>
-              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 12 }}>{revisionsConfig.stepSubtitle}</p>
-              <p style={{ fontSize: 13, color: "#94A3B8", marginBottom: 20 }}>לא חובה — אפשר לדלג אם לא רלוונטי.</p>
+              <div style={{ borderTop: "1px solid #E2E8F0", margin: "28px 0 24px" }} />
+              <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>{revisionsConfig.stepTitle}</h3>
+              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 8 }}>{revisionsConfig.stepSubtitle}</p>
+              <p style={{ fontSize: 13, color: "#94A3B8", marginBottom: 20 }}>לא חובה — אפשר לדלג.</p>
               {revisionsConfig.showCountAndCost && (
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
                   <div>
@@ -1091,10 +1163,10 @@ export default function CreatePage() {
             </>
           )}
 
-          {/* STEP 7 — CANCELLATION */}
-          {currentStep === 7 && (
+          {/* STEP 6 — CANCELLATION + OWNERSHIP */}
+          {currentStep === 6 && (
             <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 7 מתוך 11</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 6 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>מה קורה בביטול?</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 12 }}>לא נעים לחשוב על זה — אבל עדיף לסכם מראש מאשר להתווכח אחרי.</p>
               <p style={{ fontSize: 13, color: "#94A3B8", marginBottom: 20 }}>אם לא רלוונטי — אפשר לדלג.</p>
@@ -1108,16 +1180,11 @@ export default function CreatePage() {
                 <input style={inputStyle} placeholder="החזר מלא של כל סכום ששולם, תוך 7 ימי עסקים." value={data.freelancerCancellation} onChange={(e) => update("freelancerCancellation", e.target.value)} />
                 <UseSuggestion field="freelancerCancellation" value="החזר מלא של כל סכום ששולם, תוך 7 ימי עסקים." />
               </div>
-            </>
-          )}
 
-          {/* STEP 8 — OWNERSHIP */}
-          {currentStep === 8 && (
-            <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 8 מתוך 11</span>
-              <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>בעלות על העבודה</h2>
-              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 12 }}>שאלה שרוב הפרילנסרים לא מגדירים — עד שהיא הופכת לבעיה.</p>
-              <p style={{ fontSize: 13, color: "#94A3B8", marginBottom: 20 }}>אם לא רלוונטי למקצוע שלך (למשל: שירות אישי) — אפשר לדלג.</p>
+              <div style={{ borderTop: "1px solid #E2E8F0", margin: "28px 0 24px" }} />
+              <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>בעלות על העבודה</h3>
+              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 8 }}>שאלה שרוב הפרילנסרים לא מגדירים — עד שהיא הופכת לבעיה.</p>
+              <p style={{ fontSize: 13, color: "#94A3B8", marginBottom: 20 }}>אם לא רלוונטי (למשל: שירות אישי) — אפשר לדלג.</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 {([
                   { val: "full", title: "העברת בעלות מלאה", desc: "הלקוח מקבל את כל הזכויות לאחר תשלום מלא. את/ה מוותר/ת על הבעלות." },
@@ -1142,34 +1209,32 @@ export default function CreatePage() {
             </>
           )}
 
-          {/* STEP 9 — PROTECTION (DYNAMIC) */}
-          {currentStep === 9 && protectionConfig && (
+          {/* STEP 7 — PROTECTION + SPECIAL REQUESTS */}
+          {currentStep === 7 && (
             <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 9 מתוך 11 — שאלת מגן (אופציונלי)</span>
-              <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>{protectionConfig.question}</h2>
-              <div style={{ background: "#FFF7ED", border: "1px solid #FED7AA", borderRadius: 12, padding: "16px 18px", display: "flex", gap: 12, marginBottom: 24 }}>
-                <span style={{ fontSize: 20 }}>🛡️</span>
-                <p style={{ fontSize: 13, color: "#92400E", lineHeight: 1.6 }}>{protectionConfig.hint}</p>
-              </div>
-              <div style={fieldGroupStyle}>
-                <label style={labelStyle}>הגדר/י את התנאי בחוזה</label>
-                <textarea
-                  style={{ ...inputStyle, minHeight: 100 }}
-                  placeholder={protectionConfig.placeholder}
-                  value={data.protectionAnswer}
-                  onChange={(e) => update("protectionAnswer", e.target.value)}
-                />
-                <UseSuggestion field="protectionAnswer" value={protectionConfig.placeholder} />
-              </div>
-            </>
-          )}
-
-          {/* STEP 10 — SPECIAL REQUESTS */}
-          {currentStep === 10 && (
-            <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 10 מתוך 11 — אופציונלי</span>
-              <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>יש סעיפים שחשוב לך להוסיף?</h2>
-              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 20 }}>כתוב/י בשפה שלך — המערכת תפענח ותהפוך לסעיף משפטי מנוסח. לא חובה.</p>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 7 מתוך 8 — אופציונלי</span>
+              {protectionConfig && (
+                <>
+                  <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>{protectionConfig.question}</h2>
+                  <div style={{ background: "#FFF7ED", border: "1px solid #FED7AA", borderRadius: 12, padding: "16px 18px", display: "flex", gap: 12, marginBottom: 24 }}>
+                    <span style={{ fontSize: 20 }}>🛡️</span>
+                    <p style={{ fontSize: 13, color: "#92400E", lineHeight: 1.6 }}>{protectionConfig.hint}</p>
+                  </div>
+                  <div style={fieldGroupStyle}>
+                    <label style={labelStyle}>הגדר/י את התנאי בחוזה</label>
+                    <textarea
+                      style={{ ...inputStyle, minHeight: 100 }}
+                      placeholder={protectionConfig.placeholder}
+                      value={data.protectionAnswer}
+                      onChange={(e) => update("protectionAnswer", e.target.value)}
+                    />
+                    <UseSuggestion field="protectionAnswer" value={protectionConfig.placeholder} />
+                  </div>
+                  <div style={{ borderTop: "1px solid #E2E8F0", margin: "28px 0 24px" }} />
+                </>
+              )}
+              <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>יש סעיפים שחשוב לך להוסיף?</h3>
+              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 16 }}>כתוב/י בשפה שלך — המערכת תפענח ותהפוך לסעיף משפטי מנוסח. לא חובה.</p>
               <div style={{ background: "#F0FDF4", border: "1px solid #86EFAC", borderRadius: 12, padding: "16px 18px", display: "flex", gap: 12, marginBottom: 24 }}>
                 <span style={{ fontSize: 20 }}>💡</span>
                 <p style={{ fontSize: 13, color: "#166534", lineHeight: 1.6 }}>
@@ -1180,20 +1245,19 @@ export default function CreatePage() {
                 <label style={labelStyle}>הבקשות המיוחדות שלך</label>
                 <span style={{ fontSize: 12, color: "#64748B", display: "block", marginBottom: 6 }}>כל בקשה בשורה נפרדת, בשפה שלך</span>
                 <textarea
-                  style={{ ...inputStyle, minHeight: 140 }}
+                  style={{ ...inputStyle, minHeight: 120 }}
                   placeholder={"לדוגמה:\n- אני רוצה סעיף כוח עליון — מלחמה, אסון טבע\n- אם הקבצים יאבדו בכשל טכני שאינו באשמתי — לא אחראית\n- אני רוצה לשמור את הזכות להציג את העבודה בתיק שלי"}
                   value={data.specialRequests}
                   onChange={(e) => update("specialRequests", e.target.value)}
                 />
               </div>
-              <p style={{ fontSize: 13, color: "#64748B" }}>שלב זה אופציונלי — אפשר להמשיך גם בלי למלא.</p>
             </>
           )}
 
-          {/* STEP 11 — SUMMARY + PAYMENT */}
-          {currentStep === 11 && (
+          {/* STEP 8 — SUMMARY + PAYMENT */}
+          {currentStep === 8 && (
             <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>סיכום ותשלום</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 8 מתוך 8 — סיכום ותשלום</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>הכל נראה טוב?</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 24 }}>בדוק/י את הפרטים לפני התשלום. לאחר התשלום תקבל/י את החוזה תוך דקות.</p>
 
@@ -1365,7 +1429,7 @@ export default function CreatePage() {
             {currentStep === 3 && "תארי את הפרויקט ומה לא כלול בו"}
             {currentStep === 4 && "מלאי מחיר, בחרי אפשרות מע\"מ, ותנאי תשלום מאוחר"}
             {currentStep === 5 && "בחרי לפחות תאריך מסירה / סיום"}
-            {currentStep === 11 && "הכניסי מייל לקבלת החוזה ואשרי את התנאים"}
+            {currentStep === 8 && "הכניסי מייל לקבלת החוזה ואשרי את התנאים"}
           </div>
         )}
         <div style={{ padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
