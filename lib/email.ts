@@ -10,19 +10,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-function contractToHtml(text: string): string {
-  return text
-    .split("\n")
-    .map((line) => {
-      if (line.startsWith("## "))
-        return `<h2 style="font-size:15px;font-weight:700;margin:18px 0 6px;color:#0F172A;border-bottom:1px solid #E2E8F0;padding-bottom:4px;">${line.replace("## ", "")}</h2>`;
-      if (line.startsWith("# "))
-        return `<h1 style="font-size:17px;font-weight:700;margin:20px 0 8px;color:#0F172A;border-bottom:2px solid #0F172A;padding-bottom:6px;">${line.replace("# ", "")}</h1>`;
-      if (!line.trim()) return "<br>";
-      return `<p style="margin:0 0 7px;line-height:1.8;">${line.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")}</p>`;
-    })
-    .join("");
-}
 
 export async function sendContractEmail({
   to,
@@ -37,9 +24,8 @@ export async function sendContractEmail({
   clientName: string;
   sessionId?: string;
 }) {
-  const contractHtml = contractToHtml(contractText);
   const downloadUrl = sessionId
-    ? `https://mysignly.com/contract?session_id=${sessionId}`
+    ? `https://mysignly.com/contract?clearing_id=${sessionId}`
     : null;
 
   const html = `
@@ -69,23 +55,17 @@ export async function sendContractEmail({
             </p>
 
             ${downloadUrl ? `
-            <table cellpadding="0" cellspacing="0" style="margin-bottom:28px;">
+            <table cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
               <tr>
-                <td style="background:#2563EB;border-radius:8px;padding:12px 28px;">
-                  <a href="${downloadUrl}" style="color:white;text-decoration:none;font-weight:700;font-size:15px;">הורד PDF ←</a>
+                <td style="background:#2563EB;border-radius:8px;padding:14px 32px;">
+                  <a href="${downloadUrl}" style="color:white;text-decoration:none;font-weight:700;font-size:16px;">פתח וצפה בחוזה ←</a>
                 </td>
               </tr>
             </table>
+            <p style="font-size:13px;color:#94A3B8;margin:0 0 24px;">מהדף תוכלו להוריד PDF מוכן לחתימה.</p>
             ` : ""}
 
-            <hr style="border:none;border-top:1px solid #E2E8F0;margin:0 0 24px;">
-
-            <!-- Contract -->
-            <div style="font-size:12.5px;line-height:1.8;color:#1a1a1a;direction:rtl;text-align:right;">
-              ${contractHtml}
-            </div>
-
-            <hr style="border:none;border-top:1px solid #E2E8F0;margin:24px 0 16px;">
+            <hr style="border:none;border-top:1px solid #E2E8F0;margin:0 0 16px;">
             <p style="font-size:11px;color:#94A3B8;margin:0;line-height:1.6;">
               Signly אינה משרד עורכי דין. חוזה זה אינו תחליף לייעוץ משפטי פרטני.
             </p>
@@ -110,6 +90,6 @@ export async function sendContractEmail({
     to,
     subject: `החוזה שלך מוכן — ${freelancerName} / ${clientName}`,
     html,
-    text: contractText,
+    text: `שלום ${freelancerName}, החוזה בינך לבין ${clientName} מוכן. פתח אותו כאן: ${downloadUrl ?? "https://mysignly.com"}`,
   });
 }

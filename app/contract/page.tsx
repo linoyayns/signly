@@ -5,6 +5,53 @@ import { useSearchParams } from "next/navigation";
 import ContractDisplay from "@/components/ContractDisplay";
 import { downloadContractAsPdf } from "@/lib/pdf";
 
+const LOADING_MESSAGES = [
+  { delay: 0,    text: "מייצר את החוזה שלך...",             sub: "כן, זה לוקח קצת יותר מגוגל 😊 אנחנו כותבים חוזה אמיתי" },
+  { delay: 8000, text: "עובדים על זה...",                   sub: "כל סעיף נבנה בשבילך בנפרד — זה לוקח עד דקה וחצי" },
+  { delay: 25000, text: "כמעט שם...",                       sub: "ממש עוד רגע החוזה מוכן ואנחנו שולחים אותו למייל שלך" },
+  { delay: 55000, text: "עוד שנייה אחת...",                 sub: "אנחנו עדיין כאן — זה עובד, הכל בסדר 🙏" },
+];
+
+function LoadingScreen() {
+  const [msgIndex, setMsgIndex] = useState(0);
+
+  useEffect(() => {
+    const timers = LOADING_MESSAGES.slice(1).map(({ delay }, i) =>
+      setTimeout(() => setMsgIndex(i + 1), delay)
+    );
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  const { text, sub } = LOADING_MESSAGES[msgIndex];
+
+  return (
+    <main style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "#F8FAFC", padding: "0 24px" }}>
+      <div style={{ textAlign: "center", maxWidth: 420 }}>
+        {/* Spinner */}
+        <div style={{ width: 48, height: 48, border: "4px solid #EFF6FF", borderTop: "4px solid #2563EB", borderRadius: "50%", margin: "0 auto 24px", animation: "spin 0.9s linear infinite" }} />
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+
+        {/* Main message */}
+        <p style={{ fontSize: 18, fontWeight: 700, color: "#0F172A", marginBottom: 10, transition: "opacity 0.4s" }}>
+          {text}
+        </p>
+
+        {/* Sub message */}
+        <p style={{ fontSize: 14, color: "#64748B", lineHeight: 1.6, marginBottom: 28 }}>
+          {sub}
+        </p>
+
+        {/* Progress dots */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 8 }}>
+          {LOADING_MESSAGES.map((_, i) => (
+            <div key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: i <= msgIndex ? "#2563EB" : "#E2E8F0", transition: "background 0.4s" }} />
+          ))}
+        </div>
+      </div>
+    </main>
+  );
+}
+
 function ContractContent() {
   const params = useSearchParams();
   const clearingId = params.get("clearing_id");
@@ -84,15 +131,7 @@ function ContractContent() {
   }, [clearingId]);
 
   if (loading) {
-    return (
-      <main className="min-h-screen flex flex-col items-center justify-center px-6" style={{ backgroundColor: "#F8F9FA" }}>
-        <div className="text-center">
-          <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-600 font-medium">מייצר את החוזה שלך...</p>
-          <p className="text-sm text-gray-400 mt-1">זה עשוי לקחת כ-30 שניות</p>
-        </div>
-      </main>
-    );
+    return <LoadingScreen />;
   }
 
   if (error) {

@@ -122,8 +122,14 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-          <div style={{ textAlign: "center", marginTop: 48 }}>
-            <Link href="/create" style={{ padding: "16px 32px", fontSize: 17, fontWeight: 700, background: "#2563EB", color: "white", borderRadius: 10, textDecoration: "none" }}>
+          <div style={{ background: "linear-gradient(135deg, rgba(37,99,235,0.06), rgba(124,58,237,0.08))", border: "1px solid rgba(37,99,235,0.15)", borderRadius: 14, padding: "22px 28px", marginTop: 44, textAlign: "center" }}>
+            <p style={{ fontSize: 16, fontWeight: 700, color: "#0F172A", margin: "0 0 6px" }}>
+              חוזה שנכתב לפי אותם כללים שמקצוענים עובדים איתם.
+            </p>
+            <p style={{ fontSize: 14, color: "#64748B", margin: "0 0 20px" }}>
+              מותאם לפרויקט שלך — לא תבנית גנרית.
+            </p>
+            <Link href="/create" style={{ padding: "14px 32px", fontSize: 16, fontWeight: 700, background: "#2563EB", color: "white", borderRadius: 10, textDecoration: "none" }}>
               צור את החוזה שלי
             </Link>
           </div>
@@ -187,7 +193,7 @@ export default function HomePage() {
                 החוזה שלך מוכן.<br />תראה אותו לפני שאתה משלם.
               </h2>
               <p style={{ fontSize: 16, color: "#64748B", lineHeight: 1.75, marginBottom: 24 }}>
-                אחרי שאתה עונה על השאלון, אני מראה לך חלק מהחוזה שיצרתי עבורך — עם הפרטים שלך, בעברית אמיתית. רואים שזה טוב? רק אז משלמים.
+                אחרי שאתה עונה על השאלון, אני מראה לך חלק מהחוזה שיצרתי עבורך — עם הפרטים שלך, מנוסח ומוכן. רואים שזה טוב? רק אז משלמים.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {["הטקסט האמיתי שייכנס לחוזה שלך", "עם השם שלך ושם הלקוח שלך", "לפני כל תשלום"].map((item) => (
@@ -226,7 +232,7 @@ export default function HomePage() {
           <div style={{ textAlign: "center", marginBottom: 48 }}>
             <div style={{ fontSize: 12, fontWeight: 800, color: "#2563EB", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>פרילנסרים שכבר השתמשו</div>
             <h2 style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5, marginBottom: 10 }}>מה הם אומרים.</h2>
-            <p style={{ fontSize: 13, color: "#94A3B8" }}>ביקורות אמיתיות — ללא עריכה</p>
+            <p style={{ fontSize: 13, color: "#94A3B8" }}>מה אנשים אמרו אחרי שהשתמשו</p>
           </div>
           <div className="mob-testimonials" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20 }}>
             {[
@@ -272,8 +278,8 @@ export default function HomePage() {
               למדנו ממי שעושה את זה הכי טוב.
             </h3>
             <p style={{ fontSize: 16, color: "#64748B", lineHeight: 1.75, maxWidth: 660, margin: "0 auto 32px" }}>
-              עברנו על מעל 50 חוזים ישראלים אמיתיים שנכתבו על ידי עורכי דין מנוסים — כדי להבין מה הם שמים בפועל כשמגנים על פרילנסר. אילו סעיפים תמיד נכנסים, אילו ניסוחים עומדים בלחץ, ואיך גבולות נקבעים בצורה ברורה ואכיפה.<br /><br />
-              התוצאה: חוזה שנכתב לפי אותם כללים שמקצוענים עובדים איתם — מותאם לפרויקט שלך, בעברית אמיתית.
+              עברנו על מעל 50 חוזים ישראלים שנכתבו על ידי עורכי דין מנוסים — כדי להבין אילו סעיפים חוזרים בכל חוזה מקצועי, אילו ניסוחים עומדים בלחץ משפטי, ואיך גבולות מוגדרים בצורה ברורה ואכיפה.<br /><br />
+              <strong style={{ color: "#0F172A" }}>התוצאה: חוזה שנכתב לפי אותם כללים שמקצוענים עובדים איתם — מותאם לפרויקט שלך, בניסוח שעומד בבית משפט.</strong>
             </p>
             <div style={{ display: "flex", justifyContent: "center", gap: 56, flexWrap: "wrap" }}>
               {[
