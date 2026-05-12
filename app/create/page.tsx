@@ -1309,7 +1309,7 @@ export default function CreatePage() {
                 <input
                   className="signly-field"
                   style={{ ...inputStyle, paddingRight: 40 }}
-                  placeholder="חיפוש — למשל: צילום, עיצוב, ייעוץ..."
+                  placeholder="חיפוש — למשל: דולה, מעצב, יועץ עסקי..."
                   value={professionSearch}
                   onChange={e => setProfessionSearch(e.target.value)}
                   autoComplete="off"
