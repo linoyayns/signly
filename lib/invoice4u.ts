@@ -45,7 +45,19 @@ export async function createClearingRequest({
   console.log("[Invoice4U] Raw response:", text);
 
   try {
-    return JSON.parse(text);
+    const parsed = JSON.parse(text);
+    // Invoice4U WCF API wraps response in {"d": {...}}
+    const inner = parsed?.d ?? parsed;
+
+    // Extract I4UClearingLogId from OpenInfo array
+    const openInfo: { Key: string; Value: string }[] = inner?.OpenInfo ?? [];
+    const logId = openInfo.find((o) => o.Key === "I4UClearingLogId")?.Value ?? null;
+
+    return {
+      ...inner,
+      I4UClearingLogId: logId,
+      Errors: inner?.Errors ?? null,
+    };
   } catch {
     return { Errors: [`שגיאת שרת Invoice4U: ${text.slice(0, 200)}`] };
   }
@@ -56,9 +68,17 @@ export async function getClearingStatus(clearingLogId: string) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      Invoice4UUserApiKey: process.env.INVOICE4U_API_KEY,
-      ClearingLogId: clearingLogId,
+      request: {
+        Invoice4UUserApiKey: process.env.INVOICE4U_API_KEY?.trim(),
+        ClearingLogId: clearingLogId,
+      }
     }),
   });
-  return res.json();
+  const text = await res.text();
+  try {
+    const parsed = JSON.parse(text);
+    return parsed?.d ?? parsed;
+  } catch {
+    return { IsSuccess: false };
+  }
 }

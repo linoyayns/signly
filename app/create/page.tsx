@@ -1653,11 +1653,13 @@ export default function CreatePage() {
                   ))}
                 </div>
               </div>
-              <div style={fieldGroupStyle}>
-                <label style={labelStyle}>מתי מתקבלת יתרת התשלום?</label>
-                <input className="signly-field" style={inputStyle} placeholder="לדוגמה: עם סיום השירות ואישור הלקוח" value={data.paymentTiming} onChange={(e) => update("paymentTiming", e.target.value)} />
-                <UseSuggestion field="paymentTiming" value={profession ? PAYMENT_TIMING_CONFIG[profession] : PAYMENT_TIMING_CONFIG["other"]} />
-              </div>
+              {data.hasDeposit === true && (
+                <div style={fieldGroupStyle}>
+                  <label style={labelStyle}>מתי מתקבלת יתרת התשלום?</label>
+                  <input className="signly-field" style={inputStyle} placeholder="לדוגמה: עם סיום השירות ואישור הלקוח" value={data.paymentTiming} onChange={(e) => update("paymentTiming", e.target.value)} />
+                  <UseSuggestion field="paymentTiming" value={profession ? PAYMENT_TIMING_CONFIG[profession] : PAYMENT_TIMING_CONFIG["other"]} />
+                </div>
+              )}
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>אמצעי תשלום מקובלים <span style={{ fontWeight: 400, color: "#94A3B8", fontSize: 12 }}>(ניתן לבחור כמה)</span></label>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 4 }}>

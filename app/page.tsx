@@ -378,8 +378,12 @@ export default function HomePage() {
                 q: "מה ההבדל בין Signly לתבנית חינמית?",
                 a: "תבנית חינמית היא גנרית — אותו טקסט לצלם, למעצב ולמאמן. Signly שואל אותך שאלות ספציפיות למקצוע שלך ולפרויקט, ומייצר חוזה שמתאים בדיוק למה שסיכמת עם הלקוח. בנוסף: תבנית חינמית לא תזכיר לך שאלות שלא חשבת עליהן.",
               },
+              {
+                q: "האם הלוגו של Signly יופיע על המסמך הסופי?",
+                a: "לא. החוזה הוא שלך לחלוטין — עם השם שלך, עם פרטי הפרויקט שלך, ובלי שום ציון של Signly. הלקוח שלך מקבל מסמך נקי ומקצועי.",
+              },
             ].map(({ q, a }, i) => (
-              <div key={q} style={{ padding: "24px 0", borderBottom: i < 5 ? "1px solid #E2E8F0" : "none" }}>
+              <div key={q} style={{ padding: "24px 0", borderBottom: i < 6 ? "1px solid #E2E8F0" : "none" }}>
                 <h3 style={{ fontSize: 16, fontWeight: 700, color: "#0F172A", marginBottom: 8 }}>{q}</h3>
                 <p style={{ fontSize: 14, color: "#64748B", lineHeight: 1.7 }}>{a}</p>
               </div>
