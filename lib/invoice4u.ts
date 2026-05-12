@@ -11,9 +11,9 @@ export async function createClearingRequest({
   email: string;
   returnUrl: string;
 }) {
-  const body = {
+  const clearingRequest = {
     Invoice4UUserApiKey: process.env.INVOICE4U_API_KEY,
-    Type: 1, // Regular charge
+    Type: 1,
     Sum: sum,
     FullName: fullName,
     Email: email,
@@ -27,12 +27,12 @@ export async function createClearingRequest({
     DocLanguage: "he",
   };
 
-  console.log("[Invoice4U] Request:", JSON.stringify({ ...body, Invoice4UUserApiKey: "***" }));
+  console.log("[Invoice4U] Request:", JSON.stringify({ ...clearingRequest, Invoice4UUserApiKey: "***" }));
 
   const res = await fetch(`${API_BASE}/ProcessApiRequestV2`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
+    body: JSON.stringify({ apiClearingRequest: clearingRequest }),
   });
 
   const text = await res.text();

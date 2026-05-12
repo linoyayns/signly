@@ -12,7 +12,7 @@ type Profession =
   | "beauty" | "gardener" | "kindergarten" | "renovation" | "musician" | "interiorDesigner"
   | "architect" | "psychologist" | "sportsInstructor" | "privateChef"
   | "producer" | "eventManager" | "artist" | "productSeller"
-  | "influencer" | "jewelryDesigner" | "doula" | "lactationConsultant" | "sleepConsultant" | "nightNurse"
+  | "influencer" | "jewelryDesigner" | "ceramicist" | "doula" | "lactationConsultant" | "sleepConsultant" | "nightNurse"
   | "other";
 type VatType = "plus_vat" | "incl_vat" | "exempt" | null;
 type OwnershipType = "full" | "license" | "afterpayment" | null;
@@ -28,6 +28,7 @@ interface FormData {
   projectDescription: string;
   projectExclusions: string;
   totalPrice: string;
+  hasDeposit: boolean | null;
   depositPercent: string;
   vat: VatType;
   paymentTiming: string;
@@ -76,6 +77,7 @@ const PROFESSIONS = [
   { id: "productSeller" as Profession, icon: "📦", label: "מוכר/ת מוצר" },
   { id: "influencer" as Profession, icon: "⭐", label: "משפיען / משפיענית" },
   { id: "jewelryDesigner" as Profession, icon: "💍", label: "מעצבת תכשיטים" },
+  { id: "ceramicist" as Profession, icon: "🏺", label: "קרמיקאי/ת" },
   { id: "doula" as Profession, icon: "🤱", label: "דולה" },
   { id: "lactationConsultant" as Profession, icon: "🍼", label: "יועצת הנקה" },
   { id: "sleepConsultant" as Profession, icon: "🌙", label: "יועצת שינה" },
@@ -85,11 +87,11 @@ const PROFESSIONS = [
 
 const PROFESSION_CATEGORIES: { label: string; professions: Profession[] }[] = [
   { label: "קריאייטיב ומדיה",      professions: ["photographer", "designer", "writer", "videoEditor", "socialMedia", "musician", "translator", "artist", "influencer"] },
-  { label: "ייעוץ, אימון והדרכה",  professions: ["consultant", "coach", "sportsInstructor", "tutor", "psychologist", "lactationConsultant", "sleepConsultant"] },
-  { label: "בריאות ורפואה",         professions: ["doula", "nightNurse"] },
-  { label: "יופי וטיפוח",           professions: ["beauty", "jewelryDesigner"] },
+  { label: "ייעוץ, אימון והדרכה",  professions: ["consultant", "coach", "sportsInstructor", "tutor", "psychologist", "lactationConsultant", "sleepConsultant", "doula", "nightNurse"] },
+  { label: "יופי וטיפוח",           professions: ["beauty", "jewelryDesigner", "ceramicist"] },
   { label: "עיצוב ואדריכלות",       professions: ["interiorDesigner", "architect"] },
-  { label: "טכנולוגיה ובנייה",      professions: ["developer", "renovation", "gardener"] },
+  { label: "טכנולוגיה",             professions: ["developer"] },
+  { label: "בנייה ותחזוקה",         professions: ["renovation", "gardener"] },
   { label: "אירועים, אוכל וחינוך",  professions: ["privateChef", "eventManager", "producer", "kindergarten"] },
   { label: "מוצרים",                professions: ["productSeller"] },
   { label: "אחר",                   professions: ["other"] },
@@ -122,6 +124,7 @@ const PROFESSION_KEYWORDS: Record<Profession, string[]> = {
   productSeller:       ["מוצר", "מכירה", "חנות", "ecommerce", "שליחות", "יצרן", "handmade"],
   influencer:          ["משפיען", "משפיענית", "אינפלואנסר", "influencer", "יוטיוב", "טיקטוק", "tiktok", "instagram", "קריאייטור", "creator"],
   jewelryDesigner:     ["תכשיטים", "תכשיט", "עגילים", "שרשרת", "טבעת", "זהב", "כסף", "jewelry", "צורף"],
+  ceramicist:          ["קרמיקה", "קרמיקאית", "קרמיקאי", "חרס", "כלי חרס", "פיסול", "pottery", "ceramic", "יצירה", "כלים"],
   doula:               ["דולה", "לידה", "הריון", "ליווי לידה", "מיילדת", "תמיכה בלידה"],
   lactationConsultant: ["הנקה", "יועצת הנקה", "תינוק", "אמא", "חלב", "הנקה", "IBCLC"],
   sleepConsultant:     ["שינה", "יועצת שינה", "תינוק", "ילד", "נדודי שינה", "שגרת שינה"],
@@ -271,6 +274,11 @@ const PROTECTION_QUESTIONS: Record<Profession, { question: string; hint: string;
     hint: "הכנת תכשיט מותאם אישית לפי ברייף מפורט. הלקוח קיבל, אמר 'זה לא מה שציפיתי'. מה הגדרת מראש?",
     placeholder: "תכשיט מותאם אישית שאושר בכתב אינו ניתן להחזרה. פגם ייצור יוחלף ללא עלות. אי-שביעות מעיצוב שאושר אינה מקנה זכות להחזר.",
   },
+  ceramicist: {
+    question: "מה קורה אם הפריט נשבר בדואר או שהלקוח לא מרוצה?",
+    hint: "שלחת פריט קרמיקה ידנית עטוף היטב — הגיע שבור. או שהלקוח אומר 'הצבע לא מה שציפיתי'. מה הגדרת?",
+    placeholder: "נזק בשילוח יכוסה רק אם הלקוח שלח תמונות תוך 48 שעות מקבלת החבילה. פריט מותאם אישית שאושר בכתב אינו ניתן להחזרה. פגם ייצור — יוחלף.",
+  },
   doula: {
     question: "מה מגן עליך אם הלידה לא הלכה כמתוכנן?",
     hint: "הגעת, ליווית, עשית הכל נכון — אבל הלידה הסתיימה בניתוח קיסרי. הורים מאוכזבים מציפות. מה מגן עליך?",
@@ -403,6 +411,10 @@ const PROJECT_EXAMPLES: Record<Profession, { description: string; exclusions: st
     description: "עיצוב וייצור זוג עגילים מכסף 925 — עיצוב מותאם אישית לפי ברייף, ייצור יחיד, גימור מלוטש, מסירה עם תעודת חומר.",
     exclusions: "לא כלול: ציפוי זהב נוסף, אריזת מתנה, משלוח מהיר, התאמות עיצוב לאחר אישור ייצור.",
   },
+  ceramicist: {
+    description: "עיצוב וייצור סט כלים מקרמיקה עבודת יד: 4 קערות + 4 צלחות — עיצוב מוסכם מראש, צביעה ידנית, אפייה בקילן, מסירה תוך 4 שבועות.",
+    exclusions: "לא כלול: אריזת מתנה, משלוח מהיר, התאמות עיצוב לאחר כניסה לייצור.",
+  },
   doula: {
     description: "ליווי לידה מלא: 2 פגישות היכרות, זמינות מלאה עם תחילת לידה, נוכחות לאורך כל הלידה, ביקור תמיכה שבוע לאחר הלידה.",
     exclusions: "לא כלול: ניהול הלידה מבחינה רפואית, ערובה לתוצאה, ייעוץ רפואי, ייעוץ הנקה נפרד.",
@@ -452,6 +464,7 @@ const DATES_CONFIG: Record<Profession, { startLabel: string; endLabel: string }>
   productSeller:     { startLabel: "תאריך אישור ההזמנה",        endLabel: "תאריך מסירה / משלוח" },
   influencer:        { startLabel: "תאריך קבלת המוצר / ברייף", endLabel: "תאריך פרסום" },
   jewelryDesigner:   { startLabel: "תאריך אישור העיצוב",       endLabel: "תאריך מסירה / משלוח" },
+  ceramicist:        { startLabel: "תאריך אישור העיצוב",       endLabel: "תאריך מסירה / משלוח" },
   doula:             { startLabel: "תאריך לידה משוער (מיל.)",   endLabel: "תאריך ביקור אחרי-לידה" },
   lactationConsultant: { startLabel: "תאריך ביקור ראשון",      endLabel: "תאריך סיום הליווי" },
   sleepConsultant:   { startLabel: "תאריך ביקור ראשון",        endLabel: "תאריך סיום הליווי" },
@@ -670,6 +683,14 @@ const DELAYS_CONFIG: Record<Profession, {
     freelancerLabel: "מה קורה אם הייצור מתעכב?",
     freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
     freelancerPlaceholder: "עיכוב מעל 5 ימים יוודע ללקוח מיידית ויוסכם מועד חלופי.",
+  },
+  ceramicist: {
+    clientLabel: "מה קורה אם הלקוח מאחר לאשר את העיצוב?",
+    clientHint: "אישור מאוחר דוחה את כניסת הפריט לייצור",
+    clientPlaceholder: "עיכוב באישור — ידחה את מועד המסירה בהתאמה.",
+    freelancerLabel: "מה קורה אם הייצור מתעכב (שריפת קילן, חומרים)?",
+    freelancerHint: "הגדר מה קורה כדי שיהיה ברור מראש",
+    freelancerPlaceholder: "עיכוב מעל 7 ימים יוודע ללקוח מיידית ויוסכם מועד חלופי.",
   },
   doula: {
     clientLabel: "מה קורה אם הלידה מתחילה מוקדם / מאוחר מהצפוי?",
@@ -956,6 +977,15 @@ const REVISIONS_CONFIG: Record<Profession, {
     definitionLabel: "מה נחשב 'שינוי קטן' לעומת 'עיצוב מחדש'?",
     definitionPlaceholder: "שינוי גודל, גימור, פרופורציה — כלול. שינוי קונספט, חומר, סגנון מלא — לא כלול, יחויב בנפרד.",
   },
+  ceramicist: {
+    stepTitle: "כמה שינויי עיצוב לפני כניסה לייצור?",
+    stepSubtitle: "לאחר אפייה בקילן לא ניתן לשנות — הגדרה מראש חוסכת עוגמת נפש.",
+    showCountAndCost: true,
+    countLabel: "סבבי שינוי עיצוב לפני ייצור",
+    countPlaceholder: "1",
+    definitionLabel: "מה נחשב 'שינוי קטן' לעומת 'עיצוב מחדש'?",
+    definitionPlaceholder: "שינוי צבע גלייז, גודל, פרופורציה — כלול עד לכניסה לייצור. שינוי צורה, קונספט, תוספת פריטים — לא כלול, יחויב בנפרד.",
+  },
   doula: {
     stepTitle: "ביקורי תמיכה לאחר הלידה",
     stepSubtitle: "הגדרי כמה ביקורי תמיכה כלולים בחבילה.",
@@ -1030,6 +1060,7 @@ const LATE_PAYMENT_CONFIG: Record<Profession, string> = {
   productSeller:    "תשלום שלא יתקבל לפני המשלוח — המוצר לא יישלח עד לאישור קבלת התשלום.",
   influencer:       "תשלום שלא יתקבל תוך 7 ימים ממועד החשבונית — הפרסום הבא מושהה עד לסילוק החוב.",
   jewelryDesigner:  "תשלום שלא יתקבל לפני המשלוח — התכשיט לא יישלח עד לאישור קבלת התשלום.",
+  ceramicist:       "תשלום שלא יתקבל לפני המשלוח — הפריט לא יישלח עד לאישור קבלת התשלום.",
   doula:            "תשלום שלא יתקבל לפני מועד הלידה המשוער — הליווי יעוכב עד לסילוק החוב.",
   lactationConsultant: "תשלום שלא יתקבל תוך 7 ימים ממועד הביקור — הליווי הטלפוני יושהה עד לסילוק החוב.",
   sleepConsultant:  "תשלום שלא יתקבל תוך 7 ימים ממועד הביקור — הליווי יושהה עד לסילוק החוב.",
@@ -1064,6 +1095,7 @@ const PAYMENT_TIMING_CONFIG: Record<Profession, string> = {
   productSeller:       "לפני משלוח המוצר — תשלום מלא מראש",
   influencer:          "לפני פרסום התוכן, או לפי הסכם חודשי",
   jewelryDesigner:     "לפני שליחת התכשיט — תשלום מלא מראש",
+  ceramicist:          "לפני משלוח הפריט — תשלום מלא מראש",
   doula:               "חודש לפני מועד הלידה המשוער",
   lactationConsultant: "בתשלום בתום כל פגישה או ביקור",
   sleepConsultant:     "בתשלום בתום כל פגישה או ליווי",
@@ -1093,6 +1125,7 @@ const initialData: FormData = {
   projectDescription: "",
   projectExclusions: "",
   totalPrice: "",
+  hasDeposit: null,
   depositPercent: "",
   vat: null,
   paymentTiming: "",
@@ -1171,7 +1204,7 @@ export default function CreatePage() {
   const [finalPrice, setFinalPrice] = useState(97);
   const [showCouponField, setShowCouponField] = useState(false);
 
-  const update = (field: keyof FormData, value: string | null) => {
+  const update = (field: keyof FormData, value: string | boolean | null) => {
     setData((prev) => {
       const next = { ...prev, [field]: value } as FormData;
       // Auto-fill latePayment when profession is selected
@@ -1266,14 +1299,13 @@ export default function CreatePage() {
   // Reusable "use suggestion" button — shown only when field is empty
   const UseSuggestion = ({ field, value }: { field: keyof FormData; value: string }) =>
     !data[field] ? (
-      <div style={{ marginTop: 10, background: "#F8FAFC", border: "1px dashed #CBD5E1", borderRadius: 8, padding: "10px 14px" }}>
-        <p style={{ fontSize: 12, color: "#64748B", margin: "0 0 6px 0" }}>לדוגמה, אפשר לכתוב:</p>
-        <p style={{ fontSize: 13, color: "#374151", margin: "0 0 10px 0", lineHeight: 1.5 }}>{value}</p>
+      <div style={{ marginTop: 10, background: "#F8FAFC", border: "1px dashed #CBD5E1", borderRadius: 8, padding: "10px 14px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+        <p style={{ fontSize: 13, color: "#374151", margin: 0, lineHeight: 1.5, flex: 1 }}>{value}</p>
         <button
           onClick={() => update(field, value)}
-          style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 6, color: "#2563EB", fontSize: 12, fontWeight: 700, cursor: "pointer", padding: "5px 12px" }}
+          style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 6, color: "#2563EB", fontSize: 12, fontWeight: 700, cursor: "pointer", padding: "6px 12px", whiteSpace: "nowrap", flexShrink: 0 }}
         >
-          ← השתמש בדוגמה הזו
+          השתמש בדוגמה הכתובה
         </button>
       </div>
     ) : null;
@@ -1473,6 +1505,28 @@ export default function CreatePage() {
                   <input className="signly-field" style={inputStyle} type="email" placeholder="client@email.com" value={data.clientEmail} onChange={(e) => update("clientEmail", e.target.value)} />
                 </div>
               </div>
+
+              {/* Signing date — moved here from step 5 */}
+              <div style={{ background: "#F0FDF4", border: "1px solid #86EFAC", borderRadius: 10, padding: "16px 18px", marginTop: 8 }}>
+                <label style={{ ...labelStyle, color: "#166534", marginBottom: 6, display: "block" }}>תאריך חתימה על החוזה</label>
+                <p style={{ fontSize: 12, color: "#16A34A", marginBottom: 10 }}>יופיע בראש החוזה ובשורת החתימות. אפשר לשנות בכל שלב.</p>
+                <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const today = new Date().toLocaleDateString("he-IL", { day: "numeric", month: "long", year: "numeric" });
+                      update("signingDate", today);
+                    }}
+                    style={{ padding: "8px 16px", background: data.signingDate ? "#dcfce7" : "#2563EB", color: data.signingDate ? "#166534" : "white", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: "pointer" }}
+                  >
+                    {data.signingDate ? `✓ ${data.signingDate}` : "השתמש בתאריך היום"}
+                  </button>
+                  {data.signingDate && (
+                    <button type="button" onClick={() => update("signingDate", "")} style={{ background: "none", border: "none", color: "#94A3B8", fontSize: 12, cursor: "pointer", textDecoration: "underline" }}>הסר</button>
+                  )}
+                  <span style={{ fontSize: 12, color: "#94A3B8" }}>או השאר ריק לחתימה ידנית</span>
+                </div>
+              </div>
             </>
           )}
 
@@ -1502,16 +1556,34 @@ export default function CreatePage() {
               <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 4 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>תשלום ותנאים</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 28 }}>מה שמוגדר בכתב — לא יכול להיות שנוי במחלוקת.</p>
-              <div className="mob-col1" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
-                <div>
-                  <label style={labelStyle}>מחיר כולל (₪)</label>
-                  <input className="signly-field" style={inputStyle} type="number" placeholder="5000" value={data.totalPrice} onChange={(e) => update("totalPrice", e.target.value)} />
-                </div>
-                <div>
-                  <label style={labelStyle}>מקדמה (%)</label>
-                  <input className="signly-field" style={inputStyle} type="number" placeholder="30" value={data.depositPercent} onChange={(e) => update("depositPercent", e.target.value)} />
+              <div style={fieldGroupStyle}>
+                <label style={labelStyle}>מחיר כולל (₪)</label>
+                <input className="signly-field" style={inputStyle} type="number" placeholder="5000" value={data.totalPrice} onChange={(e) => update("totalPrice", e.target.value)} />
+              </div>
+              <div style={fieldGroupStyle}>
+                <label style={labelStyle}>האם יש תשלום מקדמה?</label>
+                <div style={{ display: "flex", gap: 10, marginTop: 4 }}>
+                  {([{ val: true, label: "כן" }, { val: false, label: "לא" }] as { val: boolean; label: string }[]).map(({ val, label }) => (
+                    <button
+                      key={String(val)}
+                      type="button"
+                      onClick={() => { update("hasDeposit", val); if (!val) update("depositPercent", ""); }}
+                      style={{ flex: 1, padding: "11px 0", borderRadius: 8, border: `1.5px solid ${data.hasDeposit === val ? "#2563EB" : "#E2E8F0"}`, background: data.hasDeposit === val ? "#EFF6FF" : "white", color: data.hasDeposit === val ? "#2563EB" : "#374151", fontWeight: data.hasDeposit === val ? 700 : 500, fontSize: 15, cursor: "pointer" }}
+                    >
+                      {data.hasDeposit === val && "✓ "}{label}
+                    </button>
+                  ))}
                 </div>
               </div>
+              {data.hasDeposit && (
+                <div style={fieldGroupStyle}>
+                  <label style={labelStyle}>כמה אחוז מקדמה?</label>
+                  <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+                    <input className="signly-field" style={{ ...inputStyle, marginBottom: 0, width: 100 }} type="number" placeholder="30" min="1" max="100" value={data.depositPercent} onChange={(e) => update("depositPercent", e.target.value)} />
+                    <span style={{ fontSize: 14, color: "#64748B" }}>%{data.totalPrice && data.depositPercent ? ` = ₪${Math.round(Number(data.totalPrice) * Number(data.depositPercent) / 100).toLocaleString()}` : ""}</span>
+                  </div>
+                </div>
+              )}
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>מע&quot;מ</label>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -1542,9 +1614,9 @@ export default function CreatePage() {
                 <UseSuggestion field="paymentTiming" value={profession ? PAYMENT_TIMING_CONFIG[profession] : PAYMENT_TIMING_CONFIG["other"]} />
               </div>
               <div style={fieldGroupStyle}>
-                <label style={labelStyle}>אמצעי תשלום מקובלים</label>
+                <label style={labelStyle}>אמצעי תשלום מקובלים <span style={{ fontWeight: 400, color: "#94A3B8", fontSize: 12 }}>(ניתן לבחור כמה)</span></label>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 4 }}>
-                  {["העברה בנקאית", "ביט", "מזומן", "צ'ק"].map((method) => {
+                  {["העברה בנקאית", "ביט", "אשראי", "מזומן", "צ'ק"].map((method) => {
                     const selected = data.paymentMethod.split(" / ").filter(Boolean);
                     const isChecked = selected.includes(method);
                     return (
@@ -1576,34 +1648,6 @@ export default function CreatePage() {
               <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 5 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>מתי ולמתי?</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 20 }}>תאריך מסירה שלא כתוב בחוזה — לא מחייב אף אחד.</p>
-
-              {/* Signing date */}
-              <div style={{ background: "#F0FDF4", border: "1px solid #86EFAC", borderRadius: 10, padding: "16px 18px", marginBottom: 24 }}>
-                <label style={{ ...labelStyle, color: "#166534", marginBottom: 8, display: "block" }}>📅 תאריך חתימה על החוזה</label>
-                <p style={{ fontSize: 12, color: "#16A34A", marginBottom: 10 }}>יופיע בראש החוזה ובשורת החתימות.</p>
-                <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const today = new Date().toLocaleDateString("he-IL", { day: "numeric", month: "long", year: "numeric" });
-                      update("signingDate", today);
-                    }}
-                    style={{ padding: "8px 16px", background: data.signingDate ? "#dcfce7" : "#2563EB", color: data.signingDate ? "#166534" : "white", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: "pointer" }}
-                  >
-                    {data.signingDate ? `✓ ${data.signingDate}` : "השתמש בתאריך היום"}
-                  </button>
-                  {data.signingDate && (
-                    <button
-                      type="button"
-                      onClick={() => update("signingDate", "")}
-                      style={{ background: "none", border: "none", color: "#94A3B8", fontSize: 12, cursor: "pointer", textDecoration: "underline" }}
-                    >
-                      הסר
-                    </button>
-                  )}
-                  <span style={{ fontSize: 12, color: "#94A3B8" }}>או השאר ריק לחתימה ידנית</span>
-                </div>
-              </div>
 
               <div className="mob-date-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
                 <div>
@@ -1670,31 +1714,36 @@ export default function CreatePage() {
                 <UseSuggestion field="freelancerCancellation" value="החזר מלא של כל סכום ששולם, תוך 7 ימי עסקים." />
               </div>
 
-              <div style={{ borderTop: "1px solid #E2E8F0", margin: "28px 0 24px" }} />
-              <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>בעלות על העבודה</h3>
-              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 8 }}>שאלה שרוב הפרילנסרים לא מגדירים — עד שהיא הופכת לבעיה.</p>
-              <p style={{ fontSize: 13, color: "#94A3B8", marginBottom: 20 }}>אם לא רלוונטי (למשל: שירות אישי) — אפשר לדלג.</p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                {([
-                  { val: "full", title: "העברת בעלות מלאה", desc: "הלקוח מקבל את כל הזכויות לאחר תשלום מלא. את/ה מוותר/ת על הבעלות." },
-                  { val: "license", title: "רישיון שימוש (לא העברת בעלות)", desc: "הלקוח יכול להשתמש בעבודה לצרכי העסק שלו, אך לא למכור, להפיץ, או לשנות ללא אישור." },
-                  { val: "afterpayment", title: "בעלות עוברת רק לאחר תשלום מלא", desc: "עד לקבלת התשלום המלא — הבעלות נשארת אצלך. הלקוח לא יכול להשתמש בעבודה לפני כן." },
-                ] as { val: OwnershipType; title: string; desc: string }[]).map(({ val, title, desc }) => (
-                  <div
-                    key={val!}
-                    onClick={() => update("ownership", val)}
-                    style={{ display: "flex", alignItems: "flex-start", gap: 14, padding: "18px 16px", border: `1.5px solid ${data.ownership === val ? "#2563EB" : "#E2E8F0"}`, borderRadius: 12, cursor: "pointer", background: data.ownership === val ? "#EFF6FF" : "white" }}
-                  >
-                    <div style={{ width: 20, height: 20, borderRadius: "50%", border: `2px solid ${data.ownership === val ? "#2563EB" : "#CBD5E1"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
-                      {data.ownership === val && <div style={{ width: 9, height: 9, borderRadius: "50%", background: "#2563EB" }} />}
-                    </div>
-                    <div>
-                      <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>{title}</div>
-                      <div style={{ fontSize: 13, color: "#64748B", lineHeight: 1.5 }}>{desc}</div>
-                    </div>
+              {/* Ownership — only shown for professions that deliver a creative/digital product */}
+              {profession && ["photographer","designer","writer","developer","videoEditor","socialMedia","musician","translator","interiorDesigner","architect","producer","artist","productSeller","influencer","jewelryDesigner","ceramicist","other"].includes(profession) && (
+                <>
+                  <div style={{ borderTop: "1px solid #E2E8F0", margin: "28px 0 24px" }} />
+                  <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>בעלות על העבודה</h3>
+                  <p style={{ fontSize: 14, color: "#64748B", marginBottom: 8 }}>שאלה שרוב הפרילנסרים לא מגדירים — עד שהיא הופכת לבעיה.</p>
+                  <p style={{ fontSize: 13, color: "#94A3B8", marginBottom: 20 }}>לא חובה — אפשר לדלג.</p>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                    {([
+                      { val: "full", title: "העברת בעלות מלאה", desc: "הלקוח מקבל את כל הזכויות לאחר תשלום מלא. את/ה מוותר/ת על הבעלות." },
+                      { val: "license", title: "רישיון שימוש (לא העברת בעלות)", desc: "הלקוח יכול להשתמש בעבודה לצרכי העסק שלו, אך לא למכור, להפיץ, או לשנות ללא אישור." },
+                      { val: "afterpayment", title: "בעלות עוברת רק לאחר תשלום מלא", desc: "עד לקבלת התשלום המלא — הבעלות נשארת אצלך. הלקוח לא יכול להשתמש בעבודה לפני כן." },
+                    ] as { val: OwnershipType; title: string; desc: string }[]).map(({ val, title, desc }) => (
+                      <div
+                        key={val!}
+                        onClick={() => update("ownership", val)}
+                        style={{ display: "flex", alignItems: "flex-start", gap: 14, padding: "18px 16px", border: `1.5px solid ${data.ownership === val ? "#2563EB" : "#E2E8F0"}`, borderRadius: 12, cursor: "pointer", background: data.ownership === val ? "#EFF6FF" : "white" }}
+                      >
+                        <div style={{ width: 20, height: 20, borderRadius: "50%", border: `2px solid ${data.ownership === val ? "#2563EB" : "#CBD5E1"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
+                          {data.ownership === val && <div style={{ width: 9, height: 9, borderRadius: "50%", background: "#2563EB" }} />}
+                        </div>
+                        <div>
+                          <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>{title}</div>
+                          <div style={{ fontSize: 13, color: "#64748B", lineHeight: 1.5 }}>{desc}</div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </>
+              )}
             </>
           )}
 
@@ -1737,7 +1786,10 @@ export default function CreatePage() {
                 <textarea
                   className="signly-field"
                   style={{ ...inputStyle, minHeight: 120 }}
-                  placeholder={"לדוגמה:\n- אני רוצה סעיף כוח עליון — מלחמה, אסון טבע\n- אם הקבצים יאבדו בכשל טכני שאינו באשמתי — לא אחראי/ת\n- אני רוצה לשמור את הזכות להציג את העבודה בתיק שלי"}
+                  placeholder={profession && ["coach","psychologist","tutor","sportsInstructor","consultant","doula","lactationConsultant","sleepConsultant","nightNurse","beauty","privateChef","kindergarten","gardener","eventManager"]
+                    .includes(profession)
+                    ? "לדוגמה:\n- אני רוצה סעיף כוח עליון — מלחמה, אסון טבע\n- סעיף סודיות — הלקוח לא יזכיר שעבד איתי ברשתות החברתיות ללא אישורי\n- הגנה במקרה שהלקוח מבטל בלי סיבה סמוך לתאריך"
+                    : "לדוגמה:\n- אני רוצה סעיף כוח עליון — מלחמה, אסון טבע\n- אם הקבצים יאבדו בכשל טכני שאינו באשמתי — לא אחראי/ת\n- אני רוצה לשמור את הזכות להציג את העבודה בתיק שלי"}
                   value={data.specialRequests}
                   onChange={(e) => update("specialRequests", e.target.value)}
                 />
@@ -1948,7 +2000,7 @@ export default function CreatePage() {
               >
                 {isSubmitting
                   ? (finalPrice === 0 ? "מייצר חוזה..." : "מעביר לתשלום...")
-                  : (finalPrice === 0 ? "קבל חוזה חינם →" : `לתשלום מאובטח – ₪${finalPrice} →`)}
+                  : (finalPrice === 0 ? "קבל חוזה חינם" : `לתשלום מאובטח – ₪${finalPrice}`)}
               </button>
               <p style={{ textAlign: "center", fontSize: 12, color: "#94A3B8", marginTop: 10 }}>
                 🔒 תשלום מאובטח דרך Invoice4U | תקבל/י את החוזה תוך דקות
@@ -1987,7 +2039,7 @@ export default function CreatePage() {
           onClick={prevStep}
           style={{ visibility: currentStep > 1 ? "visible" : "hidden", padding: "10px 20px", fontSize: 15, fontWeight: 600, background: "transparent", border: "1.5px solid #E2E8F0", borderRadius: 8, cursor: "pointer", color: "#374151" }}
         >
-          ← חזרה
+          חזרה →
         </button>
         {currentStep < TOTAL_STEPS ? (
           <button
