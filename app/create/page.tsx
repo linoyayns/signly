@@ -95,6 +95,51 @@ const PROFESSION_CATEGORIES: { label: string; professions: Profession[] }[] = [
   { label: "אחר",                   professions: ["other"] },
 ];
 
+const PROFESSION_KEYWORDS: Record<Profession, string[]> = {
+  photographer:        ["צלם", "צלמת", "צילום", "תמונות", "פוטו", "photo", "חתונה", "אירוע", "פורטרט"],
+  designer:            ["מעצב", "מעצבת", "גרפיקה", "לוגו", "ux", "ui", "עיצוב גרפי", "מיתוג", "ברנד", "brand"],
+  writer:              ["כותב", "כותבת", "קופי", "copywriter", "תוכן", "בלוג", "כתיבה", "עריכה", "content"],
+  consultant:          ["יועץ", "יועצת", "ייעוץ", "אסטרטגיה", "ניהול", "עסקי", "שיווק", "מנטור"],
+  developer:           ["מפתח", "מפתחת", "פיתוח", "קוד", "אפליקציה", "אתר", "web", "fullstack", "frontend", "backend"],
+  videoEditor:         ["עורך וידאו", "עורכת וידאו", "וידאו", "סרטון", "ריל", "reel", "מונטאז", "קליפ"],
+  socialMedia:         ["סושיאל", "אינסטגרם", "פייסבוק", "רשתות", "social", "ניהול דפים", "קהילה", "תוכן"],
+  coach:               ["מאמן", "מאמנת", "קואוצינג", "coaching", "אימון אישי", "לייף קואץ"],
+  sportsInstructor:    ["מדריך ספורט", "מדריכת ספורט", "כושר", "פילאטיס", "יוגה", "אימון", "חדר כושר", "gym"],
+  tutor:               ["מורה פרטי", "שיעורים פרטיים", "הוראה", "לימוד", "מתמטיקה", "אנגלית", "בגרות", "תגבור"],
+  psychologist:        ["פסיכולוג", "פסיכולוגית", "מטפל", "מטפלת", "טיפול", "נפשי", "רגשי", "cbt", "תרפיסט"],
+  interiorDesigner:    ["מעצב פנים", "מעצבת פנים", "עיצוב פנים", "דירה", "בית", "ריהוט", "interior"],
+  architect:           ["אדריכל", "אדריכלית", "תכנון", "בנייה", "היתר", "שרטוט", "architect"],
+  musician:            ["מוזיקאי", "מוזיקאית", "מוזיקה", "הלחנה", "נגן", "זמר", "ג'ינגל", "פסנתר", "גיטרה"],
+  translator:          ["מתרגם", "מתרגמת", "תרגום", "אנגלית", "ערבית", "רוסית", "translation"],
+  beauty:              ["מאפרת", "ספרית", "קוסמטיקאית", "איפור", "שיער", "עיצוב שיער", "מניקור", "ציפורניים", "ספא"],
+  privateChef:         ["שף", "שפית", "בישול", "ארוחה", "קייטרינג", "אוכל", "תפריט", "chef"],
+  kindergarten:        ["גננת", "גן ילדים", "ילדים", "גן", "פעוטון", "משפחתון"],
+  gardener:            ["גנן", "גננית", "גינון", "גינה", "צמחים", "עצים", "דשא", "השקיה"],
+  renovation:          ["שיפוצניק", "שיפוצים", "קבלן", "צביעה", "ריצוף", "גבס", "אינסטלציה", "חשמל"],
+  producer:            ["מפיק", "מפיקה", "הפקה", "סרט", "פרויקט", "producer"],
+  eventManager:        ["מנהל אירועים", "מנהלת אירועים", "חתונה", "אירוע", "ארגון", "בת מצווה", "event"],
+  artist:              ["אמן", "אמנית", "ציור", "פיסול", "איור", "illustration", "אומנות"],
+  productSeller:       ["מוצר", "מכירה", "חנות", "ecommerce", "שליחות", "יצרן", "handmade"],
+  influencer:          ["משפיען", "משפיענית", "אינפלואנסר", "influencer", "יוטיוב", "טיקטוק", "tiktok", "instagram", "קריאייטור", "creator"],
+  jewelryDesigner:     ["תכשיטים", "תכשיט", "עגילים", "שרשרת", "טבעת", "זהב", "כסף", "jewelry", "צורף"],
+  doula:               ["דולה", "לידה", "הריון", "ליווי לידה", "מיילדת", "תמיכה בלידה"],
+  lactationConsultant: ["הנקה", "יועצת הנקה", "תינוק", "אמא", "חלב", "הנקה", "IBCLC"],
+  sleepConsultant:     ["שינה", "יועצת שינה", "תינוק", "ילד", "נדודי שינה", "שגרת שינה"],
+  nightNurse:          ["אחות לילה", "לילה", "תינוק", "שמירה", "לינה", "לידה"],
+  other:               ["אחר", "other", "שונות", "מקצוע אחר"],
+};
+
+function searchProfessions(query: string): Profession[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return [];
+  return (Object.keys(PROFESSION_KEYWORDS) as Profession[]).filter((id) => {
+    const prof = PROFESSIONS.find(p => p.id === id);
+    const label = prof?.label.toLowerCase() ?? "";
+    const keywords = PROFESSION_KEYWORDS[id].map(k => k.toLowerCase());
+    return label.includes(q) || keywords.some(k => k.includes(q));
+  });
+}
+
 const PROTECTION_QUESTIONS: Record<Profession, { question: string; hint: string; placeholder: string }> = {
   photographer: {
     question: "מי מחליט שהעבודה הסתיימה?",
@@ -1085,6 +1130,7 @@ export default function CreatePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentIframe, setPaymentIframe] = useState<{ iframeUrl: string; clearingId: string } | null>(null);
   const [openCategory, setOpenCategory] = useState<string | null>(null);
+  const [professionSearch, setProfessionSearch] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [couponStatus, setCouponStatus] = useState<"idle" | "checking" | "valid" | "invalid">("idle");
   const [couponMessage, setCouponMessage] = useState("");
@@ -1256,7 +1302,20 @@ export default function CreatePage() {
             <>
               <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 1 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>מה המקצוע שלך?</h2>
-              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 20 }}>בחרי קטגוריה ואז את המקצוע המדויק שלך.</p>
+              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 16 }}>חפשי לפי שם, או פתחי קטגוריה.</p>
+
+              {/* Search box */}
+              <div style={{ position: "relative", marginBottom: 20 }}>
+                <input
+                  className="signly-field"
+                  style={{ ...inputStyle, paddingRight: 40 }}
+                  placeholder="חיפוש — למשל: שיער, פוטו, coaching..."
+                  value={professionSearch}
+                  onChange={e => setProfessionSearch(e.target.value)}
+                  autoComplete="off"
+                />
+                <span style={{ position: "absolute", right: 13, top: "50%", transform: "translateY(-50%)", color: "#94A3B8", fontSize: 16, pointerEvents: "none" }}>🔍</span>
+              </div>
 
               {/* Selected profession badge */}
               {data.profession && (
@@ -1268,7 +1327,36 @@ export default function CreatePage() {
                 </div>
               )}
 
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {/* Search results */}
+              {professionSearch.trim() ? (
+                (() => {
+                  const results = searchProfessions(professionSearch);
+                  return results.length > 0 ? (
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8, marginBottom: 8 }}>
+                      {results.map((id) => {
+                        const prof = PROFESSIONS.find(p => p.id === id);
+                        if (!prof) return null;
+                        const selected = data.profession === id;
+                        return (
+                          <button
+                            key={id}
+                            onClick={() => { update("profession", id); setProfessionSearch(""); }}
+                            style={{ border: `1.5px solid ${selected ? "#2563EB" : "#E2E8F0"}`, background: selected ? "#EFF6FF" : "white", borderRadius: 8, padding: "11px 14px", cursor: "pointer", textAlign: "right", display: "flex", alignItems: "center", justifyContent: "space-between" }}
+                          >
+                            <span style={{ fontSize: 13, fontWeight: selected ? 700 : 500, color: selected ? "#2563EB" : "#374151" }}>{prof.label}</span>
+                            {selected && <span style={{ color: "#2563EB", fontSize: 12 }}>✓</span>}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p style={{ fontSize: 13, color: "#94A3B8", marginBottom: 16, textAlign: "center" }}>לא מצאנו תוצאות — נסי מילה אחרת או בחרי מהקטגוריות למטה</p>
+                  );
+                })()
+              ) : null}
+
+              {/* Accordion (hidden while searching) */}
+              {!professionSearch.trim() && <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {PROFESSION_CATEGORIES.map(({ label: catLabel, professions: catProfs }) => {
                   const isOpen = openCategory === catLabel;
                   const hasSelected = catProfs.includes(data.profession as Profession);
@@ -1307,7 +1395,7 @@ export default function CreatePage() {
                     </div>
                   );
                 })}
-              </div>
+              </div>}
             </>
           )}
 
