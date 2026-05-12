@@ -14,13 +14,15 @@ export async function POST(req: NextRequest) {
     });
 
     if (result.Errors && result.Errors.length > 0) {
-      console.error("Invoice4U error:", result.Errors);
-      return NextResponse.json({ error: result.Errors[0] }, { status: 400 });
+      console.error("Invoice4U error:", JSON.stringify(result.Errors));
+      const errMsg = Array.isArray(result.Errors) ? result.Errors.join(" | ") : String(result.Errors);
+      return NextResponse.json({ error: `שגיאת Invoice4U: ${errMsg}` }, { status: 400 });
     }
 
     if (!result.ClearingRedirectUrl) {
-      console.error("Invoice4U no redirect URL:", result);
-      return NextResponse.json({ error: "שגיאה ביצירת תשלום" }, { status: 500 });
+      console.error("Invoice4U no redirect URL:", JSON.stringify(result));
+      const detail = JSON.stringify(result).slice(0, 300);
+      return NextResponse.json({ error: `לא התקבל קישור לתשלום. תשובת Invoice4U: ${detail}` }, { status: 500 });
     }
 
     return NextResponse.json({

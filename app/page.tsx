@@ -94,7 +94,7 @@ export default function HomePage() {
             ))}
           </div>
           <p style={{ textAlign: "center", marginTop: 24, fontSize: 14, color: "#64748B" }}>
-            ועוד מקצועות רבים — כל מי שעובד עם לקוחות ומספק שירות, הכלי הזה בשבילך.
+            ועוד מקצועות רבים — לכל מי שנותן שירות ומשלם בו, הכלי הזה בשבילך.
           </p>
         </div>
       </section>

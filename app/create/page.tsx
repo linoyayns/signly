@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const TOTAL_STEPS = 8;
 
@@ -11,6 +12,7 @@ type Profession =
   | "beauty" | "gardener" | "kindergarten" | "renovation" | "musician" | "interiorDesigner"
   | "architect" | "psychologist" | "sportsInstructor" | "privateChef"
   | "producer" | "eventManager" | "artist" | "productSeller"
+  | "influencer" | "jewelryDesigner" | "doula" | "lactationConsultant" | "sleepConsultant" | "nightNurse"
   | "other";
 type VatType = "plus_vat" | "incl_vat" | "exempt" | null;
 type OwnershipType = "full" | "license" | "afterpayment" | null;
@@ -72,7 +74,24 @@ const PROFESSIONS = [
   { id: "eventManager" as Profession, icon: "🎉", label: "מנהל/ת אירועים" },
   { id: "artist" as Profession, icon: "🖼️", label: "אמן / אומנית" },
   { id: "productSeller" as Profession, icon: "📦", label: "מוכר/ת מוצר" },
+  { id: "influencer" as Profession, icon: "⭐", label: "משפיען / משפיענית" },
+  { id: "jewelryDesigner" as Profession, icon: "💍", label: "מעצבת תכשיטים" },
+  { id: "doula" as Profession, icon: "🤱", label: "דולה" },
+  { id: "lactationConsultant" as Profession, icon: "🍼", label: "יועצת הנקה" },
+  { id: "sleepConsultant" as Profession, icon: "🌙", label: "יועצת שינה" },
+  { id: "nightNurse" as Profession, icon: "👶", label: "אחות לילה" },
   { id: "other" as Profession, icon: "⚡", label: "אחר" },
+];
+
+const PROFESSION_CATEGORIES: { label: string; professions: Profession[] }[] = [
+  { label: "קריאייטיב ומדיה", professions: ["photographer", "designer", "writer", "videoEditor", "socialMedia", "musician", "translator", "artist", "influencer"] },
+  { label: "ייעוץ, אימון והדרכה", professions: ["consultant", "coach", "sportsInstructor", "tutor", "psychologist", "lactationConsultant", "sleepConsultant"] },
+  { label: "בריאות ורפואה", professions: ["doula", "nightNurse"] },
+  { label: "יופי, עיצוב ואדריכלות", professions: ["beauty", "interiorDesigner", "architect", "jewelryDesigner"] },
+  { label: "פיתוח, מלאכה ותשתיות", professions: ["developer", "renovation", "gardener"] },
+  { label: "אירועים, אוכל וחינוך", professions: ["privateChef", "eventManager", "producer", "kindergarten"] },
+  { label: "מוצרים", professions: ["productSeller"] },
+  { label: "אחר", professions: ["other"] },
 ];
 
 const PROTECTION_QUESTIONS: Record<Profession, { question: string; hint: string; placeholder: string }> = {
@@ -196,6 +215,36 @@ const PROTECTION_QUESTIONS: Record<Profession, { question: string; hint: string;
     hint: "שלחת מוצר מותאם אישית. הלקוח אומר 'זה לא מה שציפיתי' — ורוצה החזר. מה הגדרת מראש?",
     placeholder: "מוצר מותאם אישית אינו ניתן להחזרה לאחר אישור הפרטים בכתב. פגם ייצור — יוחלף. אי-שביעות רצות מהעיצוב שאושר — אינה מקנה זכות להחזר.",
   },
+  influencer: {
+    question: "מה קורה לתוכן הממומן לאחר הפרסום?",
+    hint: "פרסמת תוכן ממומן, הספונסר שינה כיוון שיווקי ומבקש שתסיר. מי מפצה על הזמן, הקהל שנחשף, ומה מגן עליך?",
+    placeholder: "לאחר פרסום ואישור בכתב — לא ניתן לבטל ולא יינתן החזר. הסרת תוכן לבקשת הספונסר לאחר פרסום — תחייב תמורה נוספת.",
+  },
+  jewelryDesigner: {
+    question: "מה קורה אם הלקוח לא מרוצה מהתכשיט לאחר קבלתו?",
+    hint: "הכנת תכשיט מותאם אישית לפי ברייף מפורט. הלקוח קיבל, אמר 'זה לא מה שציפיתי'. מה הגדרת מראש?",
+    placeholder: "תכשיט מותאם אישית שאושר בכתב אינו ניתן להחזרה. פגם ייצור יוחלף ללא עלות. אי-שביעות מעיצוב שאושר אינה מקנה זכות להחזר.",
+  },
+  doula: {
+    question: "מה מגן עליך אם הלידה לא הלכה כמתוכנן?",
+    hint: "הגעת, ליווית, עשית הכל נכון — אבל הלידה הסתיימה בניתוח קיסרי. הורים מאוכזבים מציפות. מה מגן עליך?",
+    placeholder: "הדולה מספקת תמיכה רגשית ופיזית — לא ערובות לתוצאות הלידה. ההחלטות הרפואיות נתונות לצוות הרפואי בלבד. אחריות קלינית אינה חלה על הדולה.",
+  },
+  lactationConsultant: {
+    question: "מה המחויבות שלך — ומה לא בשליטתך?",
+    hint: "נתת ייעוץ מקצועי ומסור. בסוף ההנקה לא הסתדרה. הלקוחה דורשת החזר כי 'לא עזר'. מה מגן עליך?",
+    placeholder: "שכר הטרחה משולם עבור הייעוץ המקצועי עצמו, לא עבור תוצאה מובטחת. הצלחת ההנקה תלויה בגורמים אינדיבידואלים רבים שאינם בשליטת היועצת.",
+  },
+  sleepConsultant: {
+    question: "מה המחויבות שלך — ומה לא בשליטתך?",
+    hint: "ייעצת להורים על שגרת שינה. עשו הכל לפי המלצותיך — הילד עדיין לא ישן. הם דורשים החזר. מה מגן עליך?",
+    placeholder: "שכר הטרחה משולם עבור שירות הייעוץ, לא עבור תוצאה מובטחת. שינויי שינה תלויים בגורמים רבים: גיל, בריאות ויישום ההמלצות. היועצת מספקת כלים מקצועיים — לא ערבה לתוצאות.",
+  },
+  nightNurse: {
+    question: "מה קורה אם נדרשת פעולה רפואית בלילה?",
+    hint: "ב-3 לפנות בוקר התינוק לא נראה טוב. מה הגדרת לגבי מצבים שחורגים מהכשירות שלך?",
+    placeholder: "אחות הלילה מספקת שמירה, האכלה ותמיכה בסיסית. כל מצב הדורש הערכה רפואית — ידווח להורים מיידית. אחות הלילה אינה מחליפה רופא או אחות מוסמכת.",
+  },
   other: {
     question: "האם הלקוח רשאי להשתמש בעבודתך מחוץ לפרויקט הנוכחי?",
     hint: "הגדר מה מותר ללקוח לעשות עם התוצרים — מחוץ להיקף הפרויקט שסוכם.",
@@ -300,6 +349,30 @@ const PROJECT_EXAMPLES: Record<Profession, { description: string; exclusions: st
     description: "הכנת 20 יחידות עגילים עבודת יד — עיצוב מוסכם, חומרים: כסף 925, מסירה בתוך 3 שבועות.",
     exclusions: "לא כלול: אריזת מתנה, משלוח מהיר, התאמות עיצוב לאחר אישור הזמנה.",
   },
+  influencer: {
+    description: "3 ריילס ממומנים לאינסטגרם: רילס, פוסט תמונה וסטוריז — על מוצר X, כולל קאפשן מותאם, תיוגים וזכויות שימוש לספונסר לחצי שנה.",
+    exclusions: "לא כלול: קמפיין מודעות ממומנות, פרסום בפלטפורמות נוספות, שימוש ביצירה לאחר תום ההסכם, עריכה מחדש של תוכן שאושר.",
+  },
+  jewelryDesigner: {
+    description: "עיצוב וייצור זוג עגילים מכסף 925 — עיצוב מותאם אישית לפי ברייף, ייצור יחיד, גימור מלוטש, מסירה עם תעודת חומר.",
+    exclusions: "לא כלול: ציפוי זהב נוסף, אריזת מתנה, משלוח מהיר, התאמות עיצוב לאחר אישור ייצור.",
+  },
+  doula: {
+    description: "ליווי לידה מלא: 2 פגישות היכרות, זמינות מלאה עם תחילת לידה, נוכחות לאורך כל הלידה, ביקור תמיכה שבוע לאחר הלידה.",
+    exclusions: "לא כלול: ניהול הלידה מבחינה רפואית, ערובה לתוצאה, ייעוץ רפואי, ייעוץ הנקה נפרד.",
+  },
+  lactationConsultant: {
+    description: "ייעוץ הנקה ביתי: ביקור בית 90 דקות, הערכת ההנקה, תוכנית אישית ועד 3 מעקבים בווצאפ.",
+    exclusions: "לא כלול: ערובה לתוצאה, טיפול בעיות רפואיות, ביקורים נוספים, זמינות 24/7.",
+  },
+  sleepConsultant: {
+    description: "ייעוץ שינה לתינוקות / פעוטות: שאלון הורים מפורט, תוכנית שינה מותאמת, ביקור בית + ליווי שבועי.",
+    exclusions: "לא כלול: ערובה לתוצאה, ייעוץ בעיות רפואיות, ביקורים נוספים מעבר למוסכם.",
+  },
+  nightNurse: {
+    description: "שמירת לילה על תינוק: 10 שעות לילה, כולל האכלות, החלפות, הרגעה ומעקב שינה. כולל דוח בוקר.",
+    exclusions: "לא כלול: טיפול רפואי, אחריות על בריאות התינוק, שמירה מעל 10 שעות, ביקורים ביום.",
+  },
   other: {
     description: "תאר את השירות שאתה מספק — מה בדיוק כלול, כמה, ובאיזה פורמט?",
     exclusions: "פרט את מה שאינו כלול בהיקף העבודה שסוכמה.",
@@ -331,6 +404,12 @@ const DATES_CONFIG: Record<Profession, { startLabel: string; endLabel: string }>
   eventManager:      { startLabel: "תאריך תחילת תכנון האירוע",  endLabel: "תאריך האירוע" },
   artist:            { startLabel: "תאריך תחילת היצירה",        endLabel: "תאריך מסירת היצירה" },
   productSeller:     { startLabel: "תאריך אישור ההזמנה",        endLabel: "תאריך מסירה / משלוח" },
+  influencer:        { startLabel: "תאריך קבלת המוצר / ברייף", endLabel: "תאריך פרסום" },
+  jewelryDesigner:   { startLabel: "תאריך אישור העיצוב",       endLabel: "תאריך מסירה / משלוח" },
+  doula:             { startLabel: "תאריך לידה משוער (מיל.)",   endLabel: "תאריך ביקור אחרי-לידה" },
+  lactationConsultant: { startLabel: "תאריך ביקור ראשון",      endLabel: "תאריך סיום הליווי" },
+  sleepConsultant:   { startLabel: "תאריך ביקור ראשון",        endLabel: "תאריך סיום הליווי" },
+  nightNurse:        { startLabel: "תאריך לילה ראשון",         endLabel: "תאריך לילה אחרון" },
   other:             { startLabel: "תאריך התחלה",             endLabel: "תאריך מסירה / סיום" },
 };
 
@@ -529,6 +608,54 @@ const DELAYS_CONFIG: Record<Profession, {
     freelancerLabel: "מה קורה אם לא תוכל לעמוד בלוח הזמנים?",
     freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
     freelancerPlaceholder: "עיכוב מעל 7 ימים יוודע ללקוח מיידית. הלקוח יוכל לבטל ולקבל החזר יחסי.",
+  },
+  influencer: {
+    clientLabel: "מה קורה אם הספונסר מאחר לשלוח מוצר / ברייף?",
+    clientHint: "עיכוב בקבלת חומרים מהספונסר — ידחה את מועד הפרסום",
+    clientPlaceholder: "עיכוב בקבלת המוצר / ברייף מהספונסר — ידחה את מועד הפרסום בהתאמה ללא קנס.",
+    freelancerLabel: "מה קורה אם נוצר עיכוב בפרסום מצדך?",
+    freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
+    freelancerPlaceholder: "עיכוב מעל 3 ימים ממועד הפרסום המוסכם יוודע לספונסר מיידית.",
+  },
+  jewelryDesigner: {
+    clientLabel: "מה קורה אם הלקוח מאחר לאשר את העיצוב?",
+    clientHint: "אישור מאוחר דוחה את תחילת הייצור",
+    clientPlaceholder: "עיכוב באישור העיצוב — ידחה את מועד המסירה בהתאמה.",
+    freelancerLabel: "מה קורה אם הייצור מתעכב?",
+    freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
+    freelancerPlaceholder: "עיכוב מעל 5 ימים יוודע ללקוח מיידית ויוסכם מועד חלופי.",
+  },
+  doula: {
+    clientLabel: "מה קורה אם הלידה מתחילה מוקדם / מאוחר מהצפוי?",
+    clientHint: "לידה מוקדמת או מאוחרת היא חלק מהסיכון — חשוב להגדיר מראש",
+    clientPlaceholder: "הדולה זמינה בתוך 60 דקות מהקריאה. עיכובים בגלל תנועה או נסיבות בלתי-צפויות אינם בשליטת הדולה.",
+    freelancerLabel: "מה קורה אם הדולה לא יכולה להגיע?",
+    freelancerHint: "מחלה, חירום — הגדר מה הלקוחה מקבלת",
+    freelancerPlaceholder: "במקרה של אי-יכולת להגיע — תמצא מחליפה ברמה דומה, או תבצע החזר יחסי עבור ליווי הלידה.",
+  },
+  lactationConsultant: {
+    clientLabel: "מה קורה אם הלקוחה מבטלת ביקור?",
+    clientHint: "ביטול ביקור ביתי כולל עלות נסיעה שהולכת לאיבוד",
+    clientPlaceholder: "ביטול פחות מ-24 שעות מראש — יחויב 50% מעלות הביקור.",
+    freelancerLabel: "מה קורה אם נאלצת לדחות ביקור?",
+    freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
+    freelancerPlaceholder: "דחייה תוודע ללקוחה לפחות 24 שעות מראש ויתואם מועד חלופי.",
+  },
+  sleepConsultant: {
+    clientLabel: "מה קורה אם ההורים מבטלים ביקור?",
+    clientHint: "ביטול ב-24 שעות האחרונות גורם לאיבוד ביקור",
+    clientPlaceholder: "ביטול פחות מ-24 שעות מראש — יחויב 50% מעלות הביקור.",
+    freelancerLabel: "מה קורה אם נאלצת לדחות ביקור?",
+    freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
+    freelancerPlaceholder: "דחייה תוודע ללקוחה לפחות 24 שעות מראש ויתואם מועד חלופי.",
+  },
+  nightNurse: {
+    clientLabel: "מה קורה אם ההורים מבטלים לילה ברגע האחרון?",
+    clientHint: "ביטול ב-6 שעות האחרונות — הפסדת הכנסה שלמה",
+    clientPlaceholder: "ביטול פחות מ-6 שעות לפני תחילת הלילה — יחויב 100% מעלות הלילה.",
+    freelancerLabel: "מה קורה אם לא יכולה להגיע?",
+    freelancerHint: "מחלה, חירום — הגדר מה ההורים מקבלים",
+    freelancerPlaceholder: "במקרה של אי-יכולת להגיע — ינסה למצוא מחליפה. אם לא יתאפשר — החזר מלא עבור אותו לילה.",
   },
   other: {
     clientLabel: "מה יגרום לעיכוב מצד הלקוח?",
@@ -765,6 +892,60 @@ const REVISIONS_CONFIG: Record<Profession, {
     definitionLabel: "מה נחשב 'פגם' שמקנה זכות להחלפה?",
     definitionPlaceholder: "פגם ייצור (שבר, אי-התאמה לחומר שהוסכם) — יוחלף ללא עלות. אי-שביעות רצות מעיצוב שאושר, שינוי דעה — אינם מקנים זכות להחזר.",
   },
+  influencer: {
+    stepTitle: "כמה סבבי עריכה לפני פרסום?",
+    stepSubtitle: "בלי הגדרה ברורה — כל ספונסר יפרש 'תיקון' אחרת.",
+    showCountAndCost: true,
+    countLabel: "סבבי עריכה לפני פרסום",
+    countPlaceholder: "2",
+    definitionLabel: "מה נחשב 'עריכה קטנה' לעומת 'יצירה מחדש'?",
+    definitionPlaceholder: "שינוי טקסט, קאפשן, תיוג — כלול. שינוי קונספט, נושא, צילום מחדש — לא כלול, יחויב בנפרד.",
+  },
+  jewelryDesigner: {
+    stepTitle: "כמה שינויי עיצוב לפני ייצור?",
+    stepSubtitle: "לאחר תחילת ייצור לא ניתן לשנות — הגדרה מראש חוסכת עוגמת נפש.",
+    showCountAndCost: true,
+    countLabel: "סבבי שינוי עיצוב לפני ייצור",
+    countPlaceholder: "2",
+    definitionLabel: "מה נחשב 'שינוי קטן' לעומת 'עיצוב מחדש'?",
+    definitionPlaceholder: "שינוי גודל, גימור, פרופורציה — כלול. שינוי קונספט, חומר, סגנון מלא — לא כלול, יחויב בנפרד.",
+  },
+  doula: {
+    stepTitle: "ביקורי תמיכה לאחר הלידה",
+    stepSubtitle: "הגדרי כמה ביקורי תמיכה כלולים בחבילה.",
+    showCountAndCost: false,
+    countLabel: "",
+    countPlaceholder: "",
+    definitionLabel: "כמה ביקורים אחרי-לידה כלולים ומה הם כוללים?",
+    definitionPlaceholder: "כלולים 1-2 ביקורי תמיכה בשבוע הראשון לאחר הלידה. כל ביקור כשעה. ביקורים נוספים יחויבו בנפרד.",
+  },
+  lactationConsultant: {
+    stepTitle: "ליווי טלפוני לאחר הביקור",
+    stepSubtitle: "הגדרי כמה פניות / שאלות כלולות לאחר הביקור.",
+    showCountAndCost: false,
+    countLabel: "",
+    countPlaceholder: "",
+    definitionLabel: "כמה תמיכה בווצאפ / טלפון כלולה?",
+    definitionPlaceholder: "כלולות עד 3 פניות ווצאפ בשבוע הראשון לאחר הביקור. שיחות טלפון ארוכות ומעקב נוסף — יחויבו בנפרד.",
+  },
+  sleepConsultant: {
+    stepTitle: "ליווי לאחר הביקור",
+    stepSubtitle: "הגדרי כמה ימי מעקב כלולים בחבילה.",
+    showCountAndCost: false,
+    countLabel: "",
+    countPlaceholder: "",
+    definitionLabel: "כמה ימי מעקב / תמיכה בווצאפ כלולים?",
+    definitionPlaceholder: "כלולים 7 ימי מעקב לאחר הביקור. עדכונים קצרים בווצאפ — כלולים. שיחות טלפון ארוכות — יחויבו בנפרד.",
+  },
+  nightNurse: {
+    stepTitle: "שגרת הלילה ועדכון הורים",
+    stepSubtitle: "הגדרי מה קורה בלילה ואיך מעדכנים את ההורים.",
+    showCountAndCost: false,
+    countLabel: "",
+    countPlaceholder: "",
+    definitionLabel: "מה כוללת שמירת הלילה ומה לא?",
+    definitionPlaceholder: "אחות הלילה תשלח דוח בוקר קצר: שעות שינה, האכלות, אירועים חריגים. אינה מחויבת לעדכן ב-WhatsApp תוך הלילה אלא במקרה חירום.",
+  },
   other: {
     stepTitle: "כמה תיקונים / שינויים כלולים?",
     stepSubtitle: "בלי הגדרה ברורה — כל לקוח יפרש 'תיקון' אחרת.",
@@ -801,6 +982,12 @@ const LATE_PAYMENT_CONFIG: Record<Profession, string> = {
   eventManager:     "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — תיאום הספקים יופסק עד לקבלתו.",
   artist:           "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — מסירת היצירה תעוכב עד לקבלתו.",
   productSeller:    "תשלום שלא יתקבל לפני המשלוח — המוצר לא יישלח עד לאישור קבלת התשלום.",
+  influencer:       "תשלום שלא יתקבל תוך 7 ימים ממועד החשבונית — הפרסום הבא מושהה עד לסילוק החוב.",
+  jewelryDesigner:  "תשלום שלא יתקבל לפני המשלוח — התכשיט לא יישלח עד לאישור קבלת התשלום.",
+  doula:            "תשלום שלא יתקבל לפני מועד הלידה המשוער — הליווי יעוכב עד לסילוק החוב.",
+  lactationConsultant: "תשלום שלא יתקבל תוך 7 ימים ממועד הביקור — הליווי הטלפוני יושהה עד לסילוק החוב.",
+  sleepConsultant:  "תשלום שלא יתקבל תוך 7 ימים ממועד הביקור — הליווי יושהה עד לסילוק החוב.",
+  nightNurse:       "תשלום שלא יתקבל תוך 7 ימים ממועד השמירה — הלילות הבאים יושהו עד לסילוק החוב.",
   other:            "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — העבודה מוקפאת עד לקבלתו.",
 };
 
@@ -852,7 +1039,7 @@ function isStepValid(step: number, data: FormData): boolean {
     case 1: return !!data.profession;
     case 2: return !!(data.freelancerName.trim());
     case 3: return !!(data.projectDescription.trim().length > 5 && data.projectExclusions.trim().length > 2);
-    case 4: return !!(data.totalPrice && data.vat && data.paymentTiming.trim() && data.latePayment.trim());
+    case 4: return !!(data.totalPrice && data.vat && data.paymentTiming.trim());
     case 5: {
       const startOptional = data.profession === "beauty" || data.profession === "privateChef";
       return !!((startOptional || data.startDate) && data.deliveryDate);
@@ -903,7 +1090,14 @@ export default function CreatePage() {
   const [showCouponField, setShowCouponField] = useState(false);
 
   const update = (field: keyof FormData, value: string | null) => {
-    setData((prev) => ({ ...prev, [field]: value }));
+    setData((prev) => {
+      const next = { ...prev, [field]: value } as FormData;
+      // Auto-fill latePayment when profession is selected
+      if (field === "profession" && value) {
+        next.latePayment = LATE_PAYMENT_CONFIG[value as Profession] ?? "";
+      }
+      return next;
+    });
   };
 
   const nextStep = () => {
@@ -992,9 +1186,9 @@ export default function CreatePage() {
     !data[field] ? (
       <button
         onClick={() => update(field, value)}
-        style={{ background: "none", border: "none", color: "#2563EB", fontSize: 12, cursor: "pointer", padding: "4px 0", textDecoration: "underline", display: "block", marginTop: 4 }}
+        style={{ display: "inline-flex", alignItems: "center", gap: 5, marginTop: 8, background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 6, color: "#2563EB", fontSize: 12, fontWeight: 600, cursor: "pointer", padding: "5px 10px" }}
       >
-        ← השתמש בהצעה
+        💡 מלא עם דוגמה
       </button>
     ) : null;
 
@@ -1025,7 +1219,9 @@ export default function CreatePage() {
 
       {/* NAV */}
       <nav style={{ background: "rgba(15,31,61,0.97)", height: 56, display: "flex", alignItems: "center", padding: "0 24px", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 100 }}>
-        <span style={{ fontSize: 20, fontWeight: 800, color: "white" }}>Signly<span style={{ color: "#2563EB" }}>.</span></span>
+        <Link href="/" style={{ textDecoration: "none" }}>
+          <span style={{ fontSize: 20, fontWeight: 800, color: "white", cursor: "pointer" }}>Signly<span style={{ color: "#2563EB" }}>.</span></span>
+        </Link>
         <span style={{ fontSize: 13, color: "rgba(255,255,255,0.5)" }}>🔒 מאובטח</span>
       </nav>
 
@@ -1059,40 +1255,41 @@ export default function CreatePage() {
               <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 1 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>מה המקצוע שלך?</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 24 }}>השאלון ישתנה לפי המקצוע שלך ויציע הגנות מותאמות.</p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8 }}>
-                {PROFESSIONS.map(({ id, label }) => {
-                  const selected = data.profession === id;
-                  return (
-                    <button
-                      key={id}
-                      onClick={() => update("profession", id)}
-                      style={{
-                        border: `1.5px solid ${selected ? "#2563EB" : "#E2E8F0"}`,
-                        background: selected ? "#EFF6FF" : "white",
-                        borderRadius: 8,
-                        padding: "12px 16px",
-                        cursor: "pointer",
-                        textAlign: "right",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        transition: "all 0.15s",
-                      }}
-                    >
-                      <span style={{ fontSize: 14, fontWeight: selected ? 700 : 500, color: selected ? "#2563EB" : "#374151" }}>{label}</span>
-                      <div style={{
-                        width: 18, height: 18, borderRadius: "50%",
-                        border: `2px solid ${selected ? "#2563EB" : "#CBD5E1"}`,
-                        background: selected ? "#2563EB" : "white",
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        flexShrink: 0,
-                      }}>
-                        {selected && <span style={{ color: "white", fontSize: 10, lineHeight: 1 }}>✓</span>}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
+              {PROFESSION_CATEGORIES.map(({ label: catLabel, professions: catProfs }) => (
+                <div key={catLabel} style={{ marginBottom: 20 }}>
+                  <p style={{ fontSize: 11, fontWeight: 800, color: "#94A3B8", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 8 }}>{catLabel}</p>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8 }}>
+                    {catProfs.map((id) => {
+                      const prof = PROFESSIONS.find(p => p.id === id);
+                      if (!prof) return null;
+                      const selected = data.profession === id;
+                      return (
+                        <button
+                          key={id}
+                          onClick={() => update("profession", id)}
+                          style={{
+                            border: `1.5px solid ${selected ? "#2563EB" : "#E2E8F0"}`,
+                            background: selected ? "#EFF6FF" : "white",
+                            borderRadius: 8,
+                            padding: "10px 14px",
+                            cursor: "pointer",
+                            textAlign: "right",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            transition: "all 0.15s",
+                          }}
+                        >
+                          <span style={{ fontSize: 13, fontWeight: selected ? 700 : 500, color: selected ? "#2563EB" : "#374151" }}>{prof.label}</span>
+                          <div style={{ width: 16, height: 16, borderRadius: "50%", border: `2px solid ${selected ? "#2563EB" : "#CBD5E1"}`, background: selected ? "#2563EB" : "white", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                            {selected && <span style={{ color: "white", fontSize: 9, lineHeight: 1 }}>✓</span>}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
             </>
           )}
 
@@ -1144,11 +1341,13 @@ export default function CreatePage() {
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>תיאור הפרויקט — מה כלול?</label>
                 <textarea className="signly-field" style={{ ...inputStyle, minHeight: 100 }} placeholder={`לדוגמה: ${projectExamples.description}`} value={data.projectDescription} onChange={(e) => update("projectDescription", e.target.value)} />
+                <UseSuggestion field="projectDescription" value={projectExamples.description} />
               </div>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>מה לא כלול?</label>
                 <span style={{ fontSize: 12, color: "#64748B", display: "block", marginBottom: 6 }}>ככל שתהיה יותר ספציפי — כך פחות אי-הבנות בהמשך</span>
                 <textarea className="signly-field" style={{ ...inputStyle, minHeight: 80 }} placeholder={`לדוגמה: ${projectExamples.exclusions}`} value={data.projectExclusions} onChange={(e) => update("projectExclusions", e.target.value)} />
+                <UseSuggestion field="projectExclusions" value={projectExamples.exclusions} />
               </div>
             </>
           )}
@@ -1196,6 +1395,7 @@ export default function CreatePage() {
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>מתי מתקבלת יתרת התשלום?</label>
                 <input className="signly-field" style={inputStyle} placeholder="עם מסירת הקבצים הסופיים" value={data.paymentTiming} onChange={(e) => update("paymentTiming", e.target.value)} />
+                <UseSuggestion field="paymentTiming" value="עם מסירת הקבצים הסופיים ואישור הלקוח" />
               </div>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>אמצעי תשלום מקובלים</label>
@@ -1222,12 +1422,7 @@ export default function CreatePage() {
                   })}
                 </div>
               </div>
-              <div style={fieldGroupStyle}>
-                <label style={labelStyle}>מה קורה אם הלקוח לא שילם בזמן?</label>
-                <span style={{ fontSize: 12, color: "#64748B", display: "block", marginBottom: 6 }}>בלי תנאים ברורים, קשה לדרוש עמידה בלוח הזמנים</span>
-                <input className="signly-field" style={inputStyle} placeholder={latePaymentPlaceholder} value={data.latePayment} onChange={(e) => update("latePayment", e.target.value)} />
-                <UseSuggestion field="latePayment" value={latePaymentPlaceholder} />
-              </div>
+              {/* latePayment is auto-filled from config when profession is selected */}
             </>
           )}
 
@@ -1618,6 +1813,13 @@ export default function CreatePage() {
             </>
           )}
 
+          {/* BOTTOM optional note */}
+          {currentStep > 1 && currentStep < 8 && (
+            <div style={{ marginTop: 28, background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 8, padding: "10px 14px", fontSize: 13, color: "#64748B" }}>
+              💡 <strong>תזכורת:</strong> לא חייבים למלא הכל עכשיו. שדה ריק = קו תחתון בחוזה למילוי ידני לפני החתימה.
+            </div>
+          )}
+
         </div>
       </div>
 
@@ -1628,7 +1830,7 @@ export default function CreatePage() {
             {currentStep === 1 && "בחרי מקצוע כדי להמשיך"}
             {currentStep === 2 && "הכניסי לפחות את שמך כדי להמשיך"}
             {currentStep === 3 && "תארי את הפרויקט ומה לא כלול בו"}
-            {currentStep === 4 && "מלאי מחיר, בחרי אפשרות מע\"מ, ותנאי איחור בתשלום"}
+            {currentStep === 4 && "מלאי מחיר, בחרי אפשרות מע\"מ ותאריך תשלום"}
             {currentStep === 5 && "בחרי לפחות תאריך מסירה / סיום"}
             {currentStep === 8 && "הכניסי מייל לקבלת החוזה ואשרי את התנאים"}
           </div>

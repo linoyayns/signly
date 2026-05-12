@@ -63,16 +63,29 @@ export default function ContractDisplay({ content }: ContractDisplayProps) {
       i++; continue;
     }
 
-    // Markdown table row — render as plain text (skip pipes)
+    // Markdown table row — detect if it's a signature row or regular table
     if (trimmed.startsWith("|") && trimmed.endsWith("|")) {
       const cells = trimmed.split("|").map(c => c.trim()).filter(Boolean);
-      elements.push(
-        <div key={i} style={{ display: "flex", gap: 16, fontSize: 13, padding: "4px 0", borderBottom: "1px solid #F1F5F9" }}>
-          {cells.map((cell, ci) => (
-            <span key={ci} style={{ flex: 1 }}>{renderInline(cell)}</span>
-          ))}
-        </div>
-      );
+      const isSignatureRow = cells.some(c => c.includes("חתימת") || c.includes("חתימה") || c.includes("נותן השירות") || c.includes("הלקוח:"));
+      if (isSignatureRow) {
+        elements.push(
+          <div key={i} style={{ display: "flex", gap: 20, margin: "16px 0" }}>
+            {cells.map((cell, ci) => (
+              <div key={ci} style={{ flex: 1, border: "1px solid #CBD5E1", borderRadius: 8, padding: "14px 16px", background: "#F8FAFC", fontSize: 13, lineHeight: 2 }}>
+                {renderInline(cell)}
+              </div>
+            ))}
+          </div>
+        );
+      } else {
+        elements.push(
+          <div key={i} style={{ display: "flex", gap: 16, fontSize: 13, padding: "4px 0", borderBottom: "1px solid #F1F5F9" }}>
+            {cells.map((cell, ci) => (
+              <span key={ci} style={{ flex: 1 }}>{renderInline(cell)}</span>
+            ))}
+          </div>
+        );
+      }
       i++; continue;
     }
 

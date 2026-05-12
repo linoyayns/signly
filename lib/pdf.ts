@@ -14,9 +14,14 @@ function renderLine(line: string): string {
     return `<h3>${bold(trimmed.replace(/^###+ /, ""))}</h3>`;
   }
 
-  // Table row
+  // Table row — detect signature vs regular
   if (trimmed.startsWith("|") && trimmed.endsWith("|")) {
     const cells = trimmed.split("|").map(c => c.trim()).filter(Boolean);
+    const isSignature = cells.some(c => c.includes("חתימת") || c.includes("חתימה") || c.includes("נותן השירות") || c.includes("הלקוח:"));
+    if (isSignature) {
+      const divs = cells.map(c => `<div class="sig-box">${bold(c)}</div>`).join("");
+      return `<div class="sig-row">${divs}</div>`;
+    }
     const tds = cells.map(c => `<td>${bold(c)}</td>`).join("");
     return `<tr>${tds}</tr>`;
   }
@@ -108,6 +113,8 @@ export function downloadContractAsPdf(content: string, filename = "signly-contra
     }
     tr:first-child td { font-weight: 700; background: #f8fafc; }
     hr { border: none; border-top: 1px solid #ddd; margin: 14pt 0; }
+    .sig-row { display: flex; gap: 16pt; margin: 14pt 0; }
+    .sig-box { flex: 1; border: 1px solid #ccc; border-radius: 6pt; padding: 12pt 14pt; background: #f8fafc; font-size: 10.5pt; line-height: 2; }
     @page { margin: 20mm 25mm; size: A4; }
   </style>
 </head>
