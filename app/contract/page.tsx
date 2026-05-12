@@ -6,7 +6,7 @@ import ContractDisplay from "@/components/ContractDisplay";
 import { downloadContractAsPdf } from "@/lib/pdf";
 
 const LOADING_MESSAGES = [
-  { delay: 0,    text: "מייצר את החוזה שלך...",             sub: "כן, זה לוקח קצת יותר מגוגל 😊 אנחנו כותבים חוזה אמיתי" },
+  { delay: 0,    text: "מייצר את החוזה שלך...",             sub: "כן, זה לוקח רגע — אנחנו בונים חוזה מלא, לא מחפשים תוצאה 😊" },
   { delay: 8000, text: "עובדים על זה...",                   sub: "כל סעיף נבנה בשבילך בנפרד — זה לוקח עד דקה וחצי" },
   { delay: 25000, text: "כמעט שם...",                       sub: "ממש עוד רגע החוזה מוכן ואנחנו שולחים אותו למייל שלך" },
   { delay: 55000, text: "עוד שנייה אחת...",                 sub: "אנחנו עדיין כאן — זה עובד, הכל בסדר 🙏" },
