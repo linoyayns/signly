@@ -37,8 +37,8 @@ export async function createClearingRequest({
 
   const res = await fetch(`${API_BASE}/ProcessApiRequestV2`, {
     method: "POST",
-    headers: { "Content-Type": "application/json; charset=utf-8" },
-    body: JSON.stringify(clearingRequest),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ request: clearingRequest }),
   });
 
   const text = await res.text();
