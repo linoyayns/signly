@@ -1340,7 +1340,7 @@ export default function CreatePage() {
                         return (
                           <button
                             key={id}
-                            onClick={() => { update("profession", id); setProfessionSearch(""); }}
+                            onClick={() => { update("profession", id); setProfessionSearch(""); setTimeout(() => setCurrentStep(2), 300); }}
                             style={{ border: `1.5px solid ${selected ? "#2563EB" : "#E2E8F0"}`, background: selected ? "#EFF6FF" : "white", borderRadius: 8, padding: "11px 14px", cursor: "pointer", textAlign: "right", display: "flex", alignItems: "center", justifyContent: "space-between" }}
                           >
                             <span style={{ fontSize: 13, fontWeight: selected ? 700 : 500, color: selected ? "#2563EB" : "#374151" }}>{prof.label}</span>
@@ -1382,7 +1382,7 @@ export default function CreatePage() {
                             return (
                               <button
                                 key={id}
-                                onClick={() => { update("profession", id); setOpenCategory(null); }}
+                                onClick={() => { update("profession", id); setOpenCategory(null); setTimeout(() => setCurrentStep(2), 300); }}
                                 style={{ border: `1.5px solid ${selected ? "#2563EB" : "#E2E8F0"}`, background: selected ? "#EFF6FF" : "#F8FAFC", borderRadius: 8, padding: "10px 12px", cursor: "pointer", textAlign: "right", display: "flex", alignItems: "center", justifyContent: "space-between" }}
                               >
                                 <span style={{ fontSize: 13, fontWeight: selected ? 700 : 500, color: selected ? "#2563EB" : "#374151" }}>{prof.label}</span>
