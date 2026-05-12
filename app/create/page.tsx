@@ -1037,6 +1037,40 @@ const LATE_PAYMENT_CONFIG: Record<Profession, string> = {
   other:            "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — העבודה מוקפאת עד לקבלתו.",
 };
 
+const PAYMENT_TIMING_CONFIG: Record<Profession, string> = {
+  photographer:        "עם מסירת הקבצים הסופיים ואישור הלקוח",
+  designer:            "עם מסירת קבצי הפרויקט הסופיים",
+  writer:              "עם מסירת הכתיבה הסופית ואישור הלקוח",
+  consultant:          "בתום כל פגישה, או חודשי לפי הסכמה",
+  developer:           "עם השקת הפרויקט ואישור הלקוח",
+  videoEditor:         "עם מסירת הסרטון הסופי ואישור הלקוח",
+  socialMedia:         "בתחילת כל חודש, לפני תחילת הפרסום",
+  coach:               "לפני כל פגישה, או בתשלום מראש לחבילה",
+  sportsInstructor:    "לפני תחילת האימון, או בתחילת כל חודש",
+  tutor:               "בתחילת כל חודש, או לפני כל שיעור",
+  psychologist:        "בתשלום בתום כל פגישה",
+  interiorDesigner:    "בהתאם לשלבי ההתקדמות שסוכמו",
+  architect:           "בהתאם לאבני דרך: תכנון, היתרים, ביצוע",
+  musician:            "עם מסירת הקבצים ואישור הלקוח",
+  translator:          "עם מסירת התרגום הסופי",
+  beauty:              "בתשלום מלא ביום השירות, לפני תחילת העבודה",
+  privateChef:         "בתשלום מלא ביום הארוחה, לפני תחילת הבישול",
+  kindergarten:        "עד ה-1 בכל חודש, מראש",
+  gardener:            "בתשלום בסיום כל ביקור",
+  renovation:          "בהתאם לשלבי ביצוע שסוכמו מראש",
+  producer:            "בהתאם לאבני דרך שסוכמו בתחילת ההפקה",
+  eventManager:        "שבוע לפני מועד האירוע",
+  artist:              "עם מסירת היצירה ואישור הלקוח",
+  productSeller:       "לפני משלוח המוצר — תשלום מלא מראש",
+  influencer:          "לפני פרסום התוכן, או לפי הסכם חודשי",
+  jewelryDesigner:     "לפני שליחת התכשיט — תשלום מלא מראש",
+  doula:               "חודש לפני מועד הלידה המשוער",
+  lactationConsultant: "בתשלום בתום כל פגישה או ביקור",
+  sleepConsultant:     "בתשלום בתום כל פגישה או ליווי",
+  nightNurse:          "בתשלום עד ה-1 בחודש, מראש",
+  other:               "לפי הסכמה בין הצדדים",
+};
+
 const STEP_LABELS = [
   "מקצוע",
   "פרטי הצדדים",
@@ -1232,12 +1266,16 @@ export default function CreatePage() {
   // Reusable "use suggestion" button — shown only when field is empty
   const UseSuggestion = ({ field, value }: { field: keyof FormData; value: string }) =>
     !data[field] ? (
-      <button
-        onClick={() => update(field, value)}
-        style={{ display: "inline-flex", alignItems: "center", gap: 5, marginTop: 8, background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 6, color: "#2563EB", fontSize: 12, fontWeight: 600, cursor: "pointer", padding: "5px 10px" }}
-      >
-        💡 מלא עם דוגמה
-      </button>
+      <div style={{ marginTop: 10, background: "#F8FAFC", border: "1px dashed #CBD5E1", borderRadius: 8, padding: "10px 14px" }}>
+        <p style={{ fontSize: 12, color: "#64748B", margin: "0 0 6px 0" }}>לדוגמה, אפשר לכתוב:</p>
+        <p style={{ fontSize: 13, color: "#374151", margin: "0 0 10px 0", lineHeight: 1.5 }}>{value}</p>
+        <button
+          onClick={() => update(field, value)}
+          style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 6, color: "#2563EB", fontSize: 12, fontWeight: 700, cursor: "pointer", padding: "5px 12px" }}
+        >
+          ← השתמש בדוגמה הזו
+        </button>
+      </div>
     ) : null;
 
   return (
@@ -1500,8 +1538,8 @@ export default function CreatePage() {
               </div>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>מתי מתקבלת יתרת התשלום?</label>
-                <input className="signly-field" style={inputStyle} placeholder="עם מסירת הקבצים הסופיים" value={data.paymentTiming} onChange={(e) => update("paymentTiming", e.target.value)} />
-                <UseSuggestion field="paymentTiming" value="עם מסירת הקבצים הסופיים ואישור הלקוח" />
+                <input className="signly-field" style={inputStyle} placeholder="לדוגמה: עם סיום השירות ואישור הלקוח" value={data.paymentTiming} onChange={(e) => update("paymentTiming", e.target.value)} />
+                <UseSuggestion field="paymentTiming" value={profession ? PAYMENT_TIMING_CONFIG[profession] : PAYMENT_TIMING_CONFIG["other"]} />
               </div>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>אמצעי תשלום מקובלים</label>
