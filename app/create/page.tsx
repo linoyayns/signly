@@ -83,16 +83,16 @@ const PROFESSIONS = [
   { id: "other" as Profession, icon: "⚡", label: "אחר" },
 ];
 
-const PROFESSION_CATEGORIES: { label: string; emoji: string; professions: Profession[] }[] = [
-  { label: "קריאייטיב ומדיה",      emoji: "🎨", professions: ["photographer", "designer", "writer", "videoEditor", "socialMedia", "musician", "translator", "artist", "influencer"] },
-  { label: "ייעוץ, אימון והדרכה",  emoji: "🎯", professions: ["consultant", "coach", "sportsInstructor", "tutor", "psychologist", "lactationConsultant", "sleepConsultant"] },
-  { label: "בריאות ורפואה",         emoji: "🩺", professions: ["doula", "nightNurse"] },
-  { label: "יופי וטיפוח",           emoji: "💄", professions: ["beauty", "jewelryDesigner"] },
-  { label: "עיצוב ואדריכלות",       emoji: "🏛️", professions: ["interiorDesigner", "architect"] },
-  { label: "טכנולוגיה ובנייה",      emoji: "🔧", professions: ["developer", "renovation", "gardener"] },
-  { label: "אירועים, אוכל וחינוך",  emoji: "🎉", professions: ["privateChef", "eventManager", "producer", "kindergarten"] },
-  { label: "מוצרים",                emoji: "📦", professions: ["productSeller"] },
-  { label: "אחר",                   emoji: "⚡", professions: ["other"] },
+const PROFESSION_CATEGORIES: { label: string; professions: Profession[] }[] = [
+  { label: "קריאייטיב ומדיה",      professions: ["photographer", "designer", "writer", "videoEditor", "socialMedia", "musician", "translator", "artist", "influencer"] },
+  { label: "ייעוץ, אימון והדרכה",  professions: ["consultant", "coach", "sportsInstructor", "tutor", "psychologist", "lactationConsultant", "sleepConsultant"] },
+  { label: "בריאות ורפואה",         professions: ["doula", "nightNurse"] },
+  { label: "יופי וטיפוח",           professions: ["beauty", "jewelryDesigner"] },
+  { label: "עיצוב ואדריכלות",       professions: ["interiorDesigner", "architect"] },
+  { label: "טכנולוגיה ובנייה",      professions: ["developer", "renovation", "gardener"] },
+  { label: "אירועים, אוכל וחינוך",  professions: ["privateChef", "eventManager", "producer", "kindergarten"] },
+  { label: "מוצרים",                professions: ["productSeller"] },
+  { label: "אחר",                   professions: ["other"] },
 ];
 
 const PROTECTION_QUESTIONS: Record<Profession, { question: string; hint: string; placeholder: string }> = {
@@ -1269,7 +1269,7 @@ export default function CreatePage() {
               )}
 
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {PROFESSION_CATEGORIES.map(({ label: catLabel, emoji, professions: catProfs }) => {
+                {PROFESSION_CATEGORIES.map(({ label: catLabel, professions: catProfs }) => {
                   const isOpen = openCategory === catLabel;
                   const hasSelected = catProfs.includes(data.profession as Profession);
                   return (
@@ -1280,7 +1280,7 @@ export default function CreatePage() {
                         style={{ width: "100%", padding: "13px 16px", background: "none", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "right" }}
                       >
                         <span style={{ fontSize: 14, fontWeight: 600, color: hasSelected ? "#2563EB" : "#374151" }}>
-                          {emoji} {catLabel}
+                          {catLabel}
                         </span>
                         <span style={{ fontSize: 12, color: "#94A3B8", transition: "transform 0.2s", transform: isOpen ? "rotate(180deg)" : "none", display: "inline-block" }}>▼</span>
                       </button>
