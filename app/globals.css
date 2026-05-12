@@ -76,16 +76,38 @@ nav.nav-shadow { box-shadow: 0 4px 28px rgba(0,0,0,0.28); }
   box-shadow: 0 0 0 3px rgba(37,99,235,0.15) !important;
 }
 
+/* ── INPUT TRANSITION ── */
+.signly-field {
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+textarea.signly-field {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* ── LINK HOVER ── */
+a.nav-link:hover {
+  color: white !important;
+}
+
+/* ── FOOTER LINK HOVER ── */
+footer a:hover {
+  color: #2563EB !important;
+  transition: color 0.15s ease;
+}
+
 /* ── MOBILE RESPONSIVE ── */
 @media (max-width: 640px) {
   /* Section padding */
   section { padding-left: 20px !important; padding-right: 20px !important; }
 
-  /* Hero */
-  .hero-h1 { font-size: 36px !important; letter-spacing: -0.5px !important; line-height: 1.25 !important; }
+  /* Hero H1 — applied directly to h1 element inside hero */
+  h1 { font-size: 36px !important; letter-spacing: -0.5px !important; line-height: 1.3 !important; }
 
   /* Nav */
-  .mob-nav { padding: 0 16px !important; }
+  .mob-nav { padding: 0 16px !important; gap: 12px !important; }
+  .mob-nav a { font-size: 13px !important; }
 
   /* Collapse grids to single column */
   .mob-col1 { grid-template-columns: 1fr !important; gap: 12px !important; }
@@ -116,4 +138,16 @@ nav.nav-shadow { box-shadow: 0 4px 28px rgba(0,0,0,0.28); }
 
   /* Footer */
   .mob-footer { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
+
+  /* Date grid in step 5 */
+  .mob-date-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+
+  /* Contract display — prevent horizontal overflow on small screens */
+  .contract-display-inner { padding: 24px 20px !important; }
+
+  /* Step 1 search results — single column on very small screens */
+  .mob-search-results { grid-template-columns: 1fr !important; }
+
+  /* Profession accordion grid — single col on small screens */
+  .mob-profession-grid { grid-template-columns: 1fr !important; }
 }

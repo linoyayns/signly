@@ -61,6 +61,7 @@ export function downloadContractAsPdf(content: string, filename = "signly-contra
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${filename}</title>
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;900&display=swap" rel="stylesheet">
   <style>
@@ -115,14 +116,20 @@ export function downloadContractAsPdf(content: string, filename = "signly-contra
     hr { border: none; border-top: 1px solid #ddd; margin: 14pt 0; }
     .sig-row { display: flex; gap: 16pt; margin: 14pt 0; }
     .sig-box { flex: 1; border: 1px solid #ccc; border-radius: 6pt; padding: 12pt 14pt; background: #f8fafc; font-size: 10.5pt; line-height: 2; }
+    .print-hint { display: flex; align-items: center; justify-content: center; gap: 12pt; padding: 10pt 16pt; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 8pt; margin-bottom: 20pt; font-size: 10pt; color: #1D4ED8; }
     @page { margin: 20mm 25mm; size: A4; }
+    @media print { .print-hint { display: none; } }
   </style>
 </head>
 <body>
+  <div class="print-hint">
+    <span>מדפיס / שומר כ-PDF...</span>
+    <span style="font-size:9pt; color:#64748B;">לאחר ההדפסה — ניתן לסגור חלון זה</span>
+  </div>
   ${html}
   <script>
     window.onload = function() {
-      setTimeout(function() { window.print(); }, 700);
+      setTimeout(function() { window.print(); }, 900);
     };
   </script>
 </body>

@@ -136,10 +136,12 @@ function ContractContent() {
 
   if (error) {
     return (
-      <main className="min-h-screen flex flex-col items-center justify-center px-6" style={{ backgroundColor: "#F8F9FA" }}>
-        <div className="text-center max-w-md">
-          <p className="text-red-600 font-semibold mb-3">{error}</p>
-          <a href="mailto:service@mysignly.com" className="text-sm text-blue-600 underline">
+      <main dir="rtl" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 24px", backgroundColor: "#F8FAFC", fontFamily: "'Heebo', sans-serif" }}>
+        <div style={{ textAlign: "center", maxWidth: 440 }}>
+          <div style={{ width: 52, height: 52, borderRadius: "50%", background: "#FEE2E2", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: 24 }}>⚠️</div>
+          <p style={{ fontSize: 16, fontWeight: 700, color: "#DC2626", marginBottom: 12 }}>{error}</p>
+          <p style={{ fontSize: 14, color: "#64748B", marginBottom: 20 }}>אם הבעיה חוזרת, פנה לתמיכה ונטפל בזה מיד.</p>
+          <a href="mailto:service@mysignly.com" style={{ display: "inline-block", padding: "10px 24px", background: "#2563EB", color: "white", borderRadius: 8, fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
             פנה לתמיכה
           </a>
         </div>
@@ -148,30 +150,27 @@ function ContractContent() {
   }
 
   return (
-    <main className="min-h-screen flex flex-col" style={{ backgroundColor: "#F8F9FA" }}>
+    <main dir="rtl" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#F8FAFC", fontFamily: "'Heebo', sans-serif" }}>
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-6 py-4 sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto flex justify-between items-center">
-          <span className="text-base font-bold" style={{ color: "#0F1F3D" }}>Signly</span>
-          <div className="flex gap-3">
-            <button
-              onClick={() => downloadContractAsPdf(contract)}
-              className="px-5 py-2 text-sm font-semibold text-white rounded"
-              style={{ backgroundColor: "#2563EB" }}
-            >
-              הורד PDF
-            </button>
-          </div>
+      <header style={{ background: "white", borderBottom: "1px solid #E2E8F0", padding: "14px 24px", position: "sticky", top: 0, zIndex: 10 }}>
+        <div style={{ maxWidth: 800, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <span style={{ fontSize: 18, fontWeight: 900, color: "#0F1F3D" }}>Signly<span style={{ color: "#2563EB" }}>.</span></span>
+          <button
+            onClick={() => downloadContractAsPdf(contract)}
+            style={{ padding: "8px 20px", fontSize: 14, fontWeight: 700, background: "#2563EB", color: "white", border: "none", borderRadius: 8, cursor: "pointer" }}
+          >
+            הורד PDF
+          </button>
         </div>
       </header>
 
-      <section className="flex-1 px-6 py-10">
-        <div className="max-w-3xl mx-auto">
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold mb-1" style={{ color: "#0F1F3D" }}>
+      <section style={{ flex: 1, padding: "40px 24px 60px" }}>
+        <div style={{ maxWidth: 760, margin: "0 auto" }}>
+          <div style={{ marginBottom: 24 }}>
+            <h1 style={{ fontSize: 26, fontWeight: 900, color: "#0F1F3D", marginBottom: 6 }}>
               החוזה שלך מוכן
             </h1>
-            <p className="text-sm text-gray-500 mb-3">
+            <p style={{ fontSize: 14, color: "#64748B", marginBottom: 14 }}>
               קרא את החוזה, הורד כ-PDF, ושלח ללקוח לחתימה.
             </p>
             {emailStatus === "sending" && (
@@ -182,23 +181,22 @@ function ContractContent() {
             )}
             {emailStatus === "sent" && (
               <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#F0FDF4", border: "1px solid #86EFAC", borderRadius: 8, padding: "8px 14px", fontSize: 13, color: "#16A34A" }}>
-                ✓ החוזה נשלח למייל שלך
+                ✓ החוזה נשלח למייל שלך בהצלחה
               </div>
             )}
             {emailStatus === "failed" && (
               <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#FFF7ED", border: "1px solid #FED7AA", borderRadius: 8, padding: "8px 14px", fontSize: 13, color: "#92400E" }}>
-                ⚠️ שליחת המייל נכשלה — הורד את ה-PDF ידנית
+                ⚠️ שליחת המייל נכשלה — הורד את ה-PDF ידנית למטה
               </div>
             )}
           </div>
 
           <ContractDisplay content={contract} />
 
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+          <div style={{ marginTop: 32, display: "flex", flexDirection: "column", gap: 12, alignItems: "stretch", maxWidth: 400, margin: "32px auto 0" }}>
             <button
               onClick={() => downloadContractAsPdf(contract)}
-              className="px-8 py-3 font-semibold text-white rounded text-center"
-              style={{ backgroundColor: "#2563EB" }}
+              style={{ padding: "14px 32px", fontSize: 16, fontWeight: 700, background: "#2563EB", color: "white", border: "none", borderRadius: 10, cursor: "pointer", textAlign: "center" }}
             >
               הורד PDF
             </button>
@@ -212,10 +210,13 @@ function ContractContent() {
                 a.click();
                 URL.revokeObjectURL(url);
               }}
-              className="px-8 py-3 font-semibold rounded text-center border border-gray-300 text-gray-700"
+              style={{ padding: "12px 32px", fontSize: 15, fontWeight: 600, background: "white", color: "#374151", border: "1.5px solid #E2E8F0", borderRadius: 10, cursor: "pointer", textAlign: "center" }}
             >
-              הורד טקסט
+              הורד כקובץ טקסט
             </button>
+            <p style={{ textAlign: "center", fontSize: 12, color: "#94A3B8", marginTop: 4 }}>
+              שאלות? <a href="mailto:service@mysignly.com" style={{ color: "#2563EB", textDecoration: "none" }}>service@mysignly.com</a>
+            </p>
           </div>
         </div>
       </section>

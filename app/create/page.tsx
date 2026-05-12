@@ -1302,7 +1302,7 @@ export default function CreatePage() {
             <>
               <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 1 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>מה המקצוע שלך?</h2>
-              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 16 }}>חפשי לפי שם, או פתחי קטגוריה.</p>
+              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 16 }}>חפש/י לפי שם, או פתח/י קטגוריה.</p>
 
               {/* Search box */}
               <div style={{ position: "relative", marginBottom: 20 }}>
@@ -1332,7 +1332,7 @@ export default function CreatePage() {
                 (() => {
                   const results = searchProfessions(professionSearch);
                   return results.length > 0 ? (
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8, marginBottom: 8 }}>
+                    <div className="mob-search-results" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8, marginBottom: 8 }}>
                       {results.map((id) => {
                         const prof = PROFESSIONS.find(p => p.id === id);
                         if (!prof) return null;
@@ -1374,7 +1374,7 @@ export default function CreatePage() {
                       </button>
                       {/* Profession list */}
                       {isOpen && (
-                        <div style={{ padding: "4px 12px 12px", display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 7, borderTop: "1px solid #F1F5F9" }}>
+                        <div className="mob-profession-grid" style={{ padding: "4px 12px 12px", display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 7, borderTop: "1px solid #F1F5F9" }}>
                           {catProfs.map((id) => {
                             const prof = PROFESSIONS.find(p => p.id === id);
                             if (!prof) return null;
@@ -1446,12 +1446,12 @@ export default function CreatePage() {
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 28 }}>מה שלא כתוב בחוזה — הלקוח יכול לטעון שסיכמתם עליו.</p>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>תיאור הפרויקט — מה כלול?</label>
-                <textarea className="signly-field" style={{ ...inputStyle, minHeight: 100 }} placeholder={`לדוגמה: ${projectExamples.description}`} value={data.projectDescription} onChange={(e) => update("projectDescription", e.target.value)} />
+                <textarea className="signly-field" style={{ ...inputStyle, minHeight: 120 }} placeholder={`לדוגמה: ${projectExamples.description}`} value={data.projectDescription} onChange={(e) => update("projectDescription", e.target.value)} />
                 <UseSuggestion field="projectDescription" value={projectExamples.description} />
               </div>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>מה לא כלול?</label>
-                <span style={{ fontSize: 12, color: "#64748B", display: "block", marginBottom: 6 }}>ככל שתהיה יותר ספציפי — כך פחות אי-הבנות בהמשך</span>
+                <span style={{ fontSize: 12, color: "#64748B", display: "block", marginBottom: 6 }}>ככל שתהיה יותר ספציפי/ת — כך פחות אי-הבנות בהמשך</span>
                 <textarea className="signly-field" style={{ ...inputStyle, minHeight: 80 }} placeholder={`לדוגמה: ${projectExamples.exclusions}`} value={data.projectExclusions} onChange={(e) => update("projectExclusions", e.target.value)} />
                 <UseSuggestion field="projectExclusions" value={projectExamples.exclusions} />
               </div>
@@ -1567,7 +1567,7 @@ export default function CreatePage() {
                 </div>
               </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
+              <div className="mob-date-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
                 <div>
                   <label style={labelStyle}>{datesConfig.startLabel}</label>
                   <input className="signly-field" style={inputStyle} type="date" value={data.startDate} onChange={(e) => update("startDate", e.target.value)} />
@@ -1674,6 +1674,7 @@ export default function CreatePage() {
                   <div style={fieldGroupStyle}>
                     <label style={labelStyle}>הגדר/י את התנאי בחוזה</label>
                     <textarea
+                      className="signly-field"
                       style={{ ...inputStyle, minHeight: 100 }}
                       placeholder={protectionConfig.placeholder}
                       value={data.protectionAnswer}
@@ -1696,8 +1697,9 @@ export default function CreatePage() {
                 <label style={labelStyle}>הבקשות המיוחדות שלך</label>
                 <span style={{ fontSize: 12, color: "#64748B", display: "block", marginBottom: 6 }}>כל בקשה בשורה נפרדת, בשפה שלך</span>
                 <textarea
+                  className="signly-field"
                   style={{ ...inputStyle, minHeight: 120 }}
-                  placeholder={"לדוגמה:\n- אני רוצה סעיף כוח עליון — מלחמה, אסון טבע\n- אם הקבצים יאבדו בכשל טכני שאינו באשמתי — לא אחראית\n- אני רוצה לשמור את הזכות להציג את העבודה בתיק שלי"}
+                  placeholder={"לדוגמה:\n- אני רוצה סעיף כוח עליון — מלחמה, אסון טבע\n- אם הקבצים יאבדו בכשל טכני שאינו באשמתי — לא אחראי/ת\n- אני רוצה לשמור את הזכות להציג את העבודה בתיק שלי"}
                   value={data.specialRequests}
                   onChange={(e) => update("specialRequests", e.target.value)}
                 />
@@ -1732,9 +1734,9 @@ export default function CreatePage() {
                 <div key={title} style={{ border: "1px solid #E2E8F0", borderRadius: 12, padding: "20px", marginBottom: 16 }}>
                   <p style={{ fontSize: 13, fontWeight: 700, color: "#64748B", marginBottom: 12, textTransform: "uppercase", letterSpacing: 0.5 }}>{title}</p>
                   {rows.map(([key, val]) => val && (
-                    <div key={key} style={{ display: "flex", justifyContent: "space-between", fontSize: 14, padding: "6px 0", borderBottom: "1px solid #F1F5F9" }}>
-                      <span style={{ color: "#64748B" }}>{key}</span>
-                      <span style={{ fontWeight: 600, color: "#0F172A", maxWidth: "60%", textAlign: "left" }}>{val}</span>
+                    <div key={key} style={{ display: "flex", justifyContent: "space-between", fontSize: 14, padding: "6px 0", borderBottom: "1px solid #F1F5F9", gap: 12 }}>
+                      <span style={{ color: "#64748B", flexShrink: 0 }}>{key}</span>
+                      <span style={{ fontWeight: 600, color: "#0F172A", maxWidth: "60%", textAlign: "right", direction: "rtl" }}>{val}</span>
                     </div>
                   ))}
                 </div>
@@ -1931,14 +1933,15 @@ export default function CreatePage() {
 
       {/* BOTTOM BAR */}
       <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, background: "white", borderTop: "1px solid #E2E8F0", zIndex: 50 }}>
-        {!valid && currentStep < TOTAL_STEPS && (
+        {(!valid || (currentStep === TOTAL_STEPS && (!data.deliveryEmail.trim() || !agreedToTerms))) && (
           <div style={{ background: "#FFF7ED", borderBottom: "1px solid #FED7AA", padding: "8px 24px", textAlign: "center", fontSize: 13, color: "#92400E" }}>
-            {currentStep === 1 && "בחרי מקצוע כדי להמשיך"}
-            {currentStep === 2 && "הכניסי לפחות את שמך כדי להמשיך"}
-            {currentStep === 3 && "תארי את הפרויקט ומה לא כלול בו"}
-            {currentStep === 4 && "מלאי מחיר, בחרי אפשרות מע\"מ ותאריך תשלום"}
-            {currentStep === 5 && "בחרי לפחות תאריך מסירה / סיום"}
-            {currentStep === 8 && "הכניסי מייל לקבלת החוזה ואשרי את התנאים"}
+            {currentStep === 1 && "יש לבחור מקצוע כדי להמשיך"}
+            {currentStep === 2 && "יש להזין לפחות את שמך כדי להמשיך"}
+            {currentStep === 3 && "יש לתאר את הפרויקט ומה לא כלול בו"}
+            {currentStep === 4 && "יש למלא מחיר, לבחור אפשרות מע\"מ ומועד תשלום"}
+            {currentStep === 5 && "יש לבחור לפחות תאריך מסירה / סיום"}
+            {currentStep === TOTAL_STEPS && !data.deliveryEmail.trim() && "יש להזין כתובת מייל לקבלת החוזה"}
+            {currentStep === TOTAL_STEPS && data.deliveryEmail.trim() && !agreedToTerms && "יש לאשר את תנאי השימוש ומדיניות הפרטיות"}
           </div>
         )}
         <div style={{ padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>

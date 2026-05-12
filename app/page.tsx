@@ -11,10 +11,10 @@ export default function HomePage() {
           <span style={{ fontSize: 20, fontWeight: 900, color: "white" }}>
             Signly<span style={{ color: "#2563EB" }}>.</span>
           </span>
-          <Link href="#how" style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>
+          <Link href="#how" className="nav-link" style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", textDecoration: "none", transition: "color 0.15s ease" }}>
             איך זה עובד
           </Link>
-          <Link href="#pricing" style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>
+          <Link href="#pricing" className="nav-link" style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", textDecoration: "none", transition: "color 0.15s ease" }}>
             תמחור
           </Link>
           <Link
@@ -33,7 +33,7 @@ export default function HomePage() {
             <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#2563EB", display: "inline-block" }} />
             חוזים לפרילנסרים ישראלים
           </div>
-          <h1 style={{ fontSize: 52, fontWeight: 900, lineHeight: 1.2, letterSpacing: -1.5, color: "#0F172A", marginBottom: 24 }}>
+          <h1 style={{ fontSize: 52, fontWeight: 900, lineHeight: 1.2, letterSpacing: -1.5, color: "#0F172A", marginBottom: 24, wordBreak: "keep-all" }}>
             <span className="hero-line hero-line-1">שלחת הצעה.</span>
             <span className="hero-line hero-line-2">הלקוח אישר.</span>
             <span className="hero-line hero-line-3" style={{ color: "#2563EB" }}>ואין לך חוזה.</span>
@@ -232,7 +232,7 @@ export default function HomePage() {
           <div style={{ textAlign: "center", marginBottom: 48 }}>
             <div style={{ fontSize: 12, fontWeight: 800, color: "#2563EB", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>פרילנסרים שכבר השתמשו</div>
             <h2 style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5, marginBottom: 10 }}>מה הם אומרים.</h2>
-            <p style={{ fontSize: 13, color: "#94A3B8" }}>מה אנשים אמרו אחרי שהשתמשו</p>
+            <p style={{ fontSize: 13, color: "#94A3B8" }}>פרילנסרים שכבר עובדים עם חוזה</p>
           </div>
           <div className="mob-testimonials" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20 }}>
             {[
@@ -339,6 +339,7 @@ export default function HomePage() {
             </div>
             <Link
               href="/create"
+              className="btn-glow"
               style={{ display: "block", width: "100%", padding: "16px", fontSize: 17, fontWeight: 700, background: "#2563EB", color: "white", borderRadius: 10, textDecoration: "none", textAlign: "center" }}
             >
               צור את החוזה שלי עכשיו
@@ -398,9 +399,10 @@ export default function HomePage() {
           </p>
           <Link
             href="/create"
+            className="btn-glow"
             style={{ display: "inline-block", padding: "18px 40px", fontSize: 18, fontWeight: 700, background: "white", color: "#0F172A", borderRadius: 10, textDecoration: "none" }}
           >
-            קחו אותי לשאלון ←
+            צור את החוזה שלי ←
           </Link>
         </div>
       </section>

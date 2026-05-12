@@ -101,14 +101,17 @@ export default function ContractDisplay({ content }: ContractDisplayProps) {
   return (
     <div
       dir="rtl"
+      className="contract-display-inner"
       style={{
         background: "white",
         border: "1px solid #E2E8F0",
-        borderRadius: 10,
+        borderRadius: 12,
         padding: "36px 40px",
         fontFamily: "'Heebo', Arial, sans-serif",
         maxWidth: 720,
         margin: "0 auto",
+        textAlign: "right",
+        overflowX: "hidden",
       }}
     >
       {elements}
