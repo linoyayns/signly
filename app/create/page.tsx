@@ -28,6 +28,7 @@ interface FormData {
   projectDescription: string;
   projectExclusions: string;
   totalPrice: string;
+  paymentFrequency: "one-time" | "monthly" | "quarterly" | "annual" | null;
   hasDeposit: boolean | null;
   depositPercent: string;
   vat: VatType;
@@ -37,6 +38,8 @@ interface FormData {
   signingDate: string;
   startDate: string;
   deliveryDate: string;
+  engagementDuration: "specific-date" | "1-month" | "3-months" | "6-months" | "1-year" | "open" | null;
+  noticePeriod: string;
   delayConditions: string;
   freelancerDelay: string;
   revisionsIncluded: string;
@@ -1103,6 +1106,28 @@ const PAYMENT_TIMING_CONFIG: Record<Profession, string> = {
   other:               "לפי הסכמה בין הצדדים",
 };
 
+// Professions that typically have ongoing/recurring engagements
+const ONGOING_PROFESSIONS: Profession[] = [
+  "socialMedia", "consultant", "developer", "coach", "sportsInstructor",
+  "tutor", "psychologist", "gardener", "kindergarten", "nightNurse",
+  "sleepConsultant", "lactationConsultant",
+];
+
+// Default payment frequency per profession
+const DEFAULT_PAYMENT_FREQUENCY: Record<Profession, FormData["paymentFrequency"]> = {
+  photographer: "one-time", designer: "one-time", writer: "one-time",
+  consultant: "monthly", developer: "one-time", videoEditor: "one-time",
+  socialMedia: "monthly", coach: "one-time", sportsInstructor: "monthly",
+  tutor: "monthly", psychologist: "one-time", interiorDesigner: "one-time",
+  architect: "one-time", musician: "one-time", translator: "one-time",
+  beauty: "one-time", privateChef: "one-time", kindergarten: "monthly",
+  gardener: "monthly", renovation: "one-time", producer: "one-time",
+  eventManager: "one-time", artist: "one-time", productSeller: "one-time",
+  influencer: "one-time", jewelryDesigner: "one-time", ceramicist: "one-time",
+  doula: "one-time", lactationConsultant: "one-time", sleepConsultant: "one-time",
+  nightNurse: "monthly", other: "one-time",
+};
+
 const STEP_LABELS = [
   "מקצוע",
   "פרטי הצדדים",
@@ -1125,6 +1150,7 @@ const initialData: FormData = {
   projectDescription: "",
   projectExclusions: "",
   totalPrice: "",
+  paymentFrequency: null,
   hasDeposit: null,
   depositPercent: "",
   vat: null,
@@ -1134,6 +1160,8 @@ const initialData: FormData = {
   signingDate: "",
   startDate: "",
   deliveryDate: "",
+  engagementDuration: null,
+  noticePeriod: "",
   delayConditions: "",
   freelancerDelay: "",
   revisionsIncluded: "",
@@ -1207,9 +1235,11 @@ export default function CreatePage() {
   const update = (field: keyof FormData, value: string | boolean | null) => {
     setData((prev) => {
       const next = { ...prev, [field]: value } as FormData;
-      // Auto-fill latePayment when profession is selected
+      // Auto-fill latePayment + paymentFrequency when profession is selected
       if (field === "profession" && value) {
-        next.latePayment = LATE_PAYMENT_CONFIG[value as Profession] ?? "";
+        const prof = value as Profession;
+        next.latePayment = LATE_PAYMENT_CONFIG[prof] ?? "";
+        next.paymentFrequency = DEFAULT_PAYMENT_FREQUENCY[prof] ?? null;
       }
       return next;
     });
@@ -1299,15 +1329,12 @@ export default function CreatePage() {
   // Reusable "use suggestion" button — shown only when field is empty
   const UseSuggestion = ({ field, value }: { field: keyof FormData; value: string }) =>
     !data[field] ? (
-      <div style={{ marginTop: 10, background: "#F8FAFC", border: "1px dashed #CBD5E1", borderRadius: 8, padding: "10px 14px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-        <p style={{ fontSize: 13, color: "#374151", margin: 0, lineHeight: 1.5, flex: 1 }}>{value}</p>
-        <button
-          onClick={() => update(field, value)}
-          style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 6, color: "#2563EB", fontSize: 12, fontWeight: 700, cursor: "pointer", padding: "6px 12px", whiteSpace: "nowrap", flexShrink: 0 }}
-        >
-          השתמש בדוגמה הכתובה
-        </button>
-      </div>
+      <button
+        onClick={() => update(field, value)}
+        style={{ display: "inline-flex", alignItems: "center", gap: 5, marginTop: 8, background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 6, color: "#2563EB", fontSize: 12, fontWeight: 700, cursor: "pointer", padding: "6px 12px" }}
+      >
+        השתמש בדוגמה הכתובה
+      </button>
     ) : null;
 
   return (
@@ -1557,7 +1584,25 @@ export default function CreatePage() {
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>תשלום ותנאים</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 28 }}>מה שמוגדר בכתב — לא יכול להיות שנוי במחלוקת.</p>
               <div style={fieldGroupStyle}>
-                <label style={labelStyle}>מחיר כולל (₪)</label>
+                <label style={labelStyle}>תדירות תשלום</label>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 4 }}>
+                  {([
+                    { val: "one-time",  label: "חד פעמי" },
+                    { val: "monthly",   label: "חודשי" },
+                    { val: "quarterly", label: "רבעוני" },
+                    { val: "annual",    label: "שנתי" },
+                  ] as { val: FormData["paymentFrequency"]; label: string }[]).map(({ val, label }) => (
+                    <button key={val!} type="button"
+                      onClick={() => update("paymentFrequency", val)}
+                      style={{ padding: "8px 18px", borderRadius: 8, border: `1.5px solid ${data.paymentFrequency === val ? "#2563EB" : "#E2E8F0"}`, background: data.paymentFrequency === val ? "#EFF6FF" : "white", color: data.paymentFrequency === val ? "#2563EB" : "#374151", fontWeight: data.paymentFrequency === val ? 700 : 500, fontSize: 14, cursor: "pointer" }}
+                    >
+                      {data.paymentFrequency === val ? "✓ " : ""}{label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div style={fieldGroupStyle}>
+                <label style={labelStyle}>{data.paymentFrequency === "monthly" ? "מחיר חודשי (₪)" : data.paymentFrequency === "quarterly" ? "מחיר רבעוני (₪)" : data.paymentFrequency === "annual" ? "מחיר שנתי (₪)" : "מחיר (₪)"}</label>
                 <input className="signly-field" style={inputStyle} type="number" placeholder="5000" value={data.totalPrice} onChange={(e) => update("totalPrice", e.target.value)} />
               </div>
               <div style={fieldGroupStyle}>
@@ -1649,16 +1694,60 @@ export default function CreatePage() {
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>מתי ולמתי?</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 20 }}>תאריך מסירה שלא כתוב בחוזה — לא מחייב אף אחד.</p>
 
-              <div className="mob-date-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
-                <div>
-                  <label style={labelStyle}>{datesConfig.startLabel}</label>
-                  <input className="signly-field" style={inputStyle} type="date" value={data.startDate} onChange={(e) => update("startDate", e.target.value)} />
+              <div style={fieldGroupStyle}>
+                <label style={labelStyle}>{datesConfig.startLabel}</label>
+                <input className="signly-field" style={inputStyle} type="date" value={data.startDate} onChange={(e) => update("startDate", e.target.value)} />
+              </div>
+
+              {/* End date — ongoing professions get duration picker, one-time get date picker */}
+              {profession && ONGOING_PROFESSIONS.includes(profession) ? (
+                <div style={fieldGroupStyle}>
+                  <label style={labelStyle}>משך ההתקשרות</label>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 4 }}>
+                    {([
+                      { val: "1-month",      label: "חודש" },
+                      { val: "3-months",     label: "3 חודשים" },
+                      { val: "6-months",     label: "6 חודשים" },
+                      { val: "1-year",       label: "שנה" },
+                      { val: "open",         label: "פתוח (עד הודעה חדשה)" },
+                      { val: "specific-date",label: "תאריך ספציפי" },
+                    ] as { val: FormData["engagementDuration"]; label: string }[]).map(({ val, label }) => {
+                      const sel = data.engagementDuration === val;
+                      return (
+                        <button key={val!} type="button"
+                          onClick={() => {
+                            update("engagementDuration", val);
+                            if (val !== "specific-date" && data.startDate) {
+                              const start = new Date(data.startDate);
+                              let end: Date | null = null;
+                              if (val === "1-month")   { end = new Date(start); end.setMonth(end.getMonth() + 1); }
+                              if (val === "3-months")  { end = new Date(start); end.setMonth(end.getMonth() + 3); }
+                              if (val === "6-months")  { end = new Date(start); end.setMonth(end.getMonth() + 6); }
+                              if (val === "1-year")    { end = new Date(start); end.setFullYear(end.getFullYear() + 1); }
+                              if (end) update("deliveryDate", end.toISOString().split("T")[0]);
+                              if (val === "open")      update("deliveryDate", "");
+                            }
+                          }}
+                          style={{ padding: "8px 14px", borderRadius: 8, border: `1.5px solid ${sel ? "#2563EB" : "#E2E8F0"}`, background: sel ? "#EFF6FF" : "white", color: sel ? "#2563EB" : "#374151", fontWeight: sel ? 700 : 500, fontSize: 13, cursor: "pointer" }}
+                        >
+                          {sel ? "✓ " : ""}{label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {data.engagementDuration === "specific-date" && (
+                    <input className="signly-field" style={{ ...inputStyle, marginTop: 10 }} type="date" value={data.deliveryDate} onChange={(e) => update("deliveryDate", e.target.value)} />
+                  )}
+                  {data.deliveryDate && data.engagementDuration !== "specific-date" && data.engagementDuration !== "open" && (
+                    <p style={{ fontSize: 12, color: "#16A34A", marginTop: 8 }}>✓ תאריך סיום: {new Date(data.deliveryDate).toLocaleDateString("he-IL")}</p>
+                  )}
                 </div>
-                <div>
+              ) : (
+                <div style={fieldGroupStyle}>
                   <label style={labelStyle}>{datesConfig.endLabel}</label>
                   <input className="signly-field" style={inputStyle} type="date" value={data.deliveryDate} onChange={(e) => update("deliveryDate", e.target.value)} />
                 </div>
-              </div>
+              )}
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>{delaysConfig.clientLabel}</label>
                 <span style={{ fontSize: 12, color: "#64748B", display: "block", marginBottom: 6 }}>{delaysConfig.clientHint}</span>
@@ -1700,19 +1789,61 @@ export default function CreatePage() {
           {currentStep === 6 && (
             <>
               <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 6 מתוך 8</span>
-              <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>מה קורה בביטול?</h2>
-              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 12 }}>לא נעים לחשוב על זה — אבל עדיף לסכם מראש מאשר להתווכח אחרי.</p>
-              <p style={{ fontSize: 13, color: "#94A3B8", marginBottom: 20 }}>אם לא רלוונטי — אפשר לדלג.</p>
-              <div style={fieldGroupStyle}>
-                <label style={labelStyle}>ביטול מצד הלקוח — מה קורה?</label>
-                <input className="signly-field" style={inputStyle} placeholder="המקדמה אינה מוחזרת. עבודה שבוצעה תחויב לפי יחס שעות." value={data.clientCancellation} onChange={(e) => update("clientCancellation", e.target.value)} />
-                <UseSuggestion field="clientCancellation" value="המקדמה אינה מוחזרת. עבודה שבוצעה תחויב לפי יחס שעות." />
-              </div>
-              <div style={fieldGroupStyle}>
-                <label style={labelStyle}>ביטול מצדך — מה קורה?</label>
-                <input className="signly-field" style={inputStyle} placeholder="החזר מלא של כל סכום ששולם, תוך 7 ימי עסקים." value={data.freelancerCancellation} onChange={(e) => update("freelancerCancellation", e.target.value)} />
-                <UseSuggestion field="freelancerCancellation" value="החזר מלא של כל סכום ששולם, תוך 7 ימי עסקים." />
-              </div>
+              {profession && ONGOING_PROFESSIONS.includes(profession) ? (
+                <>
+                  <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>איך מסיימים את ההתקשרות?</h2>
+                  <p style={{ fontSize: 14, color: "#64748B", marginBottom: 20 }}>כשעובדים ביחד לאורך זמן — חשוב לדעת מה נחשב סיום מוסכם ומה קורה אז.</p>
+
+                  <div style={fieldGroupStyle}>
+                    <label style={labelStyle}>כמה זמן מראש צריך להודיע על סיום?</label>
+                    <span style={{ fontSize: 12, color: "#64748B", display: "block", marginBottom: 8 }}>שני הצדדים מחויבים להודיע מראש — כדי שיהיה זמן להיערך</span>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                      {["שבועיים", "חודש", "45 יום", "שני חודשים"].map((opt) => {
+                        const sel = data.noticePeriod === opt;
+                        return (
+                          <button key={opt} type="button" onClick={() => update("noticePeriod", opt)}
+                            style={{ padding: "8px 16px", borderRadius: 8, border: `1.5px solid ${sel ? "#2563EB" : "#E2E8F0"}`, background: sel ? "#EFF6FF" : "white", color: sel ? "#2563EB" : "#374151", fontWeight: sel ? 700 : 500, fontSize: 13, cursor: "pointer" }}
+                          >
+                            {sel ? "✓ " : ""}{opt}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {data.noticePeriod && (
+                      <p style={{ fontSize: 12, color: "#64748B", marginTop: 8 }}>כל צד יכול לסיים את ההתקשרות בהודעה מוקדמת של {data.noticePeriod}.</p>
+                    )}
+                  </div>
+
+                  <div style={fieldGroupStyle}>
+                    <label style={labelStyle}>סיום מצד הלקוח — מה קורה?</label>
+                    <span style={{ fontSize: 12, color: "#64748B", display: "block", marginBottom: 6 }}>למשל: הלקוח מחליט לסיים שיתוף הפעולה לפני תום התקופה</span>
+                    <input className="signly-field" style={inputStyle} placeholder="עבודה שבוצעה עד מועד הסיום תחויב במלואה. לא יינתן החזר על תקופה ששולמה מראש." value={data.clientCancellation} onChange={(e) => update("clientCancellation", e.target.value)} />
+                    <UseSuggestion field="clientCancellation" value="עבודה שבוצעה עד מועד הסיום תחויב במלואה. לא יינתן החזר על תקופה ששולמה מראש." />
+                  </div>
+                  <div style={fieldGroupStyle}>
+                    <label style={labelStyle}>סיום מצדך — מה קורה?</label>
+                    <span style={{ fontSize: 12, color: "#64748B", display: "block", marginBottom: 6 }}>למשל: את/ה מחליט/ה לסיים לתת את השירות</span>
+                    <input className="signly-field" style={inputStyle} placeholder="החזר יחסי עבור תקופה ששולמה ולא בוצעה. מסירת כל חומרי העבודה עד לתאריך הסיום." value={data.freelancerCancellation} onChange={(e) => update("freelancerCancellation", e.target.value)} />
+                    <UseSuggestion field="freelancerCancellation" value="החזר יחסי עבור תקופה ששולמה ולא בוצעה. מסירת כל חומרי העבודה עד לתאריך הסיום." />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>מה קורה בביטול?</h2>
+                  <p style={{ fontSize: 14, color: "#64748B", marginBottom: 12 }}>לא נעים לחשוב על זה — אבל עדיף לסכם מראש מאשר להתווכח אחרי.</p>
+                  <p style={{ fontSize: 13, color: "#94A3B8", marginBottom: 20 }}>אם לא רלוונטי — אפשר לדלג.</p>
+                  <div style={fieldGroupStyle}>
+                    <label style={labelStyle}>ביטול מצד הלקוח — מה קורה?</label>
+                    <input className="signly-field" style={inputStyle} placeholder="המקדמה אינה מוחזרת. עבודה שבוצעה תחויב לפי יחס שעות." value={data.clientCancellation} onChange={(e) => update("clientCancellation", e.target.value)} />
+                    <UseSuggestion field="clientCancellation" value="המקדמה אינה מוחזרת. עבודה שבוצעה תחויב לפי יחס שעות." />
+                  </div>
+                  <div style={fieldGroupStyle}>
+                    <label style={labelStyle}>ביטול מצדך — מה קורה?</label>
+                    <input className="signly-field" style={inputStyle} placeholder="החזר מלא של כל סכום ששולם, תוך 7 ימי עסקים." value={data.freelancerCancellation} onChange={(e) => update("freelancerCancellation", e.target.value)} />
+                    <UseSuggestion field="freelancerCancellation" value="החזר מלא של כל סכום ששולם, תוך 7 ימי עסקים." />
+                  </div>
+                </>
+              )}
 
               {/* Ownership — only shown for professions that deliver a creative/digital product */}
               {profession && ["photographer","designer","writer","developer","videoEditor","socialMedia","musician","translator","interiorDesigner","architect","producer","artist","productSeller","influencer","jewelryDesigner","ceramicist","other"].includes(profession) && (
@@ -1773,23 +1904,54 @@ export default function CreatePage() {
                 </>
               )}
               <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>יש סעיפים שחשוב לך להוסיף?</h3>
-              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 16 }}>כתוב/י בשפה שלך — המערכת תפענח ותהפוך לסעיף משפטי מנוסח. לא חובה.</p>
-              <div style={{ background: "#F0FDF4", border: "1px solid #86EFAC", borderRadius: 12, padding: "16px 18px", display: "flex", gap: 12, marginBottom: 24 }}>
-                <span style={{ fontSize: 20 }}>💡</span>
-                <p style={{ fontSize: 13, color: "#166534", lineHeight: 1.6 }}>
-                  <strong>מה אפשר לבקש?</strong> הגנה במקרה מלחמה / כוח עליון, מה קורה אם הקבצים נמחקים, סעיף סודיות, אי-תחרות, זיכוי פרסומי, שימוש בעבודה בתיק העבודות שלי — ועוד.
-                </p>
-              </div>
+              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 16 }}>לחץ/י על מה שרלוונטי — ויתווסף אוטומטית. אפשר גם לכתוב בשפה שלך. לא חובה.</p>
+
+              {/* Quick-add chips */}
+              {(() => {
+                const isOngoing = profession && ONGOING_PROFESSIONS.includes(profession);
+                const hasFiles = profession && ["photographer","designer","writer","developer","videoEditor","musician","translator","artist","influencer","socialMedia"].includes(profession);
+                const chips = [
+                  { label: "כוח עליון (מלחמה, אסון טבע)", text: "- סעיף כוח עליון: אירועים חריגים כגון מלחמה, שביתה, אסון טבע — יאפשרו דחיית מועדים ללא פיצוי לאף צד" },
+                  { label: "סודיות", text: "- סעיף סודיות: הלקוח מתחייב לא לחשוף מידע על שיתוף הפעולה ללא אישורי בכתב" },
+                  ...(hasFiles ? [{ label: "שמירת עבודות בתיק", text: "- אני שומר/ת את הזכות להציג את העבודה בתיק העבודות שלי ובפרופיל המקצועי שלי" }] : []),
+                  ...(hasFiles ? [{ label: "כשל טכני", text: "- נזק לקבצים בשל כשל טכני שאינו באשמתי (קריסת דיסק, תקלת ענן) — אינו מקנה זכות לפיצוי" }] : []),
+                  ...(isOngoing ? [{ label: "אי-תחרות", text: "- במהלך ההתקשרות ובמשך 6 חודשים לאחר סיומה — הלקוח לא יגייס ישירות עובדים שהמלצתי עליהם" }] : []),
+                  { label: "ריבית פיגורים", text: "- תשלום שיאחר מעל 14 יום יישא ריבית פיגורים של 1.5% לחודש על הסכום הפתוח" },
+                  { label: "סמכות שיפוט ישראלית", text: "- כל סכסוך יידון בבתי המשפט בישראל בלבד, על פי הדין הישראלי" },
+                ];
+                return (
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
+                    {chips.map(({ label, text }) => {
+                      const active = data.specialRequests.includes(text.replace("- ", "").split(":")[0]);
+                      return (
+                        <button
+                          key={label}
+                          type="button"
+                          onClick={() => {
+                            if (!data.specialRequests.includes(text.trim().replace(/^- /, ""))) {
+                              update("specialRequests", data.specialRequests ? `${data.specialRequests}\n${text}` : text);
+                            }
+                          }}
+                          style={{ padding: "7px 14px", borderRadius: 20, border: `1.5px solid ${active ? "#2563EB" : "#E2E8F0"}`, background: active ? "#EFF6FF" : "white", color: active ? "#2563EB" : "#374151", fontSize: 13, fontWeight: active ? 700 : 400, cursor: "pointer" }}
+                        >
+                          {active ? "✓ " : "+ "}{label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
+
               <div style={fieldGroupStyle}>
-                <label style={labelStyle}>הבקשות המיוחדות שלך</label>
+                <label style={labelStyle}>בקשות נוספות שלך</label>
                 <span style={{ fontSize: 12, color: "#64748B", display: "block", marginBottom: 6 }}>כל בקשה בשורה נפרדת, בשפה שלך</span>
                 <textarea
                   className="signly-field"
-                  style={{ ...inputStyle, minHeight: 120 }}
+                  style={{ ...inputStyle, minHeight: 100 }}
                   placeholder={profession && ["coach","psychologist","tutor","sportsInstructor","consultant","doula","lactationConsultant","sleepConsultant","nightNurse","beauty","privateChef","kindergarten","gardener","eventManager"]
                     .includes(profession)
-                    ? "לדוגמה:\n- אני רוצה סעיף כוח עליון — מלחמה, אסון טבע\n- סעיף סודיות — הלקוח לא יזכיר שעבד איתי ברשתות החברתיות ללא אישורי\n- הגנה במקרה שהלקוח מבטל בלי סיבה סמוך לתאריך"
-                    : "לדוגמה:\n- אני רוצה סעיף כוח עליון — מלחמה, אסון טבע\n- אם הקבצים יאבדו בכשל טכני שאינו באשמתי — לא אחראי/ת\n- אני רוצה לשמור את הזכות להציג את העבודה בתיק שלי"}
+                    ? "- סעיף שרלוונטי ספציפית לעבודה שלי..."
+                    : "- משהו שלא נמצא למעלה..."}
                   value={data.specialRequests}
                   onChange={(e) => update("specialRequests", e.target.value)}
                 />

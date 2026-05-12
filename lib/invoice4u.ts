@@ -11,8 +11,14 @@ export async function createClearingRequest({
   email: string;
   returnUrl: string;
 }) {
+  const apiKey = process.env.INVOICE4U_API_KEY;
+  if (!apiKey) {
+    console.error("[Invoice4U] INVOICE4U_API_KEY is not set!");
+    return { Errors: ["שגיאת הגדרות שרת: מפתח API חסר — פנה לתמיכה"] };
+  }
+
   const clearingRequest = {
-    Invoice4UUserApiKey: process.env.INVOICE4U_API_KEY,
+    Invoice4UUserApiKey: apiKey,
     Type: 1,
     Sum: sum,
     FullName: fullName,
@@ -27,12 +33,12 @@ export async function createClearingRequest({
     DocLanguage: "he",
   };
 
-  console.log("[Invoice4U] Request:", JSON.stringify({ ...clearingRequest, Invoice4UUserApiKey: "***" }));
+  console.log("[Invoice4U] API key present:", !!apiKey, "| Request:", JSON.stringify({ ...clearingRequest, Invoice4UUserApiKey: "***" }));
 
   const res = await fetch(`${API_BASE}/ProcessApiRequestV2`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ apiClearingRequest: clearingRequest }),
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+    body: JSON.stringify(clearingRequest),
   });
 
   const text = await res.text();
