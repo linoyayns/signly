@@ -2,15 +2,15 @@ import { NextResponse } from "next/server";
 
 const API_BASE = "https://api.invoice4u.co.il/Services/ApiService.svc";
 
-async function tryPost(label: string, body: unknown, headers: Record<string, string> = {}) {
+async function tryPost(label: string, url: string, body: unknown, contentType = "application/json") {
   try {
-    const res = await fetch(`${API_BASE}/ProcessApiRequestV2`, {
+    const res = await fetch(url, {
       method: "POST",
-      headers: { "Content-Type": "application/json", ...headers },
+      headers: { "Content-Type": contentType },
       body: JSON.stringify(body),
     });
     const text = await res.text();
-    return { format: label, status: res.status, response: text.slice(0, 600) };
+    return { format: label, status: res.status, response: text.slice(0, 800) };
   } catch (e) {
     return { format: label, error: String(e) };
   }
@@ -18,88 +18,72 @@ async function tryPost(label: string, body: unknown, headers: Record<string, str
 
 export async function GET() {
   const apiKey = process.env.INVOICE4U_API_KEY;
-
-  if (!apiKey) {
-    return NextResponse.json({ error: "API key missing from env" }, { status: 500 });
-  }
-
-  // Debug: show key details
-  const keyDebug = {
-    length: apiKey.length,
-    prefix: apiKey.slice(0, 8),
-    suffix: apiKey.slice(-4),
-    hasNewline: apiKey.includes("\n"),
-    hasSpace: apiKey.includes(" "),
-    trimmedLength: apiKey.trim().length,
-  };
+  if (!apiKey) return NextResponse.json({ error: "API key missing" }, { status: 500 });
 
   const cleanKey = apiKey.trim();
 
+  const keyDebug = {
+    length: cleanKey.length,
+    prefix: cleanKey.slice(0, 8),
+    suffix: cleanKey.slice(-4),
+    hasNewline: apiKey.includes("\n"),
+    hasSpace: apiKey.includes(" "),
+  };
+
   const attempts = await Promise.all([
-    // 1. Standard: Invoice4UUserApiKey (current)
-    tryPost("Invoice4UUserApiKey (current)", {
+    // 1. Verify the API key works at all — IsUserValid endpoint
+    tryPost("IsUserValid", `${API_BASE}/IsUserValid`, {
+      Invoice4UUserApiKey: cleanKey,
+    }),
+
+    // 2. GetUserDetails
+    tryPost("GetUserDetails", `${API_BASE}/GetUserDetails`, {
+      Invoice4UUserApiKey: cleanKey,
+    }),
+
+    // 3. Login endpoint
+    tryPost("Login", `${API_BASE}/Login`, {
+      Invoice4UUserApiKey: cleanKey,
+    }),
+
+    // 4. Clearing — wrapped with "request" parameter name
+    tryPost('wrapped "request"', `${API_BASE}/ProcessApiRequestV2`, {
+      request: {
+        Invoice4UUserApiKey: cleanKey,
+        Type: 1, Sum: 1, FullName: "Test", Email: "test@test.com",
+        Currency: "ILS", ReturnUrl: "https://mysignly.com/payment-complete",
+      },
+    }),
+
+    // 5. Clearing — wrapped with "clearingRequest" parameter name
+    tryPost('wrapped "clearingRequest"', `${API_BASE}/ProcessApiRequestV2`, {
+      clearingRequest: {
+        Invoice4UUserApiKey: cleanKey,
+        Type: 1, Sum: 1, FullName: "Test", Email: "test@test.com",
+        Currency: "ILS", ReturnUrl: "https://mysignly.com/payment-complete",
+      },
+    }),
+
+    // 6. Try Type: 0
+    tryPost("Type: 0 (direct)", `${API_BASE}/ProcessApiRequestV2`, {
+      Invoice4UUserApiKey: cleanKey,
+      Type: 0, Sum: 1, FullName: "Test", Email: "test@test.com",
+      Currency: "ILS", ReturnUrl: "https://mysignly.com/payment-complete",
+    }),
+
+    // 7. Try Type: 2
+    tryPost("Type: 2 (direct)", `${API_BASE}/ProcessApiRequestV2`, {
+      Invoice4UUserApiKey: cleanKey,
+      Type: 2, Sum: 1, FullName: "Test", Email: "test@test.com",
+      Currency: "ILS", ReturnUrl: "https://mysignly.com/payment-complete",
+    }),
+
+    // 8. ProcessApiRequest V1 (without V2)
+    tryPost("ProcessApiRequest V1", `${API_BASE}/ProcessApiRequest`, {
       Invoice4UUserApiKey: cleanKey,
       Type: 1, Sum: 1, FullName: "Test", Email: "test@test.com",
       Currency: "ILS", ReturnUrl: "https://mysignly.com/payment-complete",
     }),
-
-    // 2. UserApiKey
-    tryPost("UserApiKey", {
-      UserApiKey: cleanKey,
-      Type: 1, Sum: 1, FullName: "Test", Email: "test@test.com",
-      Currency: "ILS", ReturnUrl: "https://mysignly.com/payment-complete",
-    }),
-
-    // 3. ApiKey
-    tryPost("ApiKey", {
-      ApiKey: cleanKey,
-      Type: 1, Sum: 1, FullName: "Test", Email: "test@test.com",
-      Currency: "ILS", ReturnUrl: "https://mysignly.com/payment-complete",
-    }),
-
-    // 4. Minimal fields only (just key + sum + return url)
-    tryPost("minimal: key+sum+returnUrl only", {
-      Invoice4UUserApiKey: cleanKey,
-      Sum: 1,
-      ReturnUrl: "https://mysignly.com/payment-complete",
-    }),
-
-    // 5. Type as string "1"
-    tryPost("Type as string", {
-      Invoice4UUserApiKey: cleanKey,
-      Type: "1", Sum: "1", FullName: "Test", Email: "test@test.com",
-      Currency: "ILS", ReturnUrl: "https://mysignly.com/payment-complete",
-    }),
-
-    // 6. No IsDocCreate at all
-    tryPost("without IsDocCreate", {
-      Invoice4UUserApiKey: cleanKey,
-      Type: 1, Sum: 1, FullName: "Test", Email: "test@test.com",
-      Currency: "ILS", ReturnUrl: "https://mysignly.com/payment-complete",
-    }),
-
-    // 7. With CompanyId field (some APIs require it)
-    tryPost("with CompanyId:0", {
-      Invoice4UUserApiKey: cleanKey,
-      CompanyId: 0,
-      Type: 1, Sum: 1, FullName: "Test", Email: "test@test.com",
-      Currency: "ILS", ReturnUrl: "https://mysignly.com/payment-complete",
-    }),
-
-    // 8. XML body
-    (async () => {
-      try {
-        const res = await fetch(`${API_BASE}/ProcessApiRequestV2`, {
-          method: "POST",
-          headers: { "Content-Type": "application/xml" },
-          body: `<ApiClearingRequest xmlns="http://schemas.datacontract.org/2004/07/Invoice.Common"><Invoice4UUserApiKey>${cleanKey}</Invoice4UUserApiKey><Type>1</Type><Sum>1</Sum><FullName>Test</FullName><Email>test@test.com</Email><Currency>ILS</Currency><ReturnUrl>https://mysignly.com/payment-complete</ReturnUrl></ApiClearingRequest>`,
-        });
-        const text = await res.text();
-        return { format: "XML body", status: res.status, response: text.slice(0, 600) };
-      } catch (e) {
-        return { format: "XML body", error: String(e) };
-      }
-    })(),
   ]);
 
   return NextResponse.json({ keyDebug, attempts });
