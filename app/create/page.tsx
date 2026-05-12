@@ -83,15 +83,16 @@ const PROFESSIONS = [
   { id: "other" as Profession, icon: "⚡", label: "אחר" },
 ];
 
-const PROFESSION_CATEGORIES: { label: string; professions: Profession[] }[] = [
-  { label: "קריאייטיב ומדיה", professions: ["photographer", "designer", "writer", "videoEditor", "socialMedia", "musician", "translator", "artist", "influencer"] },
-  { label: "ייעוץ, אימון והדרכה", professions: ["consultant", "coach", "sportsInstructor", "tutor", "psychologist", "lactationConsultant", "sleepConsultant"] },
-  { label: "בריאות ורפואה", professions: ["doula", "nightNurse"] },
-  { label: "יופי, עיצוב ואדריכלות", professions: ["beauty", "interiorDesigner", "architect", "jewelryDesigner"] },
-  { label: "פיתוח, מלאכה ותשתיות", professions: ["developer", "renovation", "gardener"] },
-  { label: "אירועים, אוכל וחינוך", professions: ["privateChef", "eventManager", "producer", "kindergarten"] },
-  { label: "מוצרים", professions: ["productSeller"] },
-  { label: "אחר", professions: ["other"] },
+const PROFESSION_CATEGORIES: { label: string; emoji: string; professions: Profession[] }[] = [
+  { label: "קריאייטיב ומדיה",      emoji: "🎨", professions: ["photographer", "designer", "writer", "videoEditor", "socialMedia", "musician", "translator", "artist", "influencer"] },
+  { label: "ייעוץ, אימון והדרכה",  emoji: "🎯", professions: ["consultant", "coach", "sportsInstructor", "tutor", "psychologist", "lactationConsultant", "sleepConsultant"] },
+  { label: "בריאות ורפואה",         emoji: "🩺", professions: ["doula", "nightNurse"] },
+  { label: "יופי וטיפוח",           emoji: "💄", professions: ["beauty", "jewelryDesigner"] },
+  { label: "עיצוב ואדריכלות",       emoji: "🏛️", professions: ["interiorDesigner", "architect"] },
+  { label: "טכנולוגיה ובנייה",      emoji: "🔧", professions: ["developer", "renovation", "gardener"] },
+  { label: "אירועים, אוכל וחינוך",  emoji: "🎉", professions: ["privateChef", "eventManager", "producer", "kindergarten"] },
+  { label: "מוצרים",                emoji: "📦", professions: ["productSeller"] },
+  { label: "אחר",                   emoji: "⚡", professions: ["other"] },
 ];
 
 const PROTECTION_QUESTIONS: Record<Profession, { question: string; hint: string; placeholder: string }> = {
@@ -1083,6 +1084,7 @@ export default function CreatePage() {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentIframe, setPaymentIframe] = useState<{ iframeUrl: string; clearingId: string } | null>(null);
+  const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [couponCode, setCouponCode] = useState("");
   const [couponStatus, setCouponStatus] = useState<"idle" | "checking" | "valid" | "invalid">("idle");
   const [couponMessage, setCouponMessage] = useState("");
@@ -1254,42 +1256,58 @@ export default function CreatePage() {
             <>
               <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 1 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>מה המקצוע שלך?</h2>
-              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 24 }}>השאלון ישתנה לפי המקצוע שלך ויציע הגנות מותאמות.</p>
-              {PROFESSION_CATEGORIES.map(({ label: catLabel, professions: catProfs }) => (
-                <div key={catLabel} style={{ marginBottom: 20 }}>
-                  <p style={{ fontSize: 11, fontWeight: 800, color: "#94A3B8", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 8 }}>{catLabel}</p>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8 }}>
-                    {catProfs.map((id) => {
-                      const prof = PROFESSIONS.find(p => p.id === id);
-                      if (!prof) return null;
-                      const selected = data.profession === id;
-                      return (
-                        <button
-                          key={id}
-                          onClick={() => update("profession", id)}
-                          style={{
-                            border: `1.5px solid ${selected ? "#2563EB" : "#E2E8F0"}`,
-                            background: selected ? "#EFF6FF" : "white",
-                            borderRadius: 8,
-                            padding: "10px 14px",
-                            cursor: "pointer",
-                            textAlign: "right",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            transition: "all 0.15s",
-                          }}
-                        >
-                          <span style={{ fontSize: 13, fontWeight: selected ? 700 : 500, color: selected ? "#2563EB" : "#374151" }}>{prof.label}</span>
-                          <div style={{ width: 16, height: 16, borderRadius: "50%", border: `2px solid ${selected ? "#2563EB" : "#CBD5E1"}`, background: selected ? "#2563EB" : "white", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                            {selected && <span style={{ color: "white", fontSize: 9, lineHeight: 1 }}>✓</span>}
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
+              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 20 }}>בחרי קטגוריה ואז את המקצוע המדויק שלך.</p>
+
+              {/* Selected profession badge */}
+              {data.profession && (
+                <div style={{ background: "#EFF6FF", border: "1.5px solid #2563EB", borderRadius: 8, padding: "10px 14px", marginBottom: 16, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: "#2563EB" }}>
+                    ✓ {PROFESSIONS.find(p => p.id === data.profession)?.label}
+                  </span>
+                  <button onClick={() => { update("profession", null); setOpenCategory(null); }} style={{ background: "none", border: "none", color: "#94A3B8", fontSize: 12, cursor: "pointer" }}>שנה</button>
                 </div>
-              ))}
+              )}
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {PROFESSION_CATEGORIES.map(({ label: catLabel, emoji, professions: catProfs }) => {
+                  const isOpen = openCategory === catLabel;
+                  const hasSelected = catProfs.includes(data.profession as Profession);
+                  return (
+                    <div key={catLabel} style={{ border: `1.5px solid ${hasSelected ? "#2563EB" : isOpen ? "#CBD5E1" : "#E2E8F0"}`, borderRadius: 10, overflow: "hidden", background: hasSelected ? "#EFF6FF" : "white" }}>
+                      {/* Category header */}
+                      <button
+                        onClick={() => setOpenCategory(isOpen ? null : catLabel)}
+                        style={{ width: "100%", padding: "13px 16px", background: "none", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "right" }}
+                      >
+                        <span style={{ fontSize: 14, fontWeight: 600, color: hasSelected ? "#2563EB" : "#374151" }}>
+                          {emoji} {catLabel}
+                        </span>
+                        <span style={{ fontSize: 12, color: "#94A3B8", transition: "transform 0.2s", transform: isOpen ? "rotate(180deg)" : "none", display: "inline-block" }}>▼</span>
+                      </button>
+                      {/* Profession list */}
+                      {isOpen && (
+                        <div style={{ padding: "4px 12px 12px", display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 7, borderTop: "1px solid #F1F5F9" }}>
+                          {catProfs.map((id) => {
+                            const prof = PROFESSIONS.find(p => p.id === id);
+                            if (!prof) return null;
+                            const selected = data.profession === id;
+                            return (
+                              <button
+                                key={id}
+                                onClick={() => { update("profession", id); setOpenCategory(null); }}
+                                style={{ border: `1.5px solid ${selected ? "#2563EB" : "#E2E8F0"}`, background: selected ? "#EFF6FF" : "#F8FAFC", borderRadius: 8, padding: "10px 12px", cursor: "pointer", textAlign: "right", display: "flex", alignItems: "center", justifyContent: "space-between" }}
+                              >
+                                <span style={{ fontSize: 13, fontWeight: selected ? 700 : 500, color: selected ? "#2563EB" : "#374151" }}>{prof.label}</span>
+                                {selected && <span style={{ color: "#2563EB", fontSize: 12 }}>✓</span>}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </>
           )}
 
