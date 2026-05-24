@@ -4,6 +4,7 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import ContractDisplay from "@/components/ContractDisplay";
 import { downloadContractAsPdf } from "@/lib/pdf";
+import { downloadContractAsDocx } from "@/lib/docx-export";
 
 const LOADING_MESSAGES = [
   { delay: 0,    text: "מייצר את החוזה שלך...",             sub: "חוזה טוב לוקח רגע לכתוב. אנחנו על זה 😊" },
@@ -201,19 +202,19 @@ function ContractContent() {
               הורד PDF
             </button>
             <button
-              onClick={() => {
-                const blob = new Blob([contract], { type: "text/plain;charset=utf-8" });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = "signly-contract.txt";
-                a.click();
-                URL.revokeObjectURL(url);
-              }}
-              style={{ padding: "12px 32px", fontSize: 15, fontWeight: 600, background: "white", color: "#374151", border: "1.5px solid #E2E8F0", borderRadius: 10, cursor: "pointer", textAlign: "center" }}
+              onClick={() => downloadContractAsDocx(contract)}
+              style={{ padding: "12px 32px", fontSize: 15, fontWeight: 600, background: "white", color: "#1D4ED8", border: "1.5px solid #BFDBFE", borderRadius: 10, cursor: "pointer", textAlign: "center" }}
             >
-              הורד כקובץ טקסט
+              הורד כ-Word (.docx)
             </button>
+            <a
+              href={`https://wa.me/?text=${encodeURIComponent("שלום, הכנתי עבורנו חוזה עבודה. אשלח לך אותו עכשיו לעיון ולחתימה.")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ padding: "12px 32px", fontSize: 15, fontWeight: 600, background: "#25D366", color: "white", border: "none", borderRadius: 10, cursor: "pointer", textAlign: "center", textDecoration: "none", display: "block" }}
+            >
+              שלח ללקוח ב-WhatsApp
+            </a>
             <p style={{ textAlign: "center", fontSize: 12, color: "#94A3B8", marginTop: 4 }}>
               שאלות? <a href="mailto:service@mysignly.com" style={{ color: "#2563EB", textDecoration: "none" }}>service@mysignly.com</a>
             </p>
