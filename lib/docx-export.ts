@@ -135,12 +135,23 @@ export async function downloadContractAsDocx(content: string, filename = "signly
     );
   }
 
+  const rtlPara = { bidirectional: true, alignment: AlignmentType.RIGHT };
+  const rtlRun  = { rightToLeft: true as const, font: "Arial" };
+
   const doc = new Document({
+    styles: {
+      default: {
+        document:  { paragraph: rtlPara, run: { ...rtlRun, size: 22 } },
+        heading1:  { paragraph: rtlPara, run: { ...rtlRun, size: 32 } },
+        heading2:  { paragraph: rtlPara, run: { ...rtlRun, size: 26 } },
+        heading3:  { paragraph: rtlPara, run: { ...rtlRun, size: 24 } },
+      },
+    },
     sections: [
       {
         properties: {
           page: {
-            margin: { top: 1134, bottom: 1134, left: 1134, right: 1134 }, // ~2cm
+            margin: { top: 1134, bottom: 1134, left: 1134, right: 1134 },
           },
         },
         children,
