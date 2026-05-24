@@ -60,7 +60,7 @@ export default function HomePage() {
           <div dir="rtl" style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
             <span style={{ fontSize: 15, fontWeight: 800, color: "#2563EB" }}>97₪ בלבד</span>
             <span style={{ width: 1, height: 16, background: "#CBD5E1", display: "inline-block" }} />
-            <span style={{ fontSize: 13, color: "#94A3B8", textDecoration: "line-through", fontWeight: 500 }}>עורך דין: 600₪ ומעלה</span>
+            <span style={{ fontSize: 13, color: "#94A3B8", textDecoration: "line-through", fontWeight: 500 }}>עורך דין: 500₪ ומעלה</span>
           </div>
           <div className="hero-trust" style={{ display: "flex", gap: 20, justifyContent: "center", flexWrap: "wrap" }}>
             {["ללא הרשמה", "מוכן תוך דקות", "רואים את החוזה לפני שמשלמים"].map((item) => (
