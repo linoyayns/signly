@@ -22,7 +22,7 @@ function parseInline(text: string, baseSize = 22): TextRun[] {
   );
 }
 
-export async function downloadContractAsDocx(content: string, filename = "signly-contract") {
+async function buildDocxBlob(content: string): Promise<Blob> {
   const lines = content.split("\n");
   const children: Paragraph[] = [];
 
@@ -159,11 +159,33 @@ export async function downloadContractAsDocx(content: string, filename = "signly
     ],
   });
 
-  const blob = await Packer.toBlob(doc);
+  return await Packer.toBlob(doc);
+}
+
+export async function downloadContractAsDocx(content: string, filename = "signly-contract") {
+  const blob = await buildDocxBlob(content);
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
   a.download = `${filename}.docx`;
   a.click();
   URL.revokeObjectURL(url);
+}
+
+export async function shareContractViaWhatsApp(content: string) {
+  const text = "שלום, הכנתי עבורנו חוזה עבודה. אשלח לך אותו עכשיו לעיון ולחתימה.";
+  try {
+    const blob = await buildDocxBlob(content);
+    const file = new File([blob], "חוזה-עבודה.docx", {
+      type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    });
+    if (typeof navigator !== "undefined" && navigator.share && navigator.canShare?.({ files: [file] })) {
+      await navigator.share({ files: [file], title: "חוזה עבודה", text });
+      return;
+    }
+  } catch {
+    // fall through
+  }
+  // Desktop fallback — open WhatsApp with text only
+  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
 }

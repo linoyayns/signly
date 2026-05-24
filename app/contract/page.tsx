@@ -4,7 +4,7 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import ContractDisplay from "@/components/ContractDisplay";
 import { downloadContractAsPdf } from "@/lib/pdf";
-import { downloadContractAsDocx } from "@/lib/docx-export";
+import { downloadContractAsDocx, shareContractViaWhatsApp } from "@/lib/docx-export";
 
 const LOADING_MESSAGES = [
   { delay: 0,    text: "מייצר את החוזה שלך...",             sub: "חוזה טוב לוקח רגע לכתוב. אנחנו על זה 😊" },
@@ -217,15 +217,13 @@ function ContractContent() {
             </p>
 
             {/* Primary: Send to client */}
-            <a
-              href={`https://wa.me/?text=${encodeURIComponent("שלום, הכנתי עבורנו חוזה עבודה. אשלח לך אותו עכשיו לעיון ולחתימה.")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, padding: "15px 32px", fontSize: 16, fontWeight: 700, background: "#25D366", color: "white", borderRadius: 10, textDecoration: "none", marginBottom: 10 }}
+            <button
+              onClick={() => shareContractViaWhatsApp(contract)}
+              style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, padding: "15px 32px", fontSize: 16, fontWeight: 700, background: "#25D366", color: "white", border: "none", borderRadius: 10, cursor: "pointer", marginBottom: 10 }}
             >
               <span style={{ fontSize: 18 }}>💬</span>
               שלח ללקוח ב-WhatsApp
-            </a>
+            </button>
 
             {/* Secondary: Download buttons side by side */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 16 }}>
