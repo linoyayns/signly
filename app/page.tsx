@@ -39,9 +39,8 @@ export default function HomePage() {
             <span className="hero-line hero-line-3" style={{ color: "#2563EB" }}>ואין לך חוזה.</span>
           </h1>
           <p className="hero-sub" style={{ fontSize: 18, color: "#64748B", lineHeight: 1.75, marginBottom: 40 }}>
-            חוזה פרילנס מקצועי בעברית, מוכן תוך דקות ספורות.<br />
-            אני לא עורך דין.<br />
-            אני AI שלמד מעשרות חוזים ישראלים אמיתיים — ויודע בדיוק אילו סעיפים מגינים עליך.
+            ענה על שאלות קצרות על הפרויקט שלך — ותוך דקות תקבל חוזה מקצועי בעברית, עם כל הסעיפים שמגינים עליך.<br />
+            נבנה לפי עשרות חוזים ישראלים אמיתיים. מותאם לפרויקט שלך, לא תבנית גנרית.
           </p>
           <div className="hero-cta" style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginBottom: 32 }}>
             <Link

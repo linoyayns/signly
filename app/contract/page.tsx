@@ -168,12 +168,28 @@ function ContractContent() {
       <section style={{ flex: 1, padding: "40px 24px 60px" }}>
         <div style={{ maxWidth: 760, margin: "0 auto" }}>
           <div style={{ marginBottom: 24 }}>
-            <h1 style={{ fontSize: 26, fontWeight: 900, color: "#0F1F3D", marginBottom: 6 }}>
-              החוזה שלך מוכן
+            {/* Success badge */}
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#F0FDF4", border: "1px solid #86EFAC", borderRadius: 100, padding: "6px 14px", fontSize: 13, fontWeight: 700, color: "#16A34A", marginBottom: 14 }}>
+              <span style={{ width: 18, height: 18, background: "#16A34A", borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 10 }}>✓</span>
+              החוזה מוכן
+            </div>
+            <h1 style={{ fontSize: 26, fontWeight: 900, color: "#0F1F3D", marginBottom: 8 }}>
+              מה הצעד הבא?
             </h1>
-            <p style={{ fontSize: 14, color: "#64748B", marginBottom: 14 }}>
-              קרא את החוזה, הורד כ-PDF, ושלח ללקוח לחתימה.
-            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 16 }}>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 14, color: "#374151" }}>
+                <span style={{ width: 22, height: 22, background: "#EFF6FF", borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: "#2563EB", fontSize: 12, fontWeight: 800, flexShrink: 0, marginTop: 1 }}>1</span>
+                <span>קרא את החוזה וודא שהפרטים נכונים</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 14, color: "#374151" }}>
+                <span style={{ width: 22, height: 22, background: "#EFF6FF", borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: "#2563EB", fontSize: 12, fontWeight: 800, flexShrink: 0, marginTop: 1 }}>2</span>
+                <span>הורד PDF או Word ושמור לעצמך עותק</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 14, color: "#374151" }}>
+                <span style={{ width: 22, height: 22, background: "#EFF6FF", borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: "#2563EB", fontSize: 12, fontWeight: 800, flexShrink: 0, marginTop: 1 }}>3</span>
+                <span>שלח ללקוח לחתימה — ואפשר להתחיל לעבוד</span>
+              </div>
+            </div>
             {emailStatus === "sending" && (
               <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 8, padding: "8px 14px", fontSize: 13, color: "#1D4ED8" }}>
                 <div style={{ width: 14, height: 14, border: "2px solid #2563EB", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
