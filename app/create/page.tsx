@@ -1180,7 +1180,7 @@ function isStepValid(step: number, data: FormData): boolean {
     case 1: return !!data.profession;
     case 2: return !!(data.freelancerName.trim());
     case 3: return !!(data.projectDescription.trim().length > 5 && data.projectExclusions.trim().length > 2);
-    case 4: return !!(data.totalPrice && data.vat && data.paymentTiming.trim());
+    case 4: return !!(data.totalPrice && data.vat && (data.hasDeposit !== true || data.paymentTiming.trim()));
     case 5: {
       const startOptional = data.profession === "beauty" || data.profession === "privateChef";
       return !!((startOptional || data.startDate) && data.deliveryDate);
