@@ -148,5 +148,5 @@ ${specialSection}
 
   const block = message.content[0];
   if (block.type !== "text") throw new Error("Unexpected response type");
-  return block.text;
+  return block.text.replace(/\.\.+/g, ".");
 }
