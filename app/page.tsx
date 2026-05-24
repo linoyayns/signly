@@ -58,6 +58,11 @@ export default function HomePage() {
               איך זה עובד?
             </Link>
           </div>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#FFF7ED", border: "1.5px solid #FED7AA", borderRadius: 10, padding: "10px 20px", marginBottom: 20 }}>
+            <span style={{ fontSize: 13, fontWeight: 800, color: "#92400E" }}>עורך דין לוקח 600–1,800₪</span>
+            <span style={{ color: "#D97706", fontSize: 14, fontWeight: 900 }}>→</span>
+            <span style={{ fontSize: 15, fontWeight: 900, color: "#2563EB" }}>Signly: 97₪</span>
+          </div>
           <div className="hero-trust" style={{ display: "flex", gap: 20, justifyContent: "center", flexWrap: "wrap" }}>
             {["ללא הרשמה", "מוכן תוך דקות", "רואים את החוזה לפני שמשלמים"].map((item) => (
               <div key={item} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: "#64748B" }}>
@@ -80,14 +85,15 @@ export default function HomePage() {
           </div>
           <div className="mob-col1" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
             {[
-              { name: "מעצבים", desc: "UX/UI, גרפיקה, מיתוג – הגן על העבודה שלך" },
-              { name: "צלמים", desc: "הגדר בעלות, זכויות שימוש ותנאי מסירה" },
-              { name: "כותבים", desc: "קופי, תוכן, עריכה – הגדר בעלות ולוחות זמנים" },
-              { name: "מאמנים", desc: "פיטנס, עסקים, קואוצ'ינג – הגדר תנאים ברורים" },
-              { name: "מפתחים", desc: "הגן על הקוד שלך ועל תנאי התשלום" },
-              { name: "יועצים", desc: "ניהול, שיווק, אסטרטגיה – הגדר תנאים ברורים" },
-            ].map(({ name, desc }) => (
+              { icon: "🎨", name: "מעצבים", desc: "UX/UI, גרפיקה, מיתוג – הגן על העבודה שלך" },
+              { icon: "📷", name: "צלמים", desc: "הגדר בעלות, זכויות שימוש ותנאי מסירה" },
+              { icon: "✍️", name: "כותבים", desc: "קופי, תוכן, עריכה – הגדר בעלות ולוחות זמנים" },
+              { icon: "💬", name: "מאמנים", desc: "פיטנס, עסקים, קואוצ'ינג – הגדר תנאים ברורים" },
+              { icon: "💻", name: "מפתחים", desc: "הגן על הקוד שלך ועל תנאי התשלום" },
+              { icon: "📊", name: "יועצים", desc: "ניהול, שיווק, אסטרטגיה – הגדר תנאים ברורים" },
+            ].map(({ icon, name, desc }) => (
               <div key={name} className="card-hover" style={{ padding: "24px 20px", border: "1px solid #E2E8F0", borderRadius: 12, background: "#F8FAFC" }}>
+                <div style={{ fontSize: 24, marginBottom: 10, lineHeight: 1 }}>{icon}</div>
                 <div style={{ fontSize: 16, fontWeight: 800, color: "#0F172A", marginBottom: 8 }}>{name}</div>
                 <div style={{ fontSize: 13, color: "#64748B", lineHeight: 1.6 }}>{desc}</div>
               </div>

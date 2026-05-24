@@ -194,28 +194,40 @@ function ContractContent() {
 
           <ContractDisplay content={contract} />
 
-          <div style={{ marginTop: 32, display: "flex", flexDirection: "column", gap: 12, alignItems: "stretch", maxWidth: 400, margin: "32px auto 0" }}>
-            <button
-              onClick={() => downloadContractAsPdf(contract)}
-              style={{ padding: "14px 32px", fontSize: 16, fontWeight: 700, background: "#2563EB", color: "white", border: "none", borderRadius: 10, cursor: "pointer", textAlign: "center" }}
-            >
-              הורד PDF
-            </button>
-            <button
-              onClick={() => downloadContractAsDocx(contract)}
-              style={{ padding: "12px 32px", fontSize: 15, fontWeight: 600, background: "white", color: "#1D4ED8", border: "1.5px solid #BFDBFE", borderRadius: 10, cursor: "pointer", textAlign: "center" }}
-            >
-              הורד כ-Word (.docx)
-            </button>
+          <div style={{ maxWidth: 420, margin: "40px auto 0" }}>
+            {/* Section label */}
+            <p style={{ fontSize: 13, fontWeight: 700, color: "#64748B", textAlign: "center", marginBottom: 16, letterSpacing: 0.5, textTransform: "uppercase" }}>
+              מה תרצה לעשות עם החוזה?
+            </p>
+
+            {/* Primary: Send to client */}
             <a
               href={`https://wa.me/?text=${encodeURIComponent("שלום, הכנתי עבורנו חוזה עבודה. אשלח לך אותו עכשיו לעיון ולחתימה.")}`}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ padding: "12px 32px", fontSize: 15, fontWeight: 600, background: "#25D366", color: "white", border: "none", borderRadius: 10, cursor: "pointer", textAlign: "center", textDecoration: "none", display: "block" }}
+              style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, padding: "15px 32px", fontSize: 16, fontWeight: 700, background: "#25D366", color: "white", borderRadius: 10, textDecoration: "none", marginBottom: 10 }}
             >
+              <span style={{ fontSize: 18 }}>💬</span>
               שלח ללקוח ב-WhatsApp
             </a>
-            <p style={{ textAlign: "center", fontSize: 12, color: "#94A3B8", marginTop: 4 }}>
+
+            {/* Secondary: Download buttons side by side */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 16 }}>
+              <button
+                onClick={() => downloadContractAsPdf(contract)}
+                style={{ padding: "12px", fontSize: 14, fontWeight: 700, background: "#2563EB", color: "white", border: "none", borderRadius: 10, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}
+              >
+                <span>📄</span> הורד PDF
+              </button>
+              <button
+                onClick={() => downloadContractAsDocx(contract)}
+                style={{ padding: "12px", fontSize: 14, fontWeight: 600, background: "white", color: "#1D4ED8", border: "1.5px solid #BFDBFE", borderRadius: 10, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}
+              >
+                <span>📝</span> הורד Word
+              </button>
+            </div>
+
+            <p style={{ textAlign: "center", fontSize: 12, color: "#94A3B8" }}>
               שאלות? <a href="mailto:service@mysignly.com" style={{ color: "#2563EB", textDecoration: "none" }}>service@mysignly.com</a>
             </p>
           </div>
