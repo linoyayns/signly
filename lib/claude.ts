@@ -61,6 +61,11 @@ function ownershipLabel(o: ContractData["ownership"]): string {
   return "לא צוין";
 }
 
+// Strip trailing periods/spaces from user-supplied text so Claude doesn't double up
+function t(s: string | null | undefined): string {
+  return (s ?? "").trim().replace(/\.+$/, "");
+}
+
 export async function generateContract(data: ContractData): Promise<string> {
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -81,15 +86,15 @@ export async function generateContract(data: ContractData): Promise<string> {
 לקוח: ${data.clientName} | ת.ז. / ח.פ.: ${data.clientId} | מייל: ${data.clientEmail}
 
 === תיאור הפרויקט ===
-מה כלול: ${data.projectDescription}
-מה לא כלול: ${data.projectExclusions}
+מה כלול: ${t(data.projectDescription)}
+מה לא כלול: ${t(data.projectExclusions)}
 
 === תשלום ===
 מחיר כולל: ${data.totalPrice} ₪ (${vatLabel(data.vat)})
 מקדמה: ${deposit}
-יתרה: ${data.paymentTiming}
+יתרה: ${t(data.paymentTiming)}
 אמצעי תשלום: ${data.paymentMethod || "העברה בנקאית"}
-איחור בתשלום: ${data.latePayment}
+איחור בתשלום: ${t(data.latePayment)}
 
 === תאריך חתימה ===
 ${data.signingDate ? `תאריך חתימה על החוזה: ${data.signingDate}` : "תאריך חתימה: יימולא ידנית (השאר שורה ריקה עם קו תחתון)"}
@@ -97,23 +102,23 @@ ${data.signingDate ? `תאריך חתימה על החוזה: ${data.signingDate}
 === לוח זמנים ===
 תחילת עבודה: ${data.startDate}
 מסירה: ${data.deliveryDate}
-עיכוב מצד הלקוח: ${data.delayConditions}
-עיכוב מצד הפרילנסר: ${data.freelancerDelay}
+עיכוב מצד הלקוח: ${t(data.delayConditions)}
+עיכוב מצד הפרילנסר: ${t(data.freelancerDelay)}
 
 === תיקונים ===
-תיקונים כלולים: ${data.revisionsIncluded}
+תיקונים כלולים: ${t(data.revisionsIncluded)}
 עלות תיקון נוסף: ${data.revisionCost ? `${data.revisionCost} ₪` : "לא צוין"}
-הגדרת תיקון: ${data.revisionDefinition}
+הגדרת תיקון: ${t(data.revisionDefinition)}
 
 === ביטול ===
-ביטול מצד הלקוח: ${data.clientCancellation}
-ביטול מצד הפרילנסר: ${data.freelancerCancellation}
+ביטול מצד הלקוח: ${t(data.clientCancellation)}
+ביטול מצד הפרילנסר: ${t(data.freelancerCancellation)}
 
 === קניין רוחני ===
 ${ownershipLabel(data.ownership)}
 
 === סעיף הגנה מקצועי ===
-${data.protectionAnswer}
+${t(data.protectionAnswer)}
 ${specialSection}
 
 === הנחיות לניסוח ===
