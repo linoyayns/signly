@@ -58,7 +58,7 @@ export default function HomePage() {
             </Link>
           </div>
           <div dir="rtl" style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
-            <span style={{ fontSize: 15, fontWeight: 800, color: "#2563EB" }}>Signly: 97₪ בלבד</span>
+            <span style={{ fontSize: 15, fontWeight: 800, color: "#2563EB" }}>97₪ בלבד</span>
             <span style={{ width: 1, height: 16, background: "#CBD5E1", display: "inline-block" }} />
             <span style={{ fontSize: 13, color: "#94A3B8", textDecoration: "line-through", fontWeight: 500 }}>עורך דין: 600₪ ומעלה</span>
           </div>
