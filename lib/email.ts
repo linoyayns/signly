@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { buildDocxBuffer } from "@/lib/docx-export";
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -91,5 +92,12 @@ export async function sendContractEmail({
     subject: `החוזה שלך מוכן — ${freelancerName} / ${clientName}`,
     html,
     text: `שלום ${freelancerName}, החוזה בינך לבין ${clientName} מוכן. פתח אותו כאן: ${downloadUrl ?? "https://mysignly.com"}`,
+    attachments: [
+      {
+        filename: `חוזה-${freelancerName}-${clientName}.docx`,
+        content: await buildDocxBuffer(contractText),
+        contentType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      },
+    ],
   });
 }

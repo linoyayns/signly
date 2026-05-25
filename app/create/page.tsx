@@ -1179,7 +1179,7 @@ function isStepValid(step: number, data: FormData): boolean {
   switch (step) {
     case 1: return !!data.profession;
     case 2: return !!(data.freelancerName.trim());
-    case 3: return !!(data.projectDescription.trim().length > 5 && data.projectExclusions.trim().length > 2);
+    case 3: return !!(data.projectDescription.trim().length > 5);
     case 4: return !!(data.totalPrice && data.vat && (data.hasDeposit !== true || data.paymentTiming.trim()));
     case 5: return !!(data.deliveryDate || data.engagementDuration);
     case 6: return true;
@@ -1652,7 +1652,7 @@ export default function CreatePage() {
               </div>
               {data.hasDeposit === true && (
                 <div style={fieldGroupStyle}>
-                  <label style={labelStyle}>מתי מתקבלת יתרת התשלום?</label>
+                  <label style={labelStyle}>מתי מתקבלת יתרת התשלום? <span style={{ color: "#EF4444" }}>*</span></label>
                   <input className="signly-field" style={inputStyle} placeholder="לדוגמה: עם סיום השירות ואישור הלקוח" value={data.paymentTiming} onChange={(e) => update("paymentTiming", e.target.value)} />
                   <UseSuggestion field="paymentTiming" value={profession ? PAYMENT_TIMING_CONFIG[profession] : PAYMENT_TIMING_CONFIG["other"]} />
                 </div>
@@ -1977,7 +1977,7 @@ export default function CreatePage() {
                   ["תיאור", data.projectDescription],
                   ["מחיר", `${data.totalPrice} ₪`],
                   ["מע\"מ", data.vat === "plus_vat" ? "בתוספת מע\"מ" : data.vat === "incl_vat" ? "כולל מע\"מ" : "פטור"],
-                  ["מסירה", data.deliveryDate],
+                  ["מסירה", data.deliveryDate ? new Date(data.deliveryDate).toLocaleDateString("he-IL") : ""],
                   ["תיקונים", data.revisionsIncluded ? `${data.revisionsIncluded} תיקונים כלולים` : ""],
                   ["בעלות", data.ownership === "full" ? "העברה מלאה" : data.ownership === "license" ? "רישיון שימוש" : data.ownership === "afterpayment" ? "לאחר תשלום מלא" : ""],
                 ]},

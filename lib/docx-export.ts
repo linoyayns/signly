@@ -22,7 +22,7 @@ function parseInline(text: string, baseSize = 22): TextRun[] {
   );
 }
 
-async function buildDocxBlob(content: string): Promise<Blob> {
+function buildDocument(content: string): Document {
   const lines = content.split("\n");
   const children: Paragraph[] = [];
 
@@ -34,7 +34,7 @@ async function buildDocxBlob(content: string): Promise<Blob> {
       continue;
     }
 
-    if (/^\|[-| :]+\|$/.test(trimmed)) continue; // table separator
+    if (/^\|[-| :]+\|$/.test(trimmed)) continue;
 
     if (/^---+$/.test(trimmed)) {
       children.push(
@@ -110,7 +110,6 @@ async function buildDocxBlob(content: string): Promise<Blob> {
       continue;
     }
 
-    // Table row — render as plain paragraph
     if (trimmed.startsWith("|") && trimmed.endsWith("|")) {
       const cells = trimmed.split("|").map(c => c.trim()).filter(Boolean);
       const text = cells.join("    |    ");
@@ -138,7 +137,7 @@ async function buildDocxBlob(content: string): Promise<Blob> {
   const rtlPara = { bidirectional: true, alignment: AlignmentType.RIGHT };
   const rtlRun  = { rightToLeft: true as const, font: "Arial" };
 
-  const doc = new Document({
+  return new Document({
     styles: {
       default: {
         document:  { paragraph: rtlPara, run: { ...rtlRun, size: 22 } },
@@ -158,12 +157,16 @@ async function buildDocxBlob(content: string): Promise<Blob> {
       },
     ],
   });
-
-  return await Packer.toBlob(doc);
 }
 
+// Server-side: returns Buffer for email attachments
+export async function buildDocxBuffer(content: string): Promise<Buffer> {
+  return Packer.toBuffer(buildDocument(content));
+}
+
+// Browser: triggers file download
 export async function downloadContractAsDocx(content: string, filename = "signly-contract") {
-  const blob = await buildDocxBlob(content);
+  const blob = await Packer.toBlob(buildDocument(content));
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -172,10 +175,11 @@ export async function downloadContractAsDocx(content: string, filename = "signly
   URL.revokeObjectURL(url);
 }
 
+// Browser: share via native share sheet (mobile) or wa.me fallback (desktop)
 export async function shareContractViaWhatsApp(content: string) {
   const text = "שלום, הכנתי עבורנו חוזה עבודה. אשלח לך אותו עכשיו לעיון ולחתימה.";
   try {
-    const blob = await buildDocxBlob(content);
+    const blob = await Packer.toBlob(buildDocument(content));
     const file = new File([blob], "חוזה-עבודה.docx", {
       type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     });
@@ -186,6 +190,5 @@ export async function shareContractViaWhatsApp(content: string) {
   } catch {
     // fall through
   }
-  // Desktop fallback — open WhatsApp with text only
   window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
 }
