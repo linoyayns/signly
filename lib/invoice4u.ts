@@ -75,10 +75,14 @@ export async function getClearingStatus(clearingLogId: string) {
     }),
   });
   const text = await res.text();
+  console.log("[Invoice4U] getClearingStatus raw response:", text);
   try {
     const parsed = JSON.parse(text);
-    return parsed?.d ?? parsed;
+    const inner = parsed?.d ?? parsed;
+    console.log("[Invoice4U] getClearingStatus parsed:", JSON.stringify(inner));
+    return inner;
   } catch {
+    console.error("[Invoice4U] getClearingStatus parse error, raw:", text);
     return { IsSuccess: false };
   }
 }
