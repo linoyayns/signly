@@ -26,10 +26,12 @@ export async function createClearingRequest({
     Currency: "ILS",
     ReturnUrl: returnUrl,
     IsDocCreate: true,
+    DocType: 4,           // 4 = קבלה (receipt) — מתאים לעוסק פטור
+    DocEmail: email,      // שלח קבלה למייל הלקוח
     DocItemName: "חוזה פרילנסר — Signly",
     DocItemQuantity: 1,
     DocItemPrice: sum,
-    DocItemTaxRate: 18,
+    DocItemTaxRate: 0,    // עוסק פטור — ללא מע"מ
     DocLanguage: "he",
   };
 
