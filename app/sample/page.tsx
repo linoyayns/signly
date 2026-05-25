@@ -264,6 +264,21 @@ export default function SamplePage() {
           {/* Contract */}
           <ContractDisplay content={SAMPLE_CONTRACT} />
 
+          {/* Friendly note */}
+          <div style={{ marginTop: 28, background: "#F0F9FF", border: "1px solid #BAE6FD", borderRadius: 12, padding: "20px 24px", display: "flex", gap: 16, alignItems: "flex-start" }}>
+            <span style={{ fontSize: 24, flexShrink: 0, marginTop: 2 }}>✏️</span>
+            <div>
+              <p style={{ fontSize: 15, fontWeight: 700, color: "#0C4A6E", margin: "0 0 6px" }}>
+                החוזה שלך מגיע גם כקובץ Word — ואפשר לשנות כל מה שתרצו
+              </p>
+              <p style={{ fontSize: 14, color: "#0369A1", margin: 0, lineHeight: 1.7 }}>
+                ראית משהו שתרצה לנסח אחרת? אין בעיה בכלל.
+                תקבל/י את החוזה גם בפורמט Word ותוכל/י לערוך אותו בעצמך.
+                מעדיף/ה שנטפל בזה? שלח/י לנו מייל ל-<a href="mailto:service@mysignly.com" style={{ color: "#2563EB", fontWeight: 600 }}>service@mysignly.com</a> ונתאים בשמחה.
+              </p>
+            </div>
+          </div>
+
           {/* CTA bottom */}
           <div style={{ textAlign: "center", marginTop: 48, padding: "40px 32px", background: "white", border: "1px solid #E2E8F0", borderRadius: 16 }}>
             <p style={{ fontSize: 20, fontWeight: 900, color: "#0F1F3D", marginBottom: 8 }}>
