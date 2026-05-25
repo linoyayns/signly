@@ -1801,7 +1801,7 @@ export default function CreatePage() {
                     <label style={labelStyle}>כמה זמן מראש צריך להודיע על סיום?</label>
                     <span style={{ fontSize: 12, color: "#64748B", display: "block", marginBottom: 8 }}>שני הצדדים מחויבים להודיע מראש — כדי שיהיה זמן להיערך</span>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                      {["שבועיים", "חודש", "45 יום", "שני חודשים"].map((opt) => {
+                      {["סיום מיידי", "שבועיים", "חודש", "45 יום", "שני חודשים"].map((opt) => {
                         const sel = data.noticePeriod === opt;
                         return (
                           <button key={opt} type="button" onClick={() => update("noticePeriod", opt)}
