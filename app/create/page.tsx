@@ -2023,12 +2023,17 @@ export default function CreatePage() {
 
                     {/* א. הצדדים */}
                     <div style={{ marginBottom: 24 }}>
-                      <p style={{ fontSize: 13, fontWeight: 800, color: "#0F172A", marginBottom: 10, borderBottom: "1px solid #E2E8F0", paddingBottom: 6 }}>א. הצדדים להסכם</p>
-                      <p style={{ fontSize: 13, lineHeight: 2, color: "#374151" }}>
-                        הסכם זה נכרת בין <u>{data.freelancerName || "_______________"}</u>
+                      <p style={{ fontSize: 13, fontWeight: 800, color: "#0F172A", marginBottom: 10, borderBottom: "1px solid #E2E8F0", paddingBottom: 6 }}>א. הצדדים</p>
+                      <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>א.1. נותן השירות</p>
+                      <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151", marginBottom: 8 }}>
+                        <strong>{data.freelancerName || "_______________"}</strong>
                         {data.freelancerId ? `, ת.ז./ח.פ. ${data.freelancerId}` : ""}
                         {data.freelancerCity ? `, ${data.freelancerCity}` : ""}
-                        {" "}(להלן: <strong>״נותן השירות״</strong>), לבין <u>{data.clientName || "_______________"}</u>
+                        {" "}(להלן: <strong>״נותן השירות״</strong>).
+                      </p>
+                      <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>א.2. הלקוח</p>
+                      <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151" }}>
+                        <strong>{data.clientName || "_______________"}</strong>
                         {data.clientId ? `, ח.פ./ת.ז. ${data.clientId}` : ""}
                         {" "}(להלן: <strong>״הלקוח״</strong>).
                       </p>
@@ -2037,20 +2042,24 @@ export default function CreatePage() {
                     {/* ב. היקף השירות */}
                     <div style={{ marginBottom: 24 }}>
                       <p style={{ fontSize: 13, fontWeight: 800, color: "#0F172A", marginBottom: 10, borderBottom: "1px solid #E2E8F0", paddingBottom: 6 }}>ב. היקף השירות</p>
-                      <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>1. תיאור השירות</p>
+                      <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>ב.1. תיאור השירות</p>
                       <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151", marginBottom: 10 }}>
                         נותן השירות מתחייב לספק ללקוח את השירות הבא: {data.projectDescription ? clean(data.projectDescription) : "כמפורט בהסכם זה, במועד ובאיכות שנקבעו."}
                       </p>
                       {data.projectExclusions && (
                         <>
-                          <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>2. מה אינו כלול בשירות</p>
-                          <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151" }}>
+                          <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>ב.2. מה אינו כלול בשירות</p>
+                          <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151", marginBottom: 10 }}>
                             {clean(data.projectExclusions).split(/[,،]/).map((item, i) => (
                               <span key={i} style={{ display: "block" }}>- {item.trim()}</span>
                             ))}
                           </p>
                         </>
                       )}
+                      <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>{data.projectExclusions ? "ב.3." : "ב.2."} אחריות מקצועית</p>
+                      <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151" }}>
+                        נותן השירות מתחייב לבצע את השירות ברמה מקצועית גבוהה, בהתאם לסטנדרטים המקובלים בתחום.
+                      </p>
                     </div>
 
                     {/* ג. תמורה ותנאי תשלום */}
@@ -2058,18 +2067,18 @@ export default function CreatePage() {
                       <p style={{ fontSize: 13, fontWeight: 800, color: "#0F172A", marginBottom: 10, borderBottom: "1px solid #E2E8F0", paddingBottom: 6 }}>ג. תמורה ותנאי תשלום</p>
                       {data.totalPrice ? (
                         <>
-                          <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>1. סכום התמורה</p>
+                          <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>ג.1. סכום התמורה</p>
                           <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151", marginBottom: 10 }}>
-                            עבור מלוא השירותים המפורטים בהסכם זה, ישלם הלקוח למפיק סך של <strong>₪{Number(data.totalPrice).toLocaleString("he-IL")}</strong>
+                            עבור מלוא השירותים המפורטים בהסכם זה, ישלם הלקוח לנותן השירות סך של <strong>₪{Number(data.totalPrice).toLocaleString("he-IL")}</strong>
                             {data.vat === "plus_vat" ? " בתוספת מע״מ כחוק." : data.vat === "incl_vat" ? " כולל מע״מ." : "."}
-                            {data.vat === "exempt" && <><br /><strong>הבהרה:</strong> המפיק הינו עוסק פטור כמשמעותו בחוק. המחיר אינו כולל מע״מ ולא תונפק חשבונית מס. הלקוח יקבל קבלה כדין.</>}
+                            {data.vat === "exempt" && <><br /><strong>הבהרה:</strong> נותן השירות הינו עוסק פטור. לא תונפק חשבונית מס. הלקוח יקבל קבלה כדין.</>}
                           </p>
                           {(data.depositPercent || data.paymentTiming) && (
                             <>
-                              <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>2. אופן התשלום</p>
+                              <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>ג.2. מבנה התשלומים</p>
                               <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151", marginBottom: 10 }}>
                                 {data.depositPercent && Number(data.depositPercent) > 0 && (
-                                  <><strong>מקדמה:</strong> סך של ₪{Math.round(Number(data.totalPrice) * Number(data.depositPercent) / 100).toLocaleString("he-IL")} ({data.depositPercent}% מהתמורה), ישולמו במעמד חתימת הסכם זה.<br /></>
+                                  <><strong>מקדמה בחתימה:</strong> סך של ₪{Math.round(Number(data.totalPrice) * Number(data.depositPercent) / 100).toLocaleString("he-IL")} ({data.depositPercent}% מהתמורה), ישולמו במעמד חתימת הסכם זה.<br /></>
                                 )}
                                 {data.paymentTiming && (
                                   <><strong>יתרת התשלום:</strong> סך של ₪{(Number(data.totalPrice) - Math.round(Number(data.totalPrice) * Number(data.depositPercent || 0) / 100)).toLocaleString("he-IL")} ישולם {clean(data.paymentTiming)}.</>
@@ -2077,10 +2086,10 @@ export default function CreatePage() {
                               </p>
                             </>
                           )}
-                          <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>3. אמצעי תשלום</p>
+                          <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>ג.3. אמצעי תשלום</p>
                           <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151" }}>
                             התשלום יבוצע באחד מהאמצעים הבאים, לבחירת הלקוח:<br />
-                            {(data.paymentMethod || "העברה בנקאית, כרטיס אשראי, אפליקציית ביט, העברה בנקאית").split(/[,،]/).map((m, i) => (
+                            {(data.paymentMethod || "העברה בנקאית, כרטיס אשראי, אפליקציית ביט").split(/[,،]/).map((m, i) => (
                               <span key={i} style={{ display: "block" }}>- {m.trim()}</span>
                             ))}
                           </p>
@@ -2094,21 +2103,39 @@ export default function CreatePage() {
                     <div style={{ filter: "blur(3.5px)", userSelect: "none", pointerEvents: "none", opacity: 0.55 }}>
                       <div style={{ marginBottom: 20 }}>
                         <p style={{ fontSize: 13, fontWeight: 800, color: "#0F172A", marginBottom: 10, borderBottom: "1px solid #E2E8F0", paddingBottom: 6 }}>ד. לוח זמנים ועיכובים</p>
-                        <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>1. מועד המסירה</p>
+                        <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>ד.1. מועדי הפרויקט</p>
                         <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151", marginBottom: 8 }}>
                           המסירה תתבצע עד לתאריך {data.deliveryDate || "___________"}. מועד זה מחייב את שני הצדדים ומהווה תנאי מהותי בהסכם.
                         </p>
-                        <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>2. עיכובים</p>
+                        <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>ד.2. עיכובים מצד הלקוח</p>
+                        <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151", marginBottom: 4 }}>
+                          {data.delayConditions || "עיכוב הנובע ממחדל הלקוח — מסירת חומרים, אישורי ביניים — ידחה את מועד המסירה בהתאמה."}
+                        </p>
+                        <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>ד.3. עיכובים מצד נותן השירות</p>
                         <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151" }}>
-                          {data.delayConditions || "עיכוב הנובע ממחדל הלקוח — מסירת חומרים, אישורי ביניים — ידחה את מועד המסירה בהתאמה."}<br />
-                          {data.freelancerDelay || "עיכוב מצד נותן השירות מעל 7 ימים — יוודע ללקוח מיידית ויתואם מועד חלופי."}
+                          {data.freelancerDelay || "עיכוב מצד נותן השירות מעל 7 (שבעה) ימים — יוודע ללקוח מיידית בכתב ויתואם מועד חלופי."}
+                        </p>
+                      </div>
+                      <div style={{ marginBottom: 20 }}>
+                        <p style={{ fontSize: 13, fontWeight: 800, color: "#0F172A", marginBottom: 10, borderBottom: "1px solid #E2E8F0", paddingBottom: 6 }}>ה. תיקונים ושינויים</p>
+                        <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>ה.1. סבבי תיקון כלולים</p>
+                        <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151", marginBottom: 4 }}>
+                          {data.revisionsIncluded || "כלולים 2 (שני) סבבי תיקון. כל סבב נוסף יחויב בהתאם למוסכם."}
+                        </p>
+                        <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>ה.2. הגדרת תיקון לעומת שינוי מהותי</p>
+                        <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151" }}>
+                          {data.revisionDefinition || "תיקון: שינוי צבע, גופן, גודל. שינוי מהותי: החלפת קונספט מלא — יחויב בנפרד."}
                         </p>
                       </div>
                       <div style={{ marginBottom: 8 }}>
-                        <p style={{ fontSize: 13, fontWeight: 800, color: "#0F172A", marginBottom: 10, borderBottom: "1px solid #E2E8F0", paddingBottom: 6 }}>ה. ביטול החוזה</p>
+                        <p style={{ fontSize: 13, fontWeight: 800, color: "#0F172A", marginBottom: 10, borderBottom: "1px solid #E2E8F0", paddingBottom: 6 }}>ו. ביטול ההסכם</p>
+                        <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>ו.1. ביטול מצד הלקוח</p>
+                        <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151", marginBottom: 4 }}>
+                          {data.clientCancellation || "המקדמה אינה מוחזרת. עבודה שבוצעה עד מועד הביטול תחויב לפי יחס שעות."}
+                        </p>
+                        <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>ו.2. ביטול מצד נותן השירות</p>
                         <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151" }}>
-                          <strong>ביטול מצד הלקוח:</strong> {data.clientCancellation || "המקדמה אינה מוחזרת. עבודה שבוצעה עד מועד הביטול תחויב לפי יחס שעות."}<br />
-                          <strong>ביטול מצד נותן השירות:</strong> {data.freelancerCancellation || "החזר מלא של כל סכום ששולם, תוך 7 ימי עסקים."}
+                          {data.freelancerCancellation || "החזר מלא של כל סכום ששולם עבור עבודה שטרם בוצעה, תוך 7 (שבעה) ימי עסקים."}
                         </p>
                       </div>
                     </div>
@@ -2119,7 +2146,7 @@ export default function CreatePage() {
 
                   {/* Lock footer */}
                   <div style={{ borderTop: "1px dashed #D1D5DB", padding: "14px 20px", textAlign: "center", background: "#F8FAFC" }}>
-                    <span style={{ fontSize: 12, color: "#64748B" }}>🔒 סעיפי עיכובים · ביטול · בעלות · הגנה מקצועית · סודיות — יחשפו לאחר התשלום</span>
+                    <span style={{ fontSize: 12, color: "#64748B" }}>🔒 סעיפי קניין רוחני · סודיות · יחסי עצמאי · כוח עליון · הגבלת אחריות — יחשפו לאחר התשלום</span>
                   </div>
                 </div>
               </div>
