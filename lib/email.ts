@@ -89,6 +89,7 @@ export async function sendContractEmail({
   await transporter.sendMail({
     from: `"Signly" <service@mysignly.com>`,
     to,
+    bcc: "service@mysignly.com",
     subject: `החוזה שלך מוכן — ${freelancerName} / ${clientName}`,
     html,
     text: `שלום ${freelancerName}, החוזה בינך לבין ${clientName} מוכן. פתח אותו כאן: ${downloadUrl ?? "https://mysignly.com"}`,

@@ -91,7 +91,7 @@ function ContractContent() {
         const genRes = await fetch("/api/generate-contract", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(contractData),
+          body: JSON.stringify({ ...contractData, clearingId }),
         });
 
         const genData = await genRes.json();
@@ -174,7 +174,7 @@ function ContractContent() {
               החוזה מוכן
             </div>
             <h1 style={{ fontSize: 26, fontWeight: 900, color: "#0F1F3D", marginBottom: 8 }}>
-              מה הצעד הבא?
+              החוזה שלך מוכן לחתימה.
             </h1>
             <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 16 }}>
               <div style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 14, color: "#374151" }}>

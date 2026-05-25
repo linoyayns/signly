@@ -51,10 +51,10 @@ export default function HomePage() {
               צור את החוזה שלי
             </Link>
             <Link
-              href="#how"
+              href="/sample"
               style={{ padding: "16px 24px", fontSize: 16, fontWeight: 600, background: "transparent", color: "#0F172A", border: "1.5px solid #CBD5E1", borderRadius: 10, textDecoration: "none" }}
             >
-              איך זה עובד?
+              ראה חוזה לדוגמה
             </Link>
           </div>
           <div dir="rtl" style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
@@ -115,7 +115,7 @@ export default function HomePage() {
           <div className="mob-col1" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 40 }}>
             {[
               { step: "1", title: "ענה על שאלות", desc: "שאלון קצר ומדויק שמתאים לסוג הפרויקט שלך – מה, כמה, מתי" },
-              { step: "2", title: "קבל חוזה", desc: "אני מייצר חוזה מקיף בעברית עם כל הסעיפים הנחוצים לפרויקט שלך" },
+              { step: "2", title: "קבל חוזה", desc: "תוך דקות יש לך חוזה מקיף בעברית עם כל הסעיפים הנחוצים לפרויקט שלך" },
               { step: "3", title: "הורד ושלח", desc: "מקבלים PDF להדפסה וקובץ Word לעריכה. שולחים ללקוח, חותמים, מתחילים לעבוד." },
             ].map(({ step, title, desc }) => (
               <div key={step} style={{ textAlign: "center" }}>
@@ -209,23 +209,15 @@ export default function HomePage() {
                 ))}
               </div>
             </div>
-            <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 16, padding: 28, boxShadow: "0 20px 40px rgba(0,0,0,0.10)", position: "relative", overflow: "hidden" }}>
-              <div style={{ fontSize: 11, fontWeight: 700, textAlign: "center", color: "#64748B", letterSpacing: 2, marginBottom: 8 }}>SIGNLY CONTRACT</div>
-              <div style={{ fontSize: 15, fontWeight: 800, textAlign: "center", borderBottom: "2px solid #0F172A", paddingBottom: 12, marginBottom: 16 }}>
-                הסכם התקשרות –<br />שירותי עיצוב גרפי
+            <div style={{ background: "white", border: "1.5px solid #E2E8F0", borderRadius: 16, padding: 36, boxShadow: "0 20px 40px rgba(0,0,0,0.07)", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 20 }}>
+              <div style={{ width: 64, height: 64, background: "#EFF6FF", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28 }}>📄</div>
+              <div>
+                <p style={{ fontSize: 17, fontWeight: 800, color: "#0F172A", marginBottom: 8 }}>רוצה לראות חוזה אמיתי?</p>
+                <p style={{ fontSize: 14, color: "#64748B", lineHeight: 1.7 }}>ראה דוגמה מלאה לחוזה שנוצר בעזרת Signly — עם כל הסעיפים, הניסוח המשפטי, וחתימות.</p>
               </div>
-              <div style={{ fontSize: 13, color: "#0F172A", lineHeight: 1.8, direction: "rtl" }}>
-                <p style={{ marginBottom: 10 }}><strong>הצדדים להסכם:</strong></p>
-                <p style={{ marginBottom: 6 }}>נותן שירות: <strong>נועה כהן עיצוב</strong></p>
-                <p style={{ marginBottom: 16 }}>לקוח: <strong>סטודיו ABC בע&quot;מ</strong></p>
-                <p style={{ marginBottom: 10 }}><strong>1. תיאור השירות:</strong></p>
-                <p style={{ marginBottom: 16 }}>נותן השירות יספק שירותי עיצוב גרפי הכוללים עיצוב לוגו, חומרים שיווקיים וסט מותג מלא...</p>
-              </div>
-              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 100, background: "linear-gradient(to bottom, transparent, white)", borderRadius: "0 0 16px 16px", display: "flex", alignItems: "flex-end", justifyContent: "center", paddingBottom: 16 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#64748B" }}>
-                  🔒 ממשיכים לסעיפים נוספים אחרי התשלום
-                </div>
-              </div>
+              <Link href="/sample" style={{ padding: "12px 28px", fontSize: 15, fontWeight: 700, background: "#2563EB", color: "white", borderRadius: 10, textDecoration: "none" }}>
+                ראה חוזה לדוגמה ←
+              </Link>
             </div>
           </div>
         </div>
@@ -365,7 +357,7 @@ export default function HomePage() {
               },
               {
                 q: "כמה זמן לוקח ליצור חוזה?",
-                a: "בממוצע 3-5 דקות. עונים על שאלות קצרות על הפרויקט שלך, המערכת מייצרת חוזה מותאם, ואת/ה מקבל PDF מוכן להדפסה וקובץ Word לעריכה.",
+                a: "בממוצע 3-5 דקות. עונים על שאלות קצרות על הפרויקט שלך, ותוך דקות יש לך חוזה מותאם — PDF מוכן להדפסה וקובץ Word לעריכה.",
               },
               {
                 q: "מה קורה אם לא מרוצה מהחוזה?",
@@ -381,7 +373,7 @@ export default function HomePage() {
               },
               {
                 q: "מה ההבדל בין Signly לתבנית חינמית?",
-                a: "תבנית חינמית היא גנרית — אותו טקסט לצלם, למעצב ולמאמן. Signly שואל אותך שאלות ספציפיות למקצוע שלך ולפרויקט, ומייצר חוזה שמתאים בדיוק למה שסיכמת עם הלקוח. בנוסף: תבנית חינמית לא תזכיר לך שאלות שלא חשבת עליהן.",
+                a: "תבנית חינמית היא גנרית — אותו טקסט לצלם, למעצב ולמאמן. Signly שואל אותך שאלות ספציפיות למקצוע שלך ולפרויקט, ותוך דקות יש לך חוזה שמתאים בדיוק למה שסיכמת עם הלקוח. בנוסף: תבנית חינמית לא תזכיר לך שאלות שלא חשבת עליהן.",
               },
               {
                 q: "האם הלוגו של Signly יופיע על המסמך הסופי?",
