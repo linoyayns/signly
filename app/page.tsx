@@ -78,7 +78,7 @@ export default function HomePage() {
       </section>
 
       {/* PROFESSIONS */}
-      <section style={{ padding: "80px 40px", background: "#FDFCFB" }}>
+      <section style={{ padding: "80px 40px", background: "#FAFAF8" }}>
         <div className="reveal" style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
             <div style={{ fontSize: 12, fontWeight: 800, color: "#533afd", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>למי זה מיועד</div>
@@ -135,7 +135,7 @@ export default function HomePage() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section id="how" style={{ padding: "80px 40px", background: "#F5F3EF" }}>
+      <section id="how" style={{ padding: "80px 40px", background: "#FAFAF8" }}>
         <div className="reveal" style={{ maxWidth: 900, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
             <div style={{ fontSize: 12, fontWeight: 800, color: "#533afd", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>תהליך</div>
@@ -172,7 +172,7 @@ export default function HomePage() {
       </section>
 
       {/* PERSONALIZATION */}
-      <section style={{ padding: "80px 40px", background: "#FDFCFB" }}>
+      <section style={{ padding: "80px 40px", background: "#FAFAF8" }}>
         <div className="reveal" style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
             <div style={{ fontSize: 12, fontWeight: 800, color: "#533afd", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>שאלון חכם</div>
@@ -217,7 +217,7 @@ export default function HomePage() {
       </section>
 
       {/* PREVIEW */}
-      <section style={{ padding: "80px 40px", background: "#F5F3EF" }}>
+      <section style={{ padding: "80px 40px", background: "#FAFAF8" }}>
         <div className="reveal" style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div className="mob-stack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
             <div>
@@ -254,7 +254,7 @@ export default function HomePage() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section style={{ padding: "80px 40px", background: "#FDFCFB" }}>
+      <section style={{ padding: "80px 40px", background: "#FAFAF8" }}>
         <div className="reveal" style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 48 }}>
             <div style={{ fontSize: 12, fontWeight: 800, color: "#533afd", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>פרילנסרים שכבר השתמשו</div>
@@ -298,7 +298,7 @@ export default function HomePage() {
       </section>
 
       {/* TRUST / AI */}
-      <section style={{ padding: "80px 40px", background: "#FDFCFB" }}>
+      <section style={{ padding: "80px 40px", background: "#FAFAF8" }}>
         <div className="reveal" style={{ maxWidth: 900, margin: "0 auto" }}>
           <div style={{ background: "linear-gradient(135deg, rgba(83,58,253,0.06) 0%, rgba(124,58,237,0.08) 100%)", border: "1px solid rgba(83,58,253,0.15)", borderRadius: 20, padding: "48px 56px", textAlign: "center", marginBottom: 44 }}>
             <h3 style={{ fontSize: 26, fontWeight: 900, color: "#0F172A", marginBottom: 14 }}>
@@ -340,7 +340,7 @@ export default function HomePage() {
       </section>
 
       {/* PRICING */}
-      <section id="pricing" style={{ padding: "80px 40px", background: "#F5F3EF" }}>
+      <section id="pricing" style={{ padding: "80px 40px", background: "#FAFAF8" }}>
         <div className="reveal" style={{ maxWidth: 520, margin: "0 auto", textAlign: "center" }}>
           <div style={{ fontSize: 12, fontWeight: 800, color: "#533afd", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>תמחור</div>
           <h2 style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5, marginBottom: 12 }}>מחיר אחד. ללא הפתעות.</h2>
@@ -376,7 +376,7 @@ export default function HomePage() {
       </section>
 
       {/* FAQ */}
-      <section style={{ padding: "80px 40px", background: "#FDFCFB" }}>
+      <section style={{ padding: "80px 40px", background: "#FAFAF8" }}>
         <div className="reveal" style={{ maxWidth: 700, margin: "0 auto" }}>
           <h2 style={{ fontSize: 32, fontWeight: 900, color: "#0F172A", textAlign: "center", marginBottom: 48, letterSpacing: -0.5 }}>שאלות נפוצות</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
