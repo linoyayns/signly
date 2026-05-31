@@ -10,6 +10,7 @@ const heebo = Heebo({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.mysignly.com"),
   title: "Signly — חוזים מקצועיים לפרילנסרים",
   description: "ענה על שאלות קצרות על הפרויקט שלך ותוך דקות תקבל חוזה מקצועי בעברית. ₪97 בלבד, ללא הרשמה.",
   openGraph: {
