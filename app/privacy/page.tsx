@@ -36,7 +36,7 @@ export default function PrivacyPage() {
         </div>
 
         <Section title="1. מי אנחנו">
-          <p>Signly היא פלטפורמה לייצור חוזי פרילנס בעברית, המופעלת בישראל. לפניות בנושא פרטיות: <strong>privacy@mysignly.com</strong></p>
+          <p>Signly היא פלטפורמה לייצור חוזי פרילנס בעברית, המופעלת בישראל. לפניות בנושא פרטיות: <strong>service@mysignly.com</strong></p>
         </Section>
 
         <Section title="2. איזה מידע אנחנו אוספים">
@@ -86,12 +86,12 @@ export default function PrivacyPage() {
             <li>לבקש תיקון של פרטים שגויים</li>
             <li>לבקש מחיקה של הפרטים שלך</li>
           </ul>
-          <p style={{ marginTop: 12 }}>לכל פנייה: <strong>privacy@mysignly.com</strong> — נחזור תוך 48 שעות.</p>
+          <p style={{ marginTop: 12 }}>לכל פנייה: <strong>service@mysignly.com</strong> — נחזור תוך 48 שעות.</p>
         </Section>
 
         <Section title="7. עוגיות (Cookies)">
           <p>
-            האתר משתמש בעוגיות טכניות בסיסיות בלבד הנחוצות להפעלתו התקינה. אנחנו לא משתמשים בעוגיות פרסומיות, כלי מעקב או Google Analytics.
+            האתר משתמש בעוגיות טכניות בסיסיות הנחוצות להפעלתו התקינה, וכן ב-Google Analytics לצורך ניתוח סטטיסטי אנונימי של תנועת גולשים (כמות ביקורים, עמודים פופולריים). אנחנו לא משתמשים בעוגיות פרסומיות לטירגוט או בכלי מעקב של צדדים שלישיים מעבר לכך.
           </p>
         </Section>
 
@@ -104,7 +104,7 @@ export default function PrivacyPage() {
         {/* Footer links */}
         <div style={{ borderTop: "1px solid #E2E8F0", paddingTop: 32, marginTop: 48 }}>
           <p style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.7, marginBottom: 20 }}>
-            שאלות? כתבו ל-<strong>privacy@mysignly.com</strong>
+            שאלות? כתבו ל-<strong>service@mysignly.com</strong>
           </p>
           <div style={{ display: "flex", gap: 20 }}>
             <Link href="/terms" style={{ fontSize: 14, color: "#533afd", textDecoration: "none", fontWeight: 600 }}>תקנון שימוש</Link>
