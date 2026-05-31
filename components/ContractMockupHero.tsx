@@ -127,7 +127,7 @@ export function ContractMockupHero() {
         boxShadow: "0 24px 60px rgba(83,58,253,0.14), 0 4px 16px rgba(0,0,0,0.06)",
         width: "100%",
         maxWidth: 340,
-        transform: "rotate(-1.5deg)",
+        transform: "rotate(-0.8deg)",
         direction: "rtl",
         fontFamily: "inherit",
         overflow: "hidden",

@@ -49,7 +49,7 @@ export default function HomePage() {
               <Link href="/create" className="btn-glow" style={{ padding: "16px 32px", fontSize: 17, fontWeight: 700, background: "#533afd", color: "white", borderRadius: 9999, textDecoration: "none" }}>
                 צור את החוזה שלי
               </Link>
-              <Link href="/sample" style={{ padding: "16px 24px", fontSize: 16, fontWeight: 600, background: "transparent", color: "#0F172A", border: "1.5px solid #CBD5E1", borderRadius: 9999, textDecoration: "none" }}>
+              <Link href="/sample" style={{ padding: "16px 24px", fontSize: 16, fontWeight: 600, background: "transparent", color: "#533afd", border: "1.5px solid #C4B5FD", borderRadius: 9999, textDecoration: "none" }}>
                 ראה חוזה לדוגמה
               </Link>
             </div>
@@ -78,7 +78,7 @@ export default function HomePage() {
       </section>
 
       {/* PROFESSIONS */}
-      <section style={{ padding: "80px 40px", background: "#FFFFFF" }}>
+      <section style={{ padding: "80px 40px", background: "#FDFCFB" }}>
         <div className="reveal" style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
             <div style={{ fontSize: 12, fontWeight: 800, color: "#533afd", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>למי זה מיועד</div>
@@ -135,7 +135,7 @@ export default function HomePage() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section id="how" style={{ padding: "80px 40px", background: "#F8FAFC" }}>
+      <section id="how" style={{ padding: "80px 40px", background: "#F5F3EF" }}>
         <div className="reveal" style={{ maxWidth: 900, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
             <div style={{ fontSize: 12, fontWeight: 800, color: "#533afd", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>תהליך</div>
@@ -172,7 +172,7 @@ export default function HomePage() {
       </section>
 
       {/* PERSONALIZATION */}
-      <section style={{ padding: "80px 40px", background: "#FFFFFF" }}>
+      <section style={{ padding: "80px 40px", background: "#FDFCFB" }}>
         <div className="reveal" style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
             <div style={{ fontSize: 12, fontWeight: 800, color: "#533afd", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>שאלון חכם</div>
@@ -217,7 +217,7 @@ export default function HomePage() {
       </section>
 
       {/* PREVIEW */}
-      <section style={{ padding: "80px 40px", background: "#F8FAFC" }}>
+      <section style={{ padding: "80px 40px", background: "#F5F3EF" }}>
         <div className="reveal" style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div className="mob-stack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
             <div>
@@ -254,7 +254,7 @@ export default function HomePage() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section style={{ padding: "80px 40px", background: "#FFFFFF" }}>
+      <section style={{ padding: "80px 40px", background: "#FDFCFB" }}>
         <div className="reveal" style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 48 }}>
             <div style={{ fontSize: 12, fontWeight: 800, color: "#533afd", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>פרילנסרים שכבר השתמשו</div>
@@ -284,7 +284,7 @@ export default function HomePage() {
                 author: "מאיה ר. — מאיירת פרילנס, באר שבע",
               },
             ].map(({ stars, text, author }) => (
-              <div key={author} className="card-hover" style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 12, padding: "28px 24px" }}>
+              <div key={author} className="card-hover" style={{ background: "white", border: "1px solid #E2E8F0", borderRight: "3px solid #533afd", borderRadius: 12, padding: "28px 24px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
                   <div style={{ color: "#F59E0B", fontSize: 16, letterSpacing: 2 }}>{stars}</div>
                   <div style={{ fontSize: 11, color: "#16A34A", fontWeight: 700, background: "#F0FDF4", border: "1px solid #86EFAC", borderRadius: 99, padding: "2px 8px" }}>✓ מאומת</div>
@@ -298,7 +298,7 @@ export default function HomePage() {
       </section>
 
       {/* TRUST / AI */}
-      <section style={{ padding: "80px 40px", background: "#FFFFFF" }}>
+      <section style={{ padding: "80px 40px", background: "#FDFCFB" }}>
         <div className="reveal" style={{ maxWidth: 900, margin: "0 auto" }}>
           <div style={{ background: "linear-gradient(135deg, rgba(83,58,253,0.06) 0%, rgba(124,58,237,0.08) 100%)", border: "1px solid rgba(83,58,253,0.15)", borderRadius: 20, padding: "48px 56px", textAlign: "center", marginBottom: 44 }}>
             <h3 style={{ fontSize: 26, fontWeight: 900, color: "#0F172A", marginBottom: 14 }}>
@@ -328,7 +328,7 @@ export default function HomePage() {
               { title: "שדה פתוח לבקשות", desc: "יש סעיף מיוחד שחשוב לך? כתוב בשפה שלך — נמיר לניסוח משפטי." },
             ].map(({ title, desc }) => (
               <div key={title} className="card-hover" style={{ display: "flex", gap: 16, alignItems: "flex-start", padding: 24, background: "white", border: "1px solid #E2E8F0", borderRadius: 12 }}>
-                <div style={{ width: 42, height: 42, background: "rgba(83,58,253,0.08)", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", color: "#533afd", flexShrink: 0, fontSize: 18 }}>✓</div>
+                <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#533afd", flexShrink: 0, marginTop: 7 }} />
                 <div>
                   <h4 style={{ fontSize: 15, fontWeight: 800, color: "#0F172A", marginBottom: 4 }}>{title}</h4>
                   <p style={{ fontSize: 13, color: "#64748B", lineHeight: 1.6 }}>{desc}</p>
@@ -340,12 +340,12 @@ export default function HomePage() {
       </section>
 
       {/* PRICING */}
-      <section id="pricing" style={{ padding: "80px 40px", background: "#F8FAFC" }}>
+      <section id="pricing" style={{ padding: "80px 40px", background: "#F5F3EF" }}>
         <div className="reveal" style={{ maxWidth: 520, margin: "0 auto", textAlign: "center" }}>
           <div style={{ fontSize: 12, fontWeight: 800, color: "#533afd", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>תמחור</div>
           <h2 style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5, marginBottom: 12 }}>מחיר אחד. ללא הפתעות.</h2>
           <p style={{ fontSize: 16, color: "#64748B", marginBottom: 40 }}>עורכי דין לוקחים בין 500-1,800₪ על חוזה. אנחנו לוקחים 97₪.</p>
-          <div style={{ background: "white", border: "1.5px solid #E2E8F0", borderRadius: 20, padding: "40px 32px", boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}>
+          <div style={{ background: "white", border: "1.5px solid rgba(83,58,253,0.25)", borderRadius: 20, padding: "40px 32px", boxShadow: "0 4px 16px rgba(0,0,0,0.06), 0 0 0 4px rgba(83,58,253,0.06)" }}>
             <div style={{ fontSize: 13, color: "#64748B", marginBottom: 4 }}>חד-פעמי</div>
             <div style={{ fontSize: 72, fontWeight: 900, color: "#0F172A", letterSpacing: -2, lineHeight: 1, marginBottom: 4 }}><span style={{ fontSize: 32 }}>₪</span>97</div>
             <div style={{ fontSize: 13, color: "#64748B", marginBottom: 32 }}>ללא מנוי · ללא הפתעות</div>
@@ -376,7 +376,7 @@ export default function HomePage() {
       </section>
 
       {/* FAQ */}
-      <section style={{ padding: "80px 40px", background: "#FFFFFF" }}>
+      <section style={{ padding: "80px 40px", background: "#FDFCFB" }}>
         <div className="reveal" style={{ maxWidth: 700, margin: "0 auto" }}>
           <h2 style={{ fontSize: 32, fontWeight: 900, color: "#0F172A", textAlign: "center", marginBottom: 48, letterSpacing: -0.5 }}>שאלות נפוצות</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
@@ -420,7 +420,7 @@ export default function HomePage() {
       </section>
 
       {/* CLOSING CTA */}
-      <section style={{ padding: "80px 40px", background: "#0F172A", textAlign: "center" }}>
+      <section style={{ padding: "80px 40px", background: "#533afd", textAlign: "center" }}>
         <div className="reveal" style={{ maxWidth: 600, margin: "0 auto" }}>
           <h2 style={{ fontSize: 36, fontWeight: 900, color: "white", marginBottom: 16, letterSpacing: -0.5 }}>
             מוכן להגן על עצמך?
@@ -431,7 +431,7 @@ export default function HomePage() {
           <Link
             href="/create"
             className="btn-glow"
-            style={{ display: "inline-block", padding: "18px 40px", fontSize: 18, fontWeight: 700, background: "white", color: "#0F172A", borderRadius: 9999, textDecoration: "none" }}
+            style={{ display: "inline-block", padding: "18px 40px", fontSize: 18, fontWeight: 700, background: "white", color: "#533afd", borderRadius: 9999, textDecoration: "none" }}
           >
             צור את החוזה שלי ←
           </Link>
