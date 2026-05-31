@@ -216,6 +216,54 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* CUSTOM CLAUSE */}
+      <section style={{ padding: "80px 40px", background: "#FFFFFF" }}>
+        <div className="reveal" style={{ maxWidth: 900, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 52 }}>
+            <div style={{ fontSize: 12, fontWeight: 800, color: "#533afd", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>בקשה מיוחדת</div>
+            <h2 style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", letterSpacing: -0.5, marginBottom: 16 }}>
+              יש משהו ספציפי שחשוב לך?<br />כתוב בשפה שלך — אנחנו נהפוך אותו לסעיף משפטי.
+            </h2>
+            <p style={{ fontSize: 16, color: "#64748B", maxWidth: 520, margin: "0 auto" }}>
+              לא צריך לדעת משפטים. מספיק לכתוב מה אתה רוצה שיהיה כתוב בחוזה.
+            </p>
+          </div>
+
+          {/* Transformation mockup */}
+          <div className="mob-col1" style={{ display: "grid", gridTemplateColumns: "1fr 40px 1fr", gap: 0, alignItems: "center", marginBottom: 32 }}>
+
+            {/* Input — user's words */}
+            <div style={{ background: "#F8FAFC", border: "1.5px solid #E2E8F0", borderRadius: 14, padding: "28px 28px" }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: "#94A3B8", marginBottom: 14, letterSpacing: 1.2, textTransform: "uppercase" }}>מה שאתה כותב</div>
+              <p style={{ fontSize: 15, color: "#475569", lineHeight: 1.75, fontStyle: "italic", margin: 0 }}>
+                &quot;אני רוצה שאם הלקוח מבטל — הוא ישלם לי חצי מהסכום.&quot;
+              </p>
+            </div>
+
+            {/* Arrow */}
+            <div style={{ textAlign: "center", fontSize: 22, color: "#533afd", fontWeight: 900 }}>←</div>
+
+            {/* Output — legal text */}
+            <div style={{ background: "#ede9fe", border: "1.5px solid #c4b5fd", borderRadius: 14, padding: "28px 28px" }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: "#533afd", marginBottom: 14, letterSpacing: 1.2, textTransform: "uppercase" }}>מה שנכנס לחוזה</div>
+              <p style={{ fontSize: 14, color: "#2e1065", lineHeight: 1.85, margin: 0 }}>
+                &quot;במקרה של ביטול מצד הלקוח, יחויב הלקוח בתשלום 50% מסכום ההסכם הכולל, כפיצוי מוסכם מראש ולא עונשי, בהתאם לסעיף 15 לחוק החוזים (חלק כללי), תשל&quot;ג-1973.&quot;
+              </p>
+            </div>
+          </div>
+
+          {/* Disclaimer + CTA */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 20, background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 12, padding: "20px 28px" }}>
+            <p style={{ fontSize: 14, color: "#64748B", margin: 0, lineHeight: 1.6, maxWidth: 560 }}>
+              <strong style={{ color: "#0F172A" }}>הסעיף שלך, בניסוח מקצועי.</strong> כתוב בשפה שלך — אנחנו נדאג לניסוח שעומד בדין הישראלי.
+            </p>
+            <a href="/create" style={{ padding: "12px 24px", fontSize: 15, fontWeight: 700, background: "#533afd", color: "white", borderRadius: 9999, textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0 }}>
+              נסה עכשיו ←
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* PREVIEW */}
       <section style={{ padding: "80px 40px", background: "#FFFFFF" }}>
         <div className="reveal" style={{ maxWidth: 1100, margin: "0 auto" }}>
