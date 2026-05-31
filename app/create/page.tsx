@@ -89,9 +89,10 @@ const PROFESSIONS = [
 ];
 
 const PROFESSION_CATEGORIES: { label: string; professions: Profession[] }[] = [
-  { label: "קריאייטיב ומדיה",      professions: ["photographer", "designer", "writer", "videoEditor", "socialMedia", "musician", "translator", "artist", "influencer"] },
+  { label: "קריאייטיב ומדיה",      professions: ["photographer", "designer", "writer", "videoEditor", "socialMedia", "musician", "translator", "influencer"] },
   { label: "ייעוץ, אימון והדרכה",  professions: ["consultant", "coach", "sportsInstructor", "tutor", "psychologist", "lactationConsultant", "sleepConsultant", "doula", "nightNurse"] },
-  { label: "יופי וטיפוח",           professions: ["beauty", "jewelryDesigner", "ceramicist"] },
+  { label: "אמנות ויצירה",          professions: ["artist", "jewelryDesigner", "ceramicist"] },
+  { label: "יופי וטיפוח",           professions: ["beauty"] },
   { label: "עיצוב ואדריכלות",       professions: ["interiorDesigner", "architect"] },
   { label: "טכנולוגיה",             professions: ["developer"] },
   { label: "בנייה ותחזוקה",         professions: ["renovation", "gardener"] },
@@ -1332,7 +1333,7 @@ export default function CreatePage() {
     !data[field] ? (
       <button
         onClick={() => update(field, value)}
-        style={{ display: "inline-flex", alignItems: "center", gap: 5, marginTop: 8, background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 6, color: "#2563EB", fontSize: 12, fontWeight: 700, cursor: "pointer", padding: "6px 12px" }}
+        style={{ display: "inline-flex", alignItems: "center", gap: 5, marginTop: 8, background: "#ede9fe", border: "1px solid #c4b5fd", borderRadius: 9999, color: "#533afd", fontSize: 12, fontWeight: 700, cursor: "pointer", padding: "6px 14px" }}
       >
         השתמש בדוגמה הכתובה
       </button>
@@ -1347,7 +1348,7 @@ export default function CreatePage() {
           <div style={{ background: "white", borderRadius: 16, overflow: "hidden", width: "100%", maxWidth: 520, maxHeight: "90vh", display: "flex", flexDirection: "column", boxShadow: "0 24px 64px rgba(0,0,0,0.3)" }}>
             {/* Header */}
             <div style={{ padding: "16px 20px", borderBottom: "1px solid #E2E8F0", display: "flex", justifyContent: "space-between", alignItems: "center", background: "#0F1F3D" }}>
-              <span style={{ fontWeight: 800, color: "white", fontSize: 16 }}>Signly<span style={{ color: "#2563EB" }}>.</span> — תשלום מאובטח</span>
+              <span style={{ fontWeight: 800, color: "white", fontSize: 16 }}>Signly<span style={{ color: "#533afd" }}>.</span> — תשלום מאובטח</span>
               <button
                 onClick={() => setPaymentIframe(null)}
                 style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, color: "rgba(255,255,255,0.6)", lineHeight: 1 }}
@@ -1366,27 +1367,43 @@ export default function CreatePage() {
       {/* NAV */}
       <nav style={{ background: "rgba(15,31,61,0.97)", height: 56, display: "flex", alignItems: "center", padding: "0 24px", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 100 }}>
         <Link href="/" style={{ textDecoration: "none" }}>
-          <span style={{ fontSize: 20, fontWeight: 800, color: "white", cursor: "pointer" }}>Signly<span style={{ color: "#2563EB" }}>.</span></span>
+          <span style={{ fontSize: 20, fontWeight: 800, color: "white", cursor: "pointer" }}>Signly<span style={{ color: "#533afd" }}>.</span></span>
         </Link>
         <span style={{ fontSize: 13, color: "rgba(255,255,255,0.5)" }}>🔒 מאובטח</span>
       </nav>
 
       {/* PROGRESS */}
-      <div style={{ background: "white", borderBottom: "1px solid #E2E8F0", padding: "14px 24px" }}>
+      <div style={{ background: "white", borderBottom: "1px solid #E2E8F0", padding: "12px 24px 16px" }}>
         <div style={{ maxWidth: 600, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
             <span style={{ fontSize: 13, color: "#64748B" }}>{STEP_LABELS[currentStep - 1]}</span>
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#2563EB" }}>שלב {currentStep} מתוך {TOTAL_STEPS}</span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#533afd", background: "#ede9fe", padding: "2px 10px", borderRadius: 99 }}>שלב {currentStep} מתוך {TOTAL_STEPS}</span>
           </div>
-          <div style={{ height: 5, background: "#E2E8F0", borderRadius: 99, overflow: "hidden" }}>
-            <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(90deg, #2563EB, #7C3AED)", borderRadius: 99, transition: "width 0.4s ease" }} />
+          <div style={{ height: 6, background: "#E2E8F0", borderRadius: 99, overflow: "hidden", marginBottom: 10 }}>
+            <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(90deg, #533afd, #9333ea)", borderRadius: 99, transition: "width 0.4s ease" }} />
+          </div>
+          {/* Step dots */}
+          <div style={{ display: "flex", gap: 6, justifyContent: "center" }}>
+            {Array.from({ length: TOTAL_STEPS }, (_, i) => i + 1).map((step) => (
+              <div
+                key={step}
+                style={{
+                  width: step === currentStep ? 20 : 7,
+                  height: 7,
+                  borderRadius: 99,
+                  background: step < currentStep ? "#533afd" : step === currentStep ? "linear-gradient(90deg, #533afd, #9333ea)" : "#E2E8F0",
+                  transition: "all 0.35s ease",
+                  boxShadow: step === currentStep ? "0 0 0 2px rgba(83,58,253,0.18)" : "none",
+                }}
+              />
+            ))}
           </div>
         </div>
       </div>
 
       {/* STEP CONTENT */}
       <div className="mob-step-outer" style={{ flex: 1, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "40px 20px 120px" }}>
-        <div className="mob-step-card" style={{ background: "white", borderRadius: 14, boxShadow: "0 4px 24px rgba(0,0,0,0.08)", padding: "40px 36px", width: "100%", maxWidth: 600 }}>
+        <div className="mob-step-card" style={{ background: "white", borderRadius: 14, boxShadow: "0 4px 24px rgba(0,0,0,0.08)", padding: "40px 36px", width: "100%", maxWidth: 600, borderTop: "3px solid #533afd" }}>
 
           {/* GLOBAL OPTIONAL NOTE — shown on all steps except 1 and 8 */}
           {currentStep > 1 && currentStep < 8 && (
@@ -1398,7 +1415,7 @@ export default function CreatePage() {
           {/* STEP 1 — PROFESSION */}
           {currentStep === 1 && (
             <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 1 מתוך 8</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#533afd", background: "#ede9fe", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 1 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>מה המקצוע שלך?</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 16 }}>חפש/י לפי שם, או פתח/י קטגוריה.</p>
 
@@ -1417,8 +1434,8 @@ export default function CreatePage() {
 
               {/* Selected profession badge */}
               {data.profession && (
-                <div style={{ background: "#EFF6FF", border: "1.5px solid #2563EB", borderRadius: 8, padding: "10px 14px", marginBottom: 16, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontSize: 14, fontWeight: 700, color: "#2563EB" }}>
+                <div style={{ background: "#ede9fe", border: "1.5px solid #533afd", borderRadius: 8, padding: "10px 14px", marginBottom: 16, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: "#533afd" }}>
                     ✓ {PROFESSIONS.find(p => p.id === data.profession)?.label}
                   </span>
                   <button onClick={() => { update("profession", null); setOpenCategory(null); }} style={{ background: "none", border: "none", color: "#94A3B8", fontSize: 12, cursor: "pointer" }}>שנה</button>
@@ -1439,10 +1456,10 @@ export default function CreatePage() {
                           <button
                             key={id}
                             onClick={() => { update("profession", id); setProfessionSearch(""); setTimeout(() => setCurrentStep(2), 300); }}
-                            style={{ border: `1.5px solid ${selected ? "#2563EB" : "#E2E8F0"}`, background: selected ? "#EFF6FF" : "white", borderRadius: 8, padding: "11px 14px", cursor: "pointer", textAlign: "right", display: "flex", alignItems: "center", justifyContent: "space-between" }}
+                            style={{ border: `1.5px solid ${selected ? "#533afd" : "#E2E8F0"}`, background: selected ? "#ede9fe" : "white", borderRadius: 8, padding: "11px 14px", cursor: "pointer", textAlign: "right", display: "flex", alignItems: "center", justifyContent: "space-between" }}
                           >
-                            <span style={{ fontSize: 13, fontWeight: selected ? 700 : 500, color: selected ? "#2563EB" : "#374151" }}>{prof.label}</span>
-                            {selected && <span style={{ color: "#2563EB", fontSize: 12 }}>✓</span>}
+                            <span style={{ fontSize: 13, fontWeight: selected ? 700 : 500, color: selected ? "#533afd" : "#374151" }}>{prof.label}</span>
+                            {selected && <span style={{ color: "#533afd", fontSize: 12 }}>✓</span>}
                           </button>
                         );
                       })}
@@ -1459,13 +1476,13 @@ export default function CreatePage() {
                   const isOpen = openCategory === catLabel;
                   const hasSelected = catProfs.includes(data.profession as Profession);
                   return (
-                    <div key={catLabel} style={{ border: `1.5px solid ${hasSelected ? "#2563EB" : isOpen ? "#CBD5E1" : "#E2E8F0"}`, borderRadius: 10, overflow: "hidden", background: hasSelected ? "#EFF6FF" : "white" }}>
+                    <div key={catLabel} style={{ border: `1.5px solid ${hasSelected ? "#533afd" : isOpen ? "#CBD5E1" : "#E2E8F0"}`, borderRadius: 10, overflow: "hidden", background: hasSelected ? "#ede9fe" : "white" }}>
                       {/* Category header */}
                       <button
                         onClick={() => setOpenCategory(isOpen ? null : catLabel)}
                         style={{ width: "100%", padding: "13px 16px", background: "none", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "right" }}
                       >
-                        <span style={{ fontSize: 14, fontWeight: 600, color: hasSelected ? "#2563EB" : "#374151" }}>
+                        <span style={{ fontSize: 14, fontWeight: 600, color: hasSelected ? "#533afd" : "#374151" }}>
                           {catLabel}
                         </span>
                         <span style={{ fontSize: 12, color: "#94A3B8", transition: "transform 0.2s", transform: isOpen ? "rotate(180deg)" : "none", display: "inline-block" }}>▼</span>
@@ -1481,10 +1498,10 @@ export default function CreatePage() {
                               <button
                                 key={id}
                                 onClick={() => { update("profession", id); setOpenCategory(null); setTimeout(() => setCurrentStep(2), 300); }}
-                                style={{ border: `1.5px solid ${selected ? "#2563EB" : "#E2E8F0"}`, background: selected ? "#EFF6FF" : "#F8FAFC", borderRadius: 8, padding: "10px 12px", cursor: "pointer", textAlign: "right", display: "flex", alignItems: "center", justifyContent: "space-between" }}
+                                style={{ border: `1.5px solid ${selected ? "#533afd" : "#E2E8F0"}`, background: selected ? "#ede9fe" : "#F8FAFC", borderRadius: 8, padding: "10px 12px", cursor: "pointer", textAlign: "right", display: "flex", alignItems: "center", justifyContent: "space-between" }}
                               >
-                                <span style={{ fontSize: 13, fontWeight: selected ? 700 : 500, color: selected ? "#2563EB" : "#374151" }}>{prof.label}</span>
-                                {selected && <span style={{ color: "#2563EB", fontSize: 12 }}>✓</span>}
+                                <span style={{ fontSize: 13, fontWeight: selected ? 700 : 500, color: selected ? "#533afd" : "#374151" }}>{prof.label}</span>
+                                {selected && <span style={{ color: "#533afd", fontSize: 12 }}>✓</span>}
                               </button>
                             );
                           })}
@@ -1500,10 +1517,10 @@ export default function CreatePage() {
           {/* STEP 2 — PARTIES */}
           {currentStep === 2 && (
             <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 2 מתוך 8</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#533afd", background: "#ede9fe", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 2 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>פרטי הצדדים</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 28 }}>בלי פרטי זיהוי, החוזה קשה לאכיפה — עם הפרטים, הוא מסמך משפטי לכל דבר.</p>
-              <p style={{ fontSize: 13, fontWeight: 700, color: "#2563EB", marginBottom: 12 }}>הפרטים שלך</p>
+              <p style={{ fontSize: 13, fontWeight: 700, color: "#533afd", marginBottom: 12 }}>הפרטים שלך</p>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>שמך המלא</label>
                 <input className="signly-field" style={inputStyle} placeholder="לדוגמה: נועה כהן" value={data.freelancerName} onChange={(e) => update("freelancerName", e.target.value)} />
@@ -1518,7 +1535,7 @@ export default function CreatePage() {
                   <input className="signly-field" style={inputStyle} placeholder="תל אביב" value={data.freelancerCity} onChange={(e) => update("freelancerCity", e.target.value)} />
                 </div>
               </div>
-              <p style={{ fontSize: 13, fontWeight: 700, color: "#2563EB", marginBottom: 12 }}>פרטי הלקוח</p>
+              <p style={{ fontSize: 13, fontWeight: 700, color: "#533afd", marginBottom: 12 }}>פרטי הלקוח</p>
               <div style={fieldGroupStyle}>
                 <label style={labelStyle}>שם הלקוח / החברה</label>
                 <input className="signly-field" style={inputStyle} placeholder="לדוגמה: סטודיו ABC בע&quot;מ" value={data.clientName} onChange={(e) => update("clientName", e.target.value)} />
@@ -1545,7 +1562,7 @@ export default function CreatePage() {
                       const today = new Date().toLocaleDateString("he-IL", { day: "numeric", month: "long", year: "numeric" });
                       update("signingDate", today);
                     }}
-                    style={{ padding: "8px 16px", background: data.signingDate ? "#dcfce7" : "#2563EB", color: data.signingDate ? "#166534" : "white", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: "pointer" }}
+                    style={{ padding: "8px 16px", background: data.signingDate ? "#dcfce7" : "#533afd", color: data.signingDate ? "#166534" : "white", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: "pointer" }}
                   >
                     {data.signingDate ? `✓ ${data.signingDate}` : "השתמש בתאריך היום"}
                   </button>
@@ -1561,7 +1578,7 @@ export default function CreatePage() {
           {/* STEP 3 — PROJECT */}
           {currentStep === 3 && (
             <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 3 מתוך 8</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#533afd", background: "#ede9fe", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 3 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>מה כלול בפרויקט?</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 28 }}>מה שלא כתוב בחוזה — הלקוח יכול לטעון שסיכמתם עליו.</p>
               <div style={fieldGroupStyle}>
@@ -1581,7 +1598,7 @@ export default function CreatePage() {
           {/* STEP 4 — PAYMENT */}
           {currentStep === 4 && (
             <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 4 מתוך 8</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#533afd", background: "#ede9fe", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 4 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>תשלום ותנאים</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 28 }}>מה שמוגדר בכתב — לא יכול להיות שנוי במחלוקת.</p>
               <div style={fieldGroupStyle}>
@@ -1595,7 +1612,7 @@ export default function CreatePage() {
                   ] as { val: FormData["paymentFrequency"]; label: string }[]).map(({ val, label }) => (
                     <button key={val!} type="button"
                       onClick={() => update("paymentFrequency", val)}
-                      style={{ padding: "8px 18px", borderRadius: 8, border: `1.5px solid ${data.paymentFrequency === val ? "#2563EB" : "#E2E8F0"}`, background: data.paymentFrequency === val ? "#EFF6FF" : "white", color: data.paymentFrequency === val ? "#2563EB" : "#374151", fontWeight: data.paymentFrequency === val ? 700 : 500, fontSize: 14, cursor: "pointer" }}
+                      style={{ padding: "8px 18px", borderRadius: 8, border: `1.5px solid ${data.paymentFrequency === val ? "#533afd" : "#E2E8F0"}`, background: data.paymentFrequency === val ? "#ede9fe" : "white", color: data.paymentFrequency === val ? "#533afd" : "#374151", fontWeight: data.paymentFrequency === val ? 700 : 500, fontSize: 14, cursor: "pointer" }}
                     >
                       {data.paymentFrequency === val ? "✓ " : ""}{label}
                     </button>
@@ -1614,7 +1631,7 @@ export default function CreatePage() {
                       key={String(val)}
                       type="button"
                       onClick={() => { update("hasDeposit", val); if (!val) update("depositPercent", ""); }}
-                      style={{ flex: 1, padding: "11px 0", borderRadius: 8, border: `1.5px solid ${data.hasDeposit === val ? "#2563EB" : "#E2E8F0"}`, background: data.hasDeposit === val ? "#EFF6FF" : "white", color: data.hasDeposit === val ? "#2563EB" : "#374151", fontWeight: data.hasDeposit === val ? 700 : 500, fontSize: 15, cursor: "pointer" }}
+                      style={{ flex: 1, padding: "11px 0", borderRadius: 8, border: `1.5px solid ${data.hasDeposit === val ? "#533afd" : "#E2E8F0"}`, background: data.hasDeposit === val ? "#ede9fe" : "white", color: data.hasDeposit === val ? "#533afd" : "#374151", fontWeight: data.hasDeposit === val ? 700 : 500, fontSize: 15, cursor: "pointer" }}
                     >
                       {data.hasDeposit === val && "✓ "}{label}
                     </button>
@@ -1641,10 +1658,10 @@ export default function CreatePage() {
                     <div
                       key={val}
                       onClick={() => update("vat", val)}
-                      style={{ display: "flex", alignItems: "center", gap: 12, padding: "14px 16px", border: `1.5px solid ${data.vat === val ? "#2563EB" : "#E2E8F0"}`, borderRadius: 10, cursor: "pointer", background: data.vat === val ? "#EFF6FF" : "white" }}
+                      style={{ display: "flex", alignItems: "center", gap: 12, padding: "14px 16px", border: `1.5px solid ${data.vat === val ? "#533afd" : "#E2E8F0"}`, borderRadius: 10, cursor: "pointer", background: data.vat === val ? "#ede9fe" : "white" }}
                     >
-                      <div style={{ width: 18, height: 18, borderRadius: "50%", border: `2px solid ${data.vat === val ? "#2563EB" : "#CBD5E1"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                        {data.vat === val && <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#2563EB" }} />}
+                      <div style={{ width: 18, height: 18, borderRadius: "50%", border: `2px solid ${data.vat === val ? "#533afd" : "#CBD5E1"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        {data.vat === val && <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#533afd" }} />}
                       </div>
                       <div>
                         <div style={{ fontSize: 14, fontWeight: 700, color: "#0F172A" }}>{title}</div>
@@ -1668,7 +1685,7 @@ export default function CreatePage() {
                     const selected = data.paymentMethod.split(" / ").filter(Boolean);
                     const isChecked = selected.includes(method);
                     return (
-                      <label key={method} style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", fontSize: 14, background: isChecked ? "#EFF6FF" : "#F8FAFC", border: `1px solid ${isChecked ? "#2563EB" : "#E2E8F0"}`, borderRadius: 8, padding: "8px 14px", color: isChecked ? "#2563EB" : "#64748B", fontWeight: isChecked ? 600 : 400, transition: "all 0.15s" }}>
+                      <label key={method} style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", fontSize: 14, background: isChecked ? "#ede9fe" : "#F8FAFC", border: `1px solid ${isChecked ? "#533afd" : "#E2E8F0"}`, borderRadius: 8, padding: "8px 14px", color: isChecked ? "#533afd" : "#64748B", fontWeight: isChecked ? 600 : 400, transition: "all 0.15s" }}>
                         <input
                           type="checkbox"
                           checked={isChecked}
@@ -1693,7 +1710,7 @@ export default function CreatePage() {
           {/* STEP 5 — DATES + REVISIONS */}
           {currentStep === 5 && (
             <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 5 מתוך 8</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#533afd", background: "#ede9fe", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 5 מתוך 8</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>מתי ולמתי?</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 20 }}>תאריך מסירה שלא כתוב בחוזה — לא מחייב אף אחד.</p>
 
@@ -1731,7 +1748,7 @@ export default function CreatePage() {
                               if (val === "open")      update("deliveryDate", "");
                             }
                           }}
-                          style={{ padding: "8px 14px", borderRadius: 8, border: `1.5px solid ${sel ? "#2563EB" : "#E2E8F0"}`, background: sel ? "#EFF6FF" : "white", color: sel ? "#2563EB" : "#374151", fontWeight: sel ? 700 : 500, fontSize: 13, cursor: "pointer" }}
+                          style={{ padding: "8px 14px", borderRadius: 8, border: `1.5px solid ${sel ? "#533afd" : "#E2E8F0"}`, background: sel ? "#ede9fe" : "white", color: sel ? "#533afd" : "#374151", fontWeight: sel ? 700 : 500, fontSize: 13, cursor: "pointer" }}
                         >
                           {sel ? "✓ " : ""}{label}
                         </button>
@@ -1791,7 +1808,7 @@ export default function CreatePage() {
           {/* STEP 6 — CANCELLATION + OWNERSHIP */}
           {currentStep === 6 && (
             <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 6 מתוך 8</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#533afd", background: "#ede9fe", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 6 מתוך 8</span>
               {profession && ONGOING_PROFESSIONS.includes(profession) ? (
                 <>
                   <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>איך מסיימים את ההתקשרות?</h2>
@@ -1805,7 +1822,7 @@ export default function CreatePage() {
                         const sel = data.noticePeriod === opt;
                         return (
                           <button key={opt} type="button" onClick={() => update("noticePeriod", opt)}
-                            style={{ padding: "8px 16px", borderRadius: 8, border: `1.5px solid ${sel ? "#2563EB" : "#E2E8F0"}`, background: sel ? "#EFF6FF" : "white", color: sel ? "#2563EB" : "#374151", fontWeight: sel ? 700 : 500, fontSize: 13, cursor: "pointer" }}
+                            style={{ padding: "8px 16px", borderRadius: 8, border: `1.5px solid ${sel ? "#533afd" : "#E2E8F0"}`, background: sel ? "#ede9fe" : "white", color: sel ? "#533afd" : "#374151", fontWeight: sel ? 700 : 500, fontSize: 13, cursor: "pointer" }}
                           >
                             {sel ? "✓ " : ""}{opt}
                           </button>
@@ -1864,10 +1881,10 @@ export default function CreatePage() {
                       <div
                         key={val!}
                         onClick={() => update("ownership", val)}
-                        style={{ display: "flex", alignItems: "flex-start", gap: 14, padding: "18px 16px", border: `1.5px solid ${data.ownership === val ? "#2563EB" : "#E2E8F0"}`, borderRadius: 12, cursor: "pointer", background: data.ownership === val ? "#EFF6FF" : "white" }}
+                        style={{ display: "flex", alignItems: "flex-start", gap: 14, padding: "18px 16px", border: `1.5px solid ${data.ownership === val ? "#533afd" : "#E2E8F0"}`, borderRadius: 12, cursor: "pointer", background: data.ownership === val ? "#ede9fe" : "white" }}
                       >
-                        <div style={{ width: 20, height: 20, borderRadius: "50%", border: `2px solid ${data.ownership === val ? "#2563EB" : "#CBD5E1"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
-                          {data.ownership === val && <div style={{ width: 9, height: 9, borderRadius: "50%", background: "#2563EB" }} />}
+                        <div style={{ width: 20, height: 20, borderRadius: "50%", border: `2px solid ${data.ownership === val ? "#533afd" : "#CBD5E1"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
+                          {data.ownership === val && <div style={{ width: 9, height: 9, borderRadius: "50%", background: "#533afd" }} />}
                         </div>
                         <div>
                           <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>{title}</div>
@@ -1884,7 +1901,7 @@ export default function CreatePage() {
           {/* STEP 7 — PROTECTION + SPECIAL REQUESTS */}
           {currentStep === 7 && (
             <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 7 מתוך 8 — אופציונלי</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#533afd", background: "#ede9fe", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 7 מתוך 8 — אופציונלי</span>
               {protectionConfig && (
                 <>
                   <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>{protectionConfig.question}</h2>
@@ -1935,7 +1952,7 @@ export default function CreatePage() {
                               update("specialRequests", data.specialRequests ? `${data.specialRequests}\n${text}` : text);
                             }
                           }}
-                          style={{ padding: "7px 14px", borderRadius: 20, border: `1.5px solid ${active ? "#2563EB" : "#E2E8F0"}`, background: active ? "#EFF6FF" : "white", color: active ? "#2563EB" : "#374151", fontSize: 13, fontWeight: active ? 700 : 400, cursor: "pointer" }}
+                          style={{ padding: "7px 14px", borderRadius: 20, border: `1.5px solid ${active ? "#533afd" : "#E2E8F0"}`, background: active ? "#ede9fe" : "white", color: active ? "#533afd" : "#374151", fontSize: 13, fontWeight: active ? 700 : 400, cursor: "pointer" }}
                         >
                           {active ? "✓ " : "+ "}{label}
                         </button>
@@ -1965,7 +1982,7 @@ export default function CreatePage() {
           {/* STEP 8 — SUMMARY + PAYMENT */}
           {currentStep === 8 && (
             <>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 8 מתוך 8 — סיכום ותשלום</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#533afd", background: "#ede9fe", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 8 מתוך 8 — סיכום ותשלום</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>הכל נראה טוב?</h2>
               <p style={{ fontSize: 14, color: "#64748B", marginBottom: 24 }}>בדוק/י את הפרטים לפני התשלום. לאחר התשלום תקבל/י את החוזה תוך דקות.</p>
 
@@ -2160,7 +2177,7 @@ export default function CreatePage() {
               <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 20 }}>
                 <input type="checkbox" id="terms" checked={agreedToTerms} onChange={(e) => setAgreedToTerms(e.target.checked)} style={{ width: 18, height: 18, marginTop: 2, cursor: "pointer", flexShrink: 0 }} />
                 <label htmlFor="terms" style={{ fontSize: 13, color: "#64748B", cursor: "pointer", lineHeight: 1.5 }}>
-                  קראתי ואני מסכים/ה ל<a href="/terms" style={{ color: "#2563EB" }}>תנאי השימוש</a> ו<a href="/privacy" style={{ color: "#2563EB" }}>מדיניות הפרטיות</a>
+                  קראתי ואני מסכים/ה ל<a href="/terms" style={{ color: "#533afd" }}>תנאי השימוש</a> ו<a href="/privacy" style={{ color: "#533afd" }}>מדיניות הפרטיות</a>
                 </label>
               </div>
 
@@ -2209,7 +2226,7 @@ export default function CreatePage() {
                   {couponStatus === "valid" && finalPrice < 97 && (
                     <span style={{ fontSize: 16, color: "#94A3B8", textDecoration: "line-through" }}>₪97</span>
                   )}
-                  <span style={{ fontSize: 22, fontWeight: 900, color: finalPrice === 0 ? "#16A34A" : "#2563EB" }}>
+                  <span style={{ fontSize: 22, fontWeight: 900, color: finalPrice === 0 ? "#16A34A" : "#533afd" }}>
                     {finalPrice === 0 ? "חינם" : `₪${finalPrice}`}
                   </span>
                 </div>
@@ -2218,15 +2235,16 @@ export default function CreatePage() {
               <button
                 onClick={handleCheckout}
                 disabled={!agreedToTerms || !data.deliveryEmail.trim() || isSubmitting}
+                className={agreedToTerms && data.deliveryEmail.trim() ? "btn-glow" : ""}
                 style={{
                   width: "100%",
                   padding: "16px",
                   fontSize: 17,
                   fontWeight: 700,
-                  background: agreedToTerms && data.deliveryEmail.trim() ? (finalPrice === 0 ? "#16A34A" : "#2563EB") : "#CBD5E1",
+                  background: agreedToTerms && data.deliveryEmail.trim() ? (finalPrice === 0 ? "#16A34A" : "#533afd") : "#CBD5E1",
                   color: "white",
                   border: "none",
-                  borderRadius: 10,
+                  borderRadius: 9999,
                   cursor: agreedToTerms && data.deliveryEmail.trim() ? "pointer" : "not-allowed",
                   transition: "background 0.2s",
                 }}
@@ -2269,7 +2287,7 @@ export default function CreatePage() {
         <div style={{ padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <button
           onClick={prevStep}
-          style={{ visibility: currentStep > 1 ? "visible" : "hidden", padding: "10px 20px", fontSize: 15, fontWeight: 600, background: "transparent", border: "1.5px solid #E2E8F0", borderRadius: 8, cursor: "pointer", color: "#374151" }}
+          style={{ visibility: currentStep > 1 ? "visible" : "hidden", padding: "11px 24px", fontSize: 15, fontWeight: 600, background: "transparent", border: "1.5px solid #E2E8F0", borderRadius: 9999, cursor: "pointer", color: "#374151" }}
         >
           חזרה →
         </button>
@@ -2277,9 +2295,10 @@ export default function CreatePage() {
           <button
             onClick={nextStep}
             disabled={!valid}
-            style={{ padding: "12px 32px", fontSize: 16, fontWeight: 700, background: valid ? "#2563EB" : "#CBD5E1", color: "white", border: "none", borderRadius: 8, cursor: valid ? "pointer" : "not-allowed", transition: "background 0.2s" }}
+            className={valid ? "btn-glow" : ""}
+            style={{ padding: "13px 36px", fontSize: 16, fontWeight: 700, background: valid ? "#533afd" : "#CBD5E1", color: "white", border: "none", borderRadius: 9999, cursor: valid ? "pointer" : "not-allowed", transition: "background 0.2s" }}
           >
-            המשך
+            המשך ←
           </button>
         ) : null}
         </div>

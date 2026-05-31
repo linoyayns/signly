@@ -2,7 +2,7 @@
 
 :root {
   --color-navy: #0F1F3D;
-  --color-accent: #2563EB;
+  --color-accent: #533afd;
   --color-text: #1A1A1A;
   --color-bg: #F8F9FA;
 }
@@ -12,6 +12,25 @@ body {
   color: var(--color-text);
   font-family: 'Heebo', 'Inter', Arial, sans-serif;
   direction: rtl;
+}
+
+/* ── DARK HERO ── */
+.hero-dark {
+  background:
+    radial-gradient(rgba(255,255,255,0.055) 1px, transparent 1px),
+    radial-gradient(ellipse at 20% 55%, rgba(83,58,253,0.45) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 15%, rgba(236,72,153,0.32) 0%, transparent 45%),
+    radial-gradient(ellipse at 60% 90%, rgba(99,102,241,0.22) 0%, transparent 50%),
+    #080C18 !important;
+  background-size: 24px 24px, auto, auto, auto, auto !important;
+}
+
+/* ── GRADIENT TEXT ── */
+.gradient-text {
+  background: linear-gradient(120deg, #818cf8 0%, #a78bfa 35%, #ec4899 70%, #f472b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* ── HERO ENTRANCE ── */
@@ -51,7 +70,7 @@ body {
 }
 .btn-glow:hover {
   transform: translateY(-2px) !important;
-  box-shadow: 0 10px 30px rgba(37,99,235,0.38) !important;
+  box-shadow: 0 10px 30px rgba(83,58,253,0.42) !important;
 }
 
 /* ── NAV SCROLL SHADOW ── */
