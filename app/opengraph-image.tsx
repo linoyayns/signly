@@ -14,67 +14,31 @@ export default async function Image() {
           width: "100%",
           height: "100%",
           display: "flex",
-          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           fontFamily: "Arial, sans-serif",
-          padding: "60px",
         }}
       >
-        {/* Logo */}
-        <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 40 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
           <div
             style={{
-              width: 80,
-              height: 80,
+              width: 100,
+              height: 100,
               background: "#533afd",
-              borderRadius: 20,
+              borderRadius: 22,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 48,
+              fontSize: 60,
               fontWeight: 900,
               color: "white",
             }}
           >
             S
           </div>
-          <span style={{ fontSize: 64, fontWeight: 900, color: "white", letterSpacing: -2 }}>
+          <span style={{ fontSize: 80, fontWeight: 900, color: "white", letterSpacing: -3 }}>
             Signly<span style={{ color: "#533afd" }}>.</span>
           </span>
-        </div>
-
-        {/* Tagline in English */}
-        <p
-          style={{
-            fontSize: 28,
-            color: "rgba(255,255,255,0.65)",
-            textAlign: "center",
-            margin: "0 0 48px",
-            lineHeight: 1.4,
-          }}
-        >
-          Professional freelance contracts in Hebrew
-        </p>
-
-        {/* Pills in English */}
-        <div style={{ display: "flex", gap: 20 }}>
-          {["No sign-up", "Ready in minutes", "Only ₪97"].map((item) => (
-            <div
-              key={item}
-              style={{
-                background: "rgba(83,58,253,0.25)",
-                border: "1.5px solid rgba(83,58,253,0.5)",
-                borderRadius: 99,
-                padding: "12px 28px",
-                fontSize: 22,
-                color: "#a5b4fc",
-                fontWeight: 700,
-              }}
-            >
-              {item}
-            </div>
-          ))}
         </div>
       </div>
     ),
