@@ -120,12 +120,12 @@ export default function HomePage() {
           </p>
           <div className="mob-col1" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, textAlign: "right" }}>
             {[
-              { icon: "📄", title: "חוקי ישראל", desc: "כל סעיף מותאם לדין הישראלי — חוק החוזים, חוק הגנת הצרכן, פקודת זכויות יוצרים." },
-              { icon: "🧠", title: "למד מהאמיתיים", desc: "אומן על מעל 50 חוזים שנכתבו על ידי עורכי דין ישראלים עבור פרילנסרים בתחומים שונים — כדי להבין מה עובד ומה חסר בשטח." },
-              { icon: "🛡️", title: "מגן מניסיון", desc: "יודע אילו סעיפים מונעים סכסוכים כי ראה מה קורה כשהם חסרים." },
-            ].map(({ icon, title, desc }) => (
+              { title: "חוקי ישראל", desc: "כל סעיף מותאם לדין הישראלי — חוק החוזים, חוק הגנת הצרכן, פקודת זכויות יוצרים." },
+              { title: "למד מהאמיתיים", desc: "אומן על מעל 50 חוזים שנכתבו על ידי עורכי דין ישראלים עבור פרילנסרים בתחומים שונים — כדי להבין מה עובד ומה חסר בשטח." },
+              { title: "מגן מניסיון", desc: "יודע אילו סעיפים מונעים סכסוכים כי ראה מה קורה כשהם חסרים." },
+            ].map(({ title, desc }) => (
               <div key={title} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, padding: "24px 20px" }}>
-                <div style={{ fontSize: 28, marginBottom: 12 }}>{icon}</div>
+                <div style={{ width: 28, height: 2, background: "#818cf8", borderRadius: 2, marginBottom: 16 }} />
                 <div style={{ fontSize: 15, fontWeight: 800, color: "white", marginBottom: 8 }}>{title}</div>
                 <div style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.65 }}>{desc}</div>
               </div>
