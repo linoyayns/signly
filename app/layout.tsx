@@ -11,7 +11,20 @@ const heebo = Heebo({
 
 export const metadata: Metadata = {
   title: "Signly — חוזים מקצועיים לפרילנסרים",
-  description: "חוזים מקצועיים לפרילנסרים — נבדקו על ידי עורך דין, נכתבו על ידי AI. בחמש דקות.",
+  description: "ענה על שאלות קצרות על הפרויקט שלך ותוך דקות תקבל חוזה מקצועי בעברית. ₪97 בלבד, ללא הרשמה.",
+  openGraph: {
+    title: "Signly — חוזים מקצועיים לפרילנסרים",
+    description: "ענה על שאלות קצרות על הפרויקט שלך ותוך דקות תקבל חוזה מקצועי בעברית. ₪97 בלבד, ללא הרשמה.",
+    url: "https://www.mysignly.com",
+    siteName: "Signly",
+    locale: "he_IL",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Signly — חוזים מקצועיים לפרילנסרים",
+    description: "ענה על שאלות קצרות ותוך דקות תקבל חוזה מקצועי בעברית. ₪97 בלבד.",
+  },
 };
 
 export default function RootLayout({
