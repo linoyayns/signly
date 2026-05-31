@@ -22,53 +22,52 @@ export default async function Image() {
         }}
       >
         {/* Logo */}
-        <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 36 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 40 }}>
           <div
             style={{
-              width: 76,
-              height: 76,
+              width: 80,
+              height: 80,
               background: "#533afd",
-              borderRadius: 18,
+              borderRadius: 20,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 44,
+              fontSize: 48,
               fontWeight: 900,
               color: "white",
             }}
           >
             S
           </div>
-          <span style={{ fontSize: 58, fontWeight: 900, color: "white" }}>
-            Signly
-            <span style={{ color: "#533afd" }}>.</span>
+          <span style={{ fontSize: 64, fontWeight: 900, color: "white", letterSpacing: -2 }}>
+            Signly<span style={{ color: "#533afd" }}>.</span>
           </span>
         </div>
 
-        {/* Tagline */}
+        {/* Tagline in English */}
         <p
           style={{
-            fontSize: 30,
-            color: "rgba(255,255,255,0.7)",
+            fontSize: 28,
+            color: "rgba(255,255,255,0.65)",
             textAlign: "center",
             margin: "0 0 48px",
             lineHeight: 1.4,
           }}
         >
-          חוזים מקצועיים לפרילנסרים ישראלים
+          Professional freelance contracts in Hebrew
         </p>
 
-        {/* Pills */}
+        {/* Pills in English */}
         <div style={{ display: "flex", gap: 20 }}>
-          {["ללא הרשמה", "מוכן תוך דקות", "₪97 בלבד"].map((item) => (
+          {["No sign-up", "Ready in minutes", "Only ₪97"].map((item) => (
             <div
               key={item}
               style={{
                 background: "rgba(83,58,253,0.25)",
                 border: "1.5px solid rgba(83,58,253,0.5)",
                 borderRadius: 99,
-                padding: "10px 26px",
-                fontSize: 20,
+                padding: "12px 28px",
+                fontSize: 22,
                 color: "#a5b4fc",
                 fontWeight: 700,
               }}
