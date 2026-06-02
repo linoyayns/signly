@@ -47,10 +47,10 @@ export default function HomePage() {
             </p>
             <div className="hero-cta" style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 28 }}>
               <Link href="/create" className="btn-glow" style={{ padding: "16px 32px", fontSize: 17, fontWeight: 700, background: "#533afd", color: "white", borderRadius: 9999, textDecoration: "none" }}>
-                צור את החוזה שלי
+                התחל את החוזה שלי
               </Link>
               <Link href="/sample" style={{ padding: "16px 24px", fontSize: 16, fontWeight: 600, background: "transparent", color: "#533afd", border: "1.5px solid #C4B5FD", borderRadius: 9999, textDecoration: "none" }}>
-                ראה חוזה לדוגמה
+                דוגמה לחוזה מלא
               </Link>
             </div>
             <div dir="rtl" style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
@@ -107,33 +107,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* AI DIFFERENTIATOR */}
-      <section style={{ padding: "80px 40px", background: "#0F172A" }}>
-        <div className="reveal" style={{ maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
-          <div style={{ fontSize: 12, fontWeight: 800, color: "#818cf8", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 16 }}>למה לא ChatGPT?</div>
-          <h2 style={{ fontSize: 34, fontWeight: 900, color: "white", letterSpacing: -1, marginBottom: 20, lineHeight: 1.2 }}>
-            ChatGPT מנחש.<br />
-            <span style={{ color: "#818cf8" }}>Signly למדה מחוזים ישראלים אמיתיים.</span>
-          </h2>
-          <p style={{ fontSize: 16, color: "rgba(255,255,255,0.65)", lineHeight: 1.8, maxWidth: 620, margin: "0 auto 48px" }}>
-            אימנו את ה-AI שלנו על מעל 50 חוזי פרילנס ישראלים אמיתיים — ניתחנו אילו סעיפים מגינים, אילו חסרים, ולימדנו אותו לחשוב לפי הדין הישראלי. ChatGPT לא ראה את החוזים האלה. הוא לא יודע מה שומר עליך בדין הישראלי.
-          </p>
-          <div className="mob-col1" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, textAlign: "right" }}>
-            {[
-              { title: "חוקי ישראל", desc: "כל סעיף מותאם לדין הישראלי — חוק החוזים, חוק הגנת הצרכן, פקודת זכויות יוצרים." },
-              { title: "למד מהאמיתיים", desc: "אומן על מעל 50 חוזים שנכתבו על ידי עורכי דין ישראלים עבור פרילנסרים בתחומים שונים — כדי להבין מה עובד ומה חסר בשטח." },
-              { title: "מגן מניסיון", desc: "יודע אילו סעיפים מונעים סכסוכים כי ראה מה קורה כשהם חסרים." },
-            ].map(({ title, desc }) => (
-              <div key={title} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, padding: "24px 20px" }}>
-                <div style={{ width: 28, height: 2, background: "#818cf8", borderRadius: 2, marginBottom: 16 }} />
-                <div style={{ fontSize: 15, fontWeight: 800, color: "white", marginBottom: 8 }}>{title}</div>
-                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.65 }}>{desc}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* HOW IT WORKS */}
       <section id="how" style={{ padding: "80px 40px", background: "#FFFFFF" }}>
         <div className="reveal" style={{ maxWidth: 900, margin: "0 auto" }}>
@@ -167,6 +140,33 @@ export default function HomePage() {
             <Link href="/create" style={{ padding: "14px 32px", fontSize: 16, fontWeight: 700, background: "#533afd", color: "white", borderRadius: 9999, textDecoration: "none" }}>
               צור את החוזה שלי
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* AI DIFFERENTIATOR */}
+      <section style={{ padding: "80px 40px", background: "#0F172A" }}>
+        <div className="reveal" style={{ maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
+          <div style={{ fontSize: 12, fontWeight: 800, color: "#818cf8", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 16 }}>למה לא ChatGPT?</div>
+          <h2 style={{ fontSize: 34, fontWeight: 900, color: "white", letterSpacing: -1, marginBottom: 20, lineHeight: 1.2 }}>
+            ChatGPT מנחש.<br />
+            <span style={{ color: "#818cf8" }}>Signly למדה מחוזים ישראלים אמיתיים.</span>
+          </h2>
+          <p style={{ fontSize: 16, color: "rgba(255,255,255,0.65)", lineHeight: 1.8, maxWidth: 620, margin: "0 auto 48px" }}>
+            אימנו את ה-AI שלנו על מעל 50 חוזי פרילנס ישראלים אמיתיים — ניתחנו אילו סעיפים מגינים, אילו חסרים, ולימדנו אותו לחשוב לפי הדין הישראלי. ChatGPT לא ראה את החוזים האלה. הוא לא יודע מה שומר עליך בדין הישראלי.
+          </p>
+          <div className="mob-col1" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, textAlign: "right" }}>
+            {[
+              { title: "חוקי ישראל", desc: "כל סעיף מותאם לדין הישראלי — חוק החוזים, חוק הגנת הצרכן, פקודת זכויות יוצרים." },
+              { title: "למד מהאמיתיים", desc: "אומן על מעל 50 חוזים שנכתבו על ידי עורכי דין ישראלים עבור פרילנסרים בתחומים שונים — כדי להבין מה עובד ומה חסר בשטח." },
+              { title: "מגן מניסיון", desc: "יודע אילו סעיפים מונעים סכסוכים כי ראה מה קורה כשהם חסרים." },
+            ].map(({ title, desc }) => (
+              <div key={title} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, padding: "24px 20px" }}>
+                <div style={{ width: 28, height: 2, background: "#818cf8", borderRadius: 2, marginBottom: 16 }} />
+                <div style={{ fontSize: 15, fontWeight: 800, color: "white", marginBottom: 8 }}>{title}</div>
+                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.65 }}>{desc}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -335,7 +335,7 @@ export default function HomePage() {
               <div key={author} className="card-hover" style={{ background: "white", border: "1px solid #E2E8F0", borderRight: "3px solid #533afd", borderRadius: 12, padding: "28px 24px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
                   <div style={{ color: "#F59E0B", fontSize: 16, letterSpacing: 2 }}>{stars}</div>
-                  <div style={{ fontSize: 11, color: "#16A34A", fontWeight: 700, background: "#F0FDF4", border: "1px solid #86EFAC", borderRadius: 99, padding: "2px 8px" }}>✓ מאומת</div>
+                  <div style={{ fontSize: 11, color: "#533afd", fontWeight: 700, background: "#F0FDF4", border: "1px solid #86EFAC", borderRadius: 99, padding: "2px 8px" }}>✓ מאומת</div>
                 </div>
                 <p style={{ fontSize: 15, color: "#0F172A", lineHeight: 1.7, marginBottom: 16, fontStyle: "italic" }}>{text}</p>
                 <div style={{ fontSize: 13, fontWeight: 700, color: "#64748B" }}>{author}</div>
