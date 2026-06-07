@@ -72,13 +72,20 @@ function ContractContent() {
 
     async function fetchContract() {
       try {
-        // 1. Get contractData from sessionStorage
+        // 1. Get contractData — prefer sessionStorage (fast path), fall back to server
+        let contractData;
         const stored = sessionStorage.getItem(`cd_${clearingId}`);
-        if (!stored) {
-          setError("לא ניתן לאחזר את פרטי החוזה. אנא פנה לתמיכה.");
-          return;
+        if (stored) {
+          contractData = JSON.parse(stored);
+        } else {
+          const dataRes = await fetch(`/api/contract-data?clearing_id=${clearingId}`);
+          if (!dataRes.ok) {
+            setError("לא ניתן לאחזר את פרטי החוזה. אנא פנה לתמיכה.");
+            return;
+          }
+          const dataJson = await dataRes.json();
+          contractData = dataJson.data;
         }
-        const contractData = JSON.parse(stored);
 
         // 2. Verify payment with Invoice4U
         const verifyRes = await fetch(`/api/verify-session?clearing_id=${clearingId}`);

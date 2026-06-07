@@ -1292,6 +1292,11 @@ export default function CreatePage() {
       // Free order (100% coupon) — skip payment entirely
       if (finalPrice === 0) {
         const couponId = `coupon-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        await fetch("/api/contract-data", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ clearingId: couponId, contractData: data }),
+        });
         sessionStorage.setItem(`cd_${couponId}`, JSON.stringify(data));
         sessionStorage.setItem("pending_clearing_id", couponId);
         window.location.href = `/contract?clearing_id=${couponId}`;
@@ -1554,7 +1559,7 @@ export default function CreatePage() {
               {/* Signing date — moved here from step 5 */}
               <div style={{ background: "#F0FDF4", border: "1px solid #86EFAC", borderRadius: 10, padding: "16px 18px", marginTop: 8 }}>
                 <label style={{ ...labelStyle, color: "#166534", marginBottom: 6, display: "block" }}>תאריך חתימה על החוזה</label>
-                <p style={{ fontSize: 12, color: "#16A34A", marginBottom: 10 }}>יופיע בראש החוזה ובשורת החתימות. אפשר לשנות בכל שלב.</p>
+                <p style={{ fontSize: 12, color: "#533afd", marginBottom: 10 }}>יופיע בראש החוזה ובשורת החתימות. אפשר לשנות בכל שלב.</p>
                 <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
                   <button
                     type="button"
@@ -1759,7 +1764,7 @@ export default function CreatePage() {
                     <input className="signly-field" style={{ ...inputStyle, marginTop: 10 }} type="date" value={data.deliveryDate} onChange={(e) => update("deliveryDate", e.target.value)} />
                   )}
                   {data.deliveryDate && data.engagementDuration !== "specific-date" && data.engagementDuration !== "open" && (
-                    <p style={{ fontSize: 12, color: "#16A34A", marginTop: 8 }}>✓ תאריך סיום: {new Date(data.deliveryDate).toLocaleDateString("he-IL")}</p>
+                    <p style={{ fontSize: 12, color: "#533afd", marginTop: 8 }}>✓ תאריך סיום: {new Date(data.deliveryDate).toLocaleDateString("he-IL")}</p>
                   )}
                 </div>
               ) : (
@@ -2216,7 +2221,7 @@ export default function CreatePage() {
                   <p style={{ fontSize: 13, color: "#DC2626", marginTop: 6 }}>{couponMessage}</p>
                 )}
                 {couponStatus === "valid" && (
-                  <p style={{ fontSize: 13, color: "#16A34A", fontWeight: 600 }}>{couponMessage}</p>
+                  <p style={{ fontSize: 13, color: "#533afd", fontWeight: 600 }}>{couponMessage}</p>
                 )}
               </div>
 
@@ -2226,7 +2231,7 @@ export default function CreatePage() {
                   {couponStatus === "valid" && finalPrice < 97 && (
                     <span style={{ fontSize: 16, color: "#94A3B8", textDecoration: "line-through" }}>₪97</span>
                   )}
-                  <span style={{ fontSize: 22, fontWeight: 900, color: finalPrice === 0 ? "#16A34A" : "#533afd" }}>
+                  <span style={{ fontSize: 22, fontWeight: 900, color: finalPrice === 0 ? "#533afd" : "#533afd" }}>
                     {finalPrice === 0 ? "חינם" : `₪${finalPrice}`}
                   </span>
                 </div>
@@ -2241,7 +2246,7 @@ export default function CreatePage() {
                   padding: "16px",
                   fontSize: 17,
                   fontWeight: 700,
-                  background: agreedToTerms && data.deliveryEmail.trim() ? (finalPrice === 0 ? "#16A34A" : "#533afd") : "#CBD5E1",
+                  background: agreedToTerms && data.deliveryEmail.trim() ? (finalPrice === 0 ? "#533afd" : "#533afd") : "#CBD5E1",
                   color: "white",
                   border: "none",
                   borderRadius: 9999,

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { kv } from "@vercel/kv";
 import { createClearingRequest } from "@/lib/invoice4u";
 
 export async function POST(req: NextRequest) {
@@ -25,9 +26,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: `לא התקבל קישור לתשלום. תשובת Invoice4U: ${detail}` }, { status: 500 });
     }
 
+    const clearingId = result.I4UClearingLogId;
+    await kv.set(`contract:${clearingId}`, contractData);
+    if (contractData.deliveryEmail) {
+      await kv.set(`email:${contractData.deliveryEmail}:${clearingId}`, 1);
+    }
+
     return NextResponse.json({
       iframeUrl: result.ClearingRedirectUrl,
-      clearingId: result.I4UClearingLogId,
+      clearingId,
     });
   } catch (err) {
     console.error("create-checkout error:", err);
