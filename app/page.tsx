@@ -310,7 +310,7 @@ export default function HomePage() {
             <p style={{ fontSize: 13, color: "#94A3B8" }}>פרילנסרים שכבר עובדים עם חוזה</p>
           </div>
           <div className="mob-testimonials" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20 }}>
-            [
+            {[
               {
                 stars: "★★★★★",
                 text: "\"בהתחלה הייתי סקפטי — מה פתאום AI יכתוב חוזה? אבל התוצאה שקיבלתי נראתה ממש מקצועית. שלחתי ללקוח ואפילו לא שאל שאלות. ואין עליו שום לוגו, אז אף אחד לא יודע שלא כתבתי אותו בעצמי.\"",
