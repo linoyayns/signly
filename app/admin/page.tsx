@@ -16,6 +16,24 @@ interface ContractResult {
 export default function AdminPage() {
   const [secret, setSecret] = useState("");
   const [authed, setAuthed] = useState(false);
+  const [authError, setAuthError] = useState("");
+  const [checkingAuth, setCheckingAuth] = useState(false);
+
+  async function login() {
+    setAuthError("");
+    setCheckingAuth(true);
+    const res = await fetch("/api/admin/recent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ secret }),
+    });
+    setCheckingAuth(false);
+    if (res.ok) {
+      setAuthed(true);
+    } else {
+      setAuthError("סיסמה שגויה");
+    }
+  }
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ContractResult[]>([]);
   const [status, setStatus] = useState("");
@@ -77,14 +95,16 @@ export default function AdminPage() {
             placeholder="סיסמת ניהול"
             value={secret}
             onChange={e => setSecret(e.target.value)}
-            onKeyDown={e => e.key === "Enter" && setAuthed(true)}
+            onKeyDown={e => e.key === "Enter" && login()}
             style={{ width: "100%", padding: "10px 14px", border: "1.5px solid #E2E8F0", borderRadius: 8, fontSize: 14, boxSizing: "border-box", direction: "rtl" }}
           />
+          {authError && <p style={{ color: "#DC2626", fontSize: 13, marginTop: 8, textAlign: "center" }}>{authError}</p>}
           <button
-            onClick={() => setAuthed(true)}
+            onClick={login}
+            disabled={checkingAuth}
             style={{ width: "100%", marginTop: 12, padding: "10px", background: "#2563EB", color: "white", border: "none", borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: "pointer" }}
           >
-            כניסה
+            {checkingAuth ? "בודק..." : "כניסה"}
           </button>
         </div>
       </main>
