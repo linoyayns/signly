@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
   }
 
   await kv.set(`contract:${clearingId}`, contractData);
+  await kv.zadd("contracts:recent", { score: Date.now(), member: String(clearingId) });
   if (contractData.deliveryEmail) {
     await kv.set(`email:${contractData.deliveryEmail}:${clearingId}`, 1);
   }

@@ -23,6 +23,21 @@ export default function AdminPage() {
   const [resendEmail, setResendEmail] = useState<Record<string, string>>({});
   const [resendStatus, setResendStatus] = useState<Record<string, string>>({});
 
+  async function loadRecent() {
+    setLoading(true);
+    setStatus("");
+    setResults([]);
+    const res = await fetch("/api/admin/recent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ secret }),
+    });
+    const json = await res.json();
+    setLoading(false);
+    if (!res.ok) { setStatus(json.error); return; }
+    setResults(json.results || []);
+  }
+
   async function lookup() {
     setLoading(true);
     setStatus("");
@@ -80,6 +95,16 @@ export default function AdminPage() {
     <main dir="rtl" style={{ minHeight: "100vh", background: "#F8FAFC", fontFamily: "Arial, sans-serif", padding: "40px 24px" }}>
       <div style={{ maxWidth: 700, margin: "0 auto" }}>
         <h1 style={{ fontSize: 22, fontWeight: 900, marginBottom: 24, color: "#0F172A" }}>Signly Admin — שחזור חוזים</h1>
+
+        <div style={{ marginBottom: 16 }}>
+          <button
+            onClick={loadRecent}
+            disabled={loading}
+            style={{ padding: "10px 24px", background: "#0F172A", color: "white", border: "none", borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: "pointer" }}
+          >
+            {loading ? "טוען..." : "הצג הזמנות אחרונות"}
+          </button>
+        </div>
 
         <div style={{ display: "flex", gap: 10, marginBottom: 24 }}>
           <input
