@@ -506,7 +506,7 @@ const DELAYS_CONFIG: Record<Profession, {
   },
   consultant: {
     clientLabel: "מה קורה אם הלקוח מבטל פגישה?",
-    clientHint: "ביטול פגישות גורם לך לאבד זמן שיכולת להקדיש ללקוחות אחרים",
+    clientHint: "ביטול פגישות גורם לך לאבד זמן שיכולת להקדיש ללקוחות אחרים — זה שונה מסיום ההתקשרות הכללי (זה יישאל בהמשך)",
     clientPlaceholder: "ביטול פחות מ-24 שעות מראש — יחויב 50% עלות הפגישה.",
     freelancerLabel: "מה קורה אם נאלצת לדחות פגישה?",
     freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
@@ -538,7 +538,7 @@ const DELAYS_CONFIG: Record<Profession, {
   },
   coach: {
     clientLabel: "מה קורה אם הלקוח מבטל פגישה?",
-    clientHint: "ביטול פגישות גורם לך לאבד זמן ולקוחות אחרים",
+    clientHint: "ביטול פגישות גורם לך לאבד זמן ולקוחות אחרים — זה שונה מסיום ההתקשרות הכללי (זה יישאל בהמשך)",
     clientPlaceholder: "ביטול פחות מ-24 שעות מראש — 50% עלות הפגישה. אי-הגעה — תשלום מלא.",
     freelancerLabel: "מה קורה אם נאלצת לדחות פגישה?",
     freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
@@ -546,7 +546,7 @@ const DELAYS_CONFIG: Record<Profession, {
   },
   sportsInstructor: {
     clientLabel: "מה קורה אם המתאמן מבטל אימון?",
-    clientHint: "ביטול אימונים גורם לך לאבד הכנסה מתוכננת",
+    clientHint: "ביטול אימונים גורם לך לאבד הכנסה מתוכננת — זה שונה מסיום ההתקשרות הכללי (זה יישאל בהמשך)",
     clientPlaceholder: "ביטול פחות מ-24 שעות מראש — 50% עלות האימון. אי-הגעה — תשלום מלא.",
     freelancerLabel: "מה קורה אם נאלצת לבטל אימון?",
     freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
@@ -554,7 +554,7 @@ const DELAYS_CONFIG: Record<Profession, {
   },
   tutor: {
     clientLabel: "מה קורה אם התלמיד לא מגיע לשיעור?",
-    clientHint: "אי-הגעה ללא הודעה גורמת לך לאבד שעת עבודה",
+    clientHint: "אי-הגעה ללא הודעה גורמת לך לאבד שעת עבודה — זה שונה מסיום ההתקשרות הכללי (זה יישאל בהמשך)",
     clientPlaceholder: "אי-הגעה ללא הודעה של 4+ שעות — תחויב השעה במלואה.",
     freelancerLabel: "מה קורה אם נאלצת לבטל שיעור?",
     freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
@@ -562,7 +562,7 @@ const DELAYS_CONFIG: Record<Profession, {
   },
   psychologist: {
     clientLabel: "מה קורה אם המטופל מבטל פגישה?",
-    clientHint: "שעה שנקבעה ולא נוצלה — הכנסה שאבדה",
+    clientHint: "שעה שנקבעה ולא נוצלה — הכנסה שאבדה — זה שונה מסיום ההתקשרות הכללי (זה יישאל בהמשך)",
     clientPlaceholder: "ביטול פחות מ-24 שעות מראש — 50% דמי ביטול. אי-הגעה — תשלום מלא.",
     freelancerLabel: "מה קורה אם נאלצת לדחות פגישה?",
     freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
@@ -1817,7 +1817,7 @@ export default function CreatePage() {
               {profession && ONGOING_PROFESSIONS.includes(profession) ? (
                 <>
                   <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>איך מסיימים את ההתקשרות?</h2>
-                  <p style={{ fontSize: 14, color: "#64748B", marginBottom: 20 }}>כשעובדים ביחד לאורך זמן — חשוב לדעת מה נחשב סיום מוסכם ומה קורה אז.</p>
+                  <p style={{ fontSize: 14, color: "#64748B", marginBottom: 20 }}>כשעובדים ביחד לאורך זמן — חשוב לדעת מה נחשב סיום מוסכם ומה קורה אז. (לא לבלבל עם ביטול פגישה בודדת — זה כבר הוגדר קודם)</p>
 
                   <div style={fieldGroupStyle}>
                     <label style={labelStyle}>כמה זמן מראש צריך להודיע על סיום?</label>
