@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -1233,6 +1233,21 @@ export default function CreatePage() {
   const [couponMessage, setCouponMessage] = useState("");
   const [finalPrice, setFinalPrice] = useState(97);
   const [showCouponField, setShowCouponField] = useState(false);
+  const [polishedPreview, setPolishedPreview] = useState<{ description: string; exclusions: string } | null>(null);
+  const polishedPreviewRequested = useRef(false);
+
+  useEffect(() => {
+    if (currentStep !== 8 || polishedPreviewRequested.current || !data.projectDescription.trim()) return;
+    polishedPreviewRequested.current = true;
+    fetch("/api/preview-clauses", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ projectDescription: data.projectDescription, projectExclusions: data.projectExclusions }),
+    })
+      .then((r) => r.json())
+      .then((j) => { if (j.description) setPolishedPreview(j); })
+      .catch(() => {});
+  }, [currentStep, data.projectDescription, data.projectExclusions]);
 
   const update = (field: keyof FormData, value: string | boolean | null) => {
     setData((prev) => {
@@ -2066,19 +2081,21 @@ export default function CreatePage() {
                       <p style={{ fontSize: 13, fontWeight: 800, color: "#0F172A", marginBottom: 10, borderBottom: "1px solid #E2E8F0", paddingBottom: 6 }}>ב. היקף השירות</p>
                       <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>ב.1. תיאור השירות</p>
                       <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151", marginBottom: 10 }}>
-                        נותן השירות מתחייב לספק ללקוח את השירות הבא: {data.projectDescription ? clean(data.projectDescription) : "כמפורט בהסכם זה, במועד ובאיכות שנקבעו."}
+                        {polishedPreview?.description
+                          ? polishedPreview.description
+                          : data.projectDescription
+                            ? `נותן השירות מתחייב לספק ללקוח את השירות הבא: ${clean(data.projectDescription)}`
+                            : "נותן השירות מתחייב לספק ללקוח את השירות המפורט בהסכם זה, במועד ובאיכות שנקבעו."}
                       </p>
-                      {data.projectExclusions && (
+                      {(polishedPreview?.exclusions || data.projectExclusions) && (
                         <>
                           <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>ב.2. מה אינו כלול בשירות</p>
                           <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151", marginBottom: 10 }}>
-                            {clean(data.projectExclusions).split(/[,،]/).map((item, i) => (
-                              <span key={i} style={{ display: "block" }}>- {item.trim()}</span>
-                            ))}
+                            {polishedPreview?.exclusions || clean(data.projectExclusions)}
                           </p>
                         </>
                       )}
-                      <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>{data.projectExclusions ? "ב.3." : "ב.2."} אחריות מקצועית</p>
+                      <p style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", marginBottom: 4 }}>{(polishedPreview?.exclusions || data.projectExclusions) ? "ב.3." : "ב.2."} אחריות מקצועית</p>
                       <p style={{ fontSize: 13, lineHeight: 1.9, color: "#374151" }}>
                         נותן השירות מתחייב לבצע את השירות ברמה מקצועית גבוהה, בהתאם לסטנדרטים המקובלים בתחום.
                       </p>
