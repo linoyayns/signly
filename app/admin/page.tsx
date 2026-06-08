@@ -22,7 +22,7 @@ export default function AdminPage() {
   async function login() {
     setAuthError("");
     setCheckingAuth(true);
-    const res = await fetch("/api/admin/recent", {
+    const res = await fetch("/api/admin/verify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ secret }),
