@@ -11,6 +11,9 @@ const heebo = Heebo({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.mysignly.com"),
+  verification: {
+    google: "IZ-EATuDefqACYZSmJIV6hMzqQZQ_8ivlibkU3rPwdY",
+  },
   title: "Signly — חוזים מקצועיים לפרילנסרים",
   description: "ענה על שאלות קצרות על הפרויקט שלך ותוך דקות תקבל חוזה מקצועי בעברית. ₪97 בלבד, ללא הרשמה.",
   openGraph: {
@@ -45,6 +48,23 @@ export default function RootLayout({
           gtag('config', 'G-0MEPPZ6QQR');
         `}</Script>
         <Script src="https://cdn.enable.co.il/licenses/enable-L55124s8cp12k3gg-0526-81985/init.js" strategy="afterInteractive" />
+        {/* Meta Pixel */}
+        <Script id="meta-pixel" strategy="afterInteractive">{`
+          !function(f,b,e,v,n,t,s)
+          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', '1743591240142619');
+          fbq('track', 'PageView');
+        `}</Script>
+        <noscript>
+          <img height="1" width="1" style={{ display: "none" }}
+            src="https://www.facebook.com/tr?id=1743591240142619&ev=PageView&noscript=1" />
+        </noscript>
         {children}
       </body>
     </html>
