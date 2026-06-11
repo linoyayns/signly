@@ -2004,7 +2004,7 @@ export default function CreatePage() {
             <>
               <span style={{ fontSize: 12, fontWeight: 700, color: "#533afd", background: "#ede9fe", padding: "3px 10px", borderRadius: 99, marginBottom: 14, display: "inline-block" }}>שלב 8 מתוך 8 — סיכום ותשלום</span>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>הכל נראה טוב?</h2>
-              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 24 }}>בדוק/י את הפרטים לפני התשלום. לאחר התשלום תקבל/י את החוזה תוך דקות.</p>
+              <p style={{ fontSize: 14, color: "#64748B", marginBottom: 24 }}>בדוק/י את הפרטים לפני התשלום. לאחר התשלום ה-AI כותב את החוזה שלך במיוחד עבורך — זה לוקח כ-3-5 דקות. תישאר/י על המסך, החוזה גם יישלח אוטומטית למייל שלך.</p>
 
               {/* Summary */}
               {[
