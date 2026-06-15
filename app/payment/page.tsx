@@ -26,6 +26,10 @@ function PaymentContent() {
     setLoading(true);
     setError("");
 
+    if (typeof window !== "undefined" && (window as any).fbq) {
+      (window as any).fbq("track", "InitiateCheckout", { value: 97, currency: "ILS" });
+    }
+
     try {
       const res = await fetch("/api/create-checkout", {
         method: "POST",

@@ -1,4 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { formatAmountWithWords } from "./hebrew-numbers";
 
 export interface ContractData {
   profession: string | null;
@@ -69,10 +70,16 @@ function t(s: string | null | undefined): string {
 export async function generateContract(data: ContractData): Promise<string> {
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
+  const totalPriceNum = Number(data.totalPrice);
   const depositNum = Number(data.depositPercent);
+  const depositAmount = depositNum > 0 ? Math.round((totalPriceNum * depositNum) / 100) : 0;
+  const balanceAmount = totalPriceNum - depositAmount;
+
   const deposit = data.depositPercent && depositNum > 0
-    ? `${data.depositPercent}% מקדמה (${Math.round((Number(data.totalPrice) * depositNum) / 100)} ₪) בעת חתימת החוזה`
+    ? `${data.depositPercent}% מקדמה (${formatAmountWithWords(depositAmount)}) בעת חתימת החוזה`
     : "אין מקדמה — כל התשלום ישולם בתשלום אחד בתום העבודה";
+
+  const revisionCostFormatted = data.revisionCost ? formatAmountWithWords(Number(data.revisionCost)) : "לא צוין";
 
   const specialSection = data.specialRequests?.trim()
     ? `\n\nסעיפים מיוחדים שהתבקשו:\n${data.specialRequests}`
@@ -91,9 +98,10 @@ export async function generateContract(data: ContractData): Promise<string> {
 מה לא כלול: ${t(data.projectExclusions) || "לא פורט"}
 
 === תשלום ===
-מחיר כולל: ${data.totalPrice} ₪ (${vatLabel(data.vat)})
+מחיר כולל: ${formatAmountWithWords(totalPriceNum)} (${vatLabel(data.vat)})
 מקדמה: ${deposit}
-יתרה: ${t(data.paymentTiming)}
+יתרת התשלום: ${depositAmount > 0 ? formatAmountWithWords(balanceAmount) : "—"}
+מועד תשלום היתרה: ${t(data.paymentTiming)}
 אמצעי תשלום: ${data.paymentMethod || "העברה בנקאית"}
 איחור בתשלום: ${t(data.latePayment)}
 
@@ -108,7 +116,7 @@ ${data.signingDate ? `תאריך חתימה על החוזה: ${data.signingDate}
 
 === תיקונים ===
 תיקונים כלולים: ${t(data.revisionsIncluded)}
-עלות תיקון נוסף: ${data.revisionCost ? `${data.revisionCost} ₪` : "לא צוין"}
+עלות תיקון נוסף: ${revisionCostFormatted}
 הגדרת תיקון: ${t(data.revisionDefinition)}
 
 === ביטול ===
@@ -131,7 +139,7 @@ ${specialSection}
 
 ב. היקף השירות — ב.1 תיאור מפורט של השירות, ב.2 מה אינו כלול (אם צוין — ניסח כרשימה. אם לא צוין — כתוב "אינו כולל שירותים שאינם מפורטים מפורשות לעיל"), ב.3 אחריות מקצועית.
 
-ג. תמורה ותנאי תשלום — ג.1 סכום התמורה (כתוב את הסכום גם במספרים וגם באותיות בסוגריים, לדוגמה: 8,500 ₪ (שמונת אלפים וחמש מאות שקלים חדשים)), ג.2 מבנה התשלומים (מקדמה + יתרה עם הסכומים הכספיים המדויקים וגם באותיות), ג.3 אמצעי תשלום, ג.4 איחור בתשלום.
+ג. תמורה ותנאי תשלום — ג.1 סכום התמורה, ג.2 מבנה התשלומים (מקדמה + יתרה), ג.3 אמצעי תשלום, ג.4 איחור בתשלום. כל הסכומים (סעיף "תשלום" לעיל) כבר מנוסחים במדויק במספרים וגם באותיות בסוגריים — העתק אותם כמו שהם, מילה במילה. אל תחשב או תנסח מספרים-באותיות בעצמך.
 
 ד. לוח זמנים ועיכובים — ד.1 מועדי הפרויקט, ד.2 עיכובים מצד הלקוח, ד.3 עיכובים מצד נותן השירות.
 
@@ -173,7 +181,7 @@ ${data.clientName}
 - כתוב את כל 15 הסעיפים שפורטו לעיל (א עד טו), בסדר הזה, עד וכולל סעיף טו (חתימות). תכתוב כל סעיף בצורה הכי טובה לדעתך — מפורט או תמציתי, עם או בלי תת-סעיפים נוספים, איך שנכון מבחינה משפטית.
 - חשוב מאוד: לעולם אל תשלח ללקוח חוזה חצי — כלומר חוזה שנעצר לפני שהגיע לסעיף טו (חתימות) עם בלוקי החתימה של שני הצדדים. אם בשלב מסוים אתה מרגיש שהתשובה מתארכת ומתקרבת לגבול — תתחיל לכתוב בתמציתיות רבה יותר מאותו רגע, כדי להבטיח שהחוזה השלם, כולל סעיף טו, יסתיים בתוך התשובה.
 - שפה: משפטית, מדויקת, מנוסחת כחוזה אמיתי.
-- כל סכום כספי: כתוב גם במספרים וגם באותיות בסוגריים.
+- כל סכום כספי: הועבר לך כבר מנוסח (מספרים + אותיות בסוגריים) — השתמש בניסוח שניתן לך בדיוק כמו שהוא, אל תמיר מספרים לאותיות בעצמך.
 - כל מספר יום / שבוע: כתוב גם בספרות וגם באותיות בסוגריים — לדוגמה: 7 (שבעה) ימים.
 - **אסור להשתמש בטבלאות markdown** (תווי |) — גם לא בחתימות.
 - אם אין מקדמה — כתוב בפירוש "אין תשלום מראש. כל התשלום ישולם בתשלום אחד בתום העבודה." ואל תזכיר 0 ₪.

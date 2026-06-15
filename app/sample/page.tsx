@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect } from "react";
 import ContractDisplay from "@/components/ContractDisplay";
 import { downloadContractAsPdf } from "@/lib/pdf";
 
@@ -215,6 +216,12 @@ const SAMPLE_CONTRACT = `# הסכם שירותי עיצוב זהות מיתוג�
 `;
 
 export default function SamplePage() {
+  useEffect(() => {
+    if (typeof window !== "undefined" && (window as any).fbq) {
+      (window as any).fbq("track", "ViewContent", { content_name: "sample_contract" });
+    }
+  }, []);
+
   return (
     <main dir="rtl" style={{ minHeight: "100vh", backgroundColor: "#F8FAFC", fontFamily: "'Heebo', sans-serif" }}>
       {/* Header */}
