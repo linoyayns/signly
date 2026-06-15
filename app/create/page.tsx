@@ -8,7 +8,7 @@ const TOTAL_STEPS = 8;
 
 type Profession =
   | "photographer" | "designer" | "writer" | "consultant" | "developer"
-  | "coach" | "tutor" | "videoEditor" | "socialMedia" | "translator"
+  | "coach" | "tutor" | "videoEditor" | "socialMedia" | "digitalMarketing" | "translator"
   | "beauty" | "gardener" | "kindergarten" | "renovation" | "musician" | "interiorDesigner"
   | "architect" | "psychologist" | "sportsInstructor" | "privateChef"
   | "producer" | "eventManager" | "artist" | "productSeller"
@@ -61,6 +61,7 @@ const PROFESSIONS = [
   { id: "developer" as Profession, icon: "💻", label: "מפתח / מפתחת" },
   { id: "videoEditor" as Profession, icon: "🎬", label: "עורך / עורכת וידאו" },
   { id: "socialMedia" as Profession, icon: "📱", label: "מנהל/ת סושיאל מדיה" },
+  { id: "digitalMarketing" as Profession, icon: "📈", label: "שיווק דיגיטלי / מנהל/ת קמפיינים" },
   { id: "coach" as Profession, icon: "🏆", label: "מאמן / מאמנת" },
   { id: "sportsInstructor" as Profession, icon: "🏋️", label: "מדריך / מדריכת ספורט" },
   { id: "tutor" as Profession, icon: "📚", label: "מורה פרטי/ת" },
@@ -89,7 +90,7 @@ const PROFESSIONS = [
 ];
 
 const PROFESSION_CATEGORIES: { label: string; professions: Profession[] }[] = [
-  { label: "קריאייטיב ומדיה",      professions: ["photographer", "designer", "writer", "videoEditor", "socialMedia", "musician", "translator", "influencer"] },
+  { label: "קריאייטיב ומדיה",      professions: ["photographer", "designer", "writer", "videoEditor", "socialMedia", "digitalMarketing", "musician", "translator", "influencer"] },
   { label: "ייעוץ, אימון והדרכה",  professions: ["consultant", "coach", "sportsInstructor", "tutor", "psychologist", "lactationConsultant", "sleepConsultant", "doula", "nightNurse"] },
   { label: "אמנות ויצירה",          professions: ["artist", "jewelryDesigner", "ceramicist"] },
   { label: "יופי וטיפוח",           professions: ["beauty"] },
@@ -109,6 +110,7 @@ const PROFESSION_KEYWORDS: Record<Profession, string[]> = {
   developer:           ["מפתח", "מפתחת", "פיתוח", "קוד", "אפליקציה", "אתר", "web", "fullstack", "frontend", "backend"],
   videoEditor:         ["עורך וידאו", "עורכת וידאו", "וידאו", "סרטון", "ריל", "reel", "מונטאז", "קליפ"],
   socialMedia:         ["סושיאל", "אינסטגרם", "פייסבוק", "רשתות", "social", "ניהול דפים", "קהילה", "תוכן"],
+  digitalMarketing:    ["שיווק דיגיטלי", "קמפיינים", "פרסום ממומן", "פייסבוק אדס", "גוגל אדס", "meta ads", "google ads", "ppc", "מדיה בתשלום", "פרפורמנס"],
   coach:               ["מאמן", "מאמנת", "קואוצינג", "coaching", "אימון אישי", "לייף קואץ"],
   sportsInstructor:    ["מדריך ספורט", "מדריכת ספורט", "כושר", "פילאטיס", "יוגה", "אימון", "חדר כושר", "gym"],
   tutor:               ["מורה פרטי", "שיעורים פרטיים", "הוראה", "לימוד", "מתמטיקה", "אנגלית", "בגרות", "תגבור"],
@@ -182,6 +184,11 @@ const PROTECTION_QUESTIONS: Record<Profession, { question: string; hint: string;
     question: "מי אחראי על תוכן שפורסם ולא עמד בציפיות הלקוח?",
     hint: "פירסמת פוסט שהלקוח אישר בכתב — ואחרי שיצא, הוא טוען שנגרם לו נזק. מי נושא באחריות?",
     placeholder: "הלקוח אחראי לאישור כל תוכן לפני פרסום. לאחר אישור בכתב — האחריות על התוצאות עוברת ללקוח.",
+  },
+  digitalMarketing: {
+    question: "מה קורה אם הקמפיינים לא מביאים את התוצאות שהלקוח קיווה להן?",
+    hint: "ניהלת קמפיינים נכון, אופטימיזציה שוטפת — אבל השוק לא הגיב כמו שהלקוח קיווה. הוא רוצה החזר כי 'לא הביא תוצאות'. מה מגן עליך?",
+    placeholder: "שכר הטרחה משולם עבור הניהול והאופטימיזציה המקצועית, ואינו מותנה בתוצאות עסקיות (מכירות, לידים) שתלויות בגורמים שאינם בשליטת מנהל/ת הקמפיינים — לרבות תקציב, מוצר, ותחרות בשוק.",
   },
   coach: {
     question: "מה קורה אם הלקוח מבטל פגישה ברגע האחרון?",
@@ -339,6 +346,10 @@ const PROJECT_EXAMPLES: Record<Profession, { description: string; exclusions: st
     description: "ניהול אינסטגרם + פייסבוק: 3 פוסטים שבועיים, כתיבה, עיצוב בסיסי ולוח תוכן חודשי.",
     exclusions: "לא כלול: פרסום ממומן, צילום, עיצוב מותג, מענה להודעות פרטיות.",
   },
+  digitalMarketing: {
+    description: "ניהול קמפיינים ממומנים בפייסבוק/אינסטגרם וגוגל: הקמה, אופטימיזציה שוטפת, דוח חודשי עם תוצאות והמלצות.",
+    exclusions: "לא כלול: תקציב המדיה עצמו (משולם ישירות לפלטפורמה על ידי הלקוח), עיצוב קריאייטיב, ניהול תוכן אורגני.",
+  },
   coach: {
     description: "8 מפגשי אימון אישי של שעה כל אחד, בזום, כולל כלים, תרגילים ותמיכה בין-פגישתית.",
     exclusions: "לא כלול: זמינות 24/7, ייעוץ פסיכולוגי, הבטחת תוצאות ספציפיות.",
@@ -449,6 +460,7 @@ const DATES_CONFIG: Record<Profession, { startLabel: string; endLabel: string }>
   developer:         { startLabel: "תאריך תחילת הפיתוח",      endLabel: "תאריך מסירת הפרויקט" },
   videoEditor:       { startLabel: "תאריך קבלת החומרים",      endLabel: "תאריך מסירת הסרטון" },
   socialMedia:       { startLabel: "תאריך תחילת הניהול",      endLabel: "תאריך סיום ההתקשרות" },
+  digitalMarketing:  { startLabel: "תאריך תחילת הקמפיינים",   endLabel: "תאריך סיום ההתקשרות" },
   coach:             { startLabel: "תאריך פגישה ראשונה",      endLabel: "תאריך פגישה אחרונה" },
   sportsInstructor:  { startLabel: "תאריך אימון ראשון",       endLabel: "תאריך אימון אחרון" },
   tutor:             { startLabel: "תאריך שיעור ראשון",       endLabel: "תאריך שיעור אחרון" },
@@ -535,6 +547,14 @@ const DELAYS_CONFIG: Record<Profession, {
     freelancerLabel: "מה קורה אם נוצר עיכוב בפרסום מצדך?",
     freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
     freelancerPlaceholder: "עיכוב בפרסום יוודע ללקוח מיידית.",
+  },
+  digitalMarketing: {
+    clientLabel: "מה קורה אם הלקוח לא מאשר תקציב או קריאייטיב בזמן?",
+    clientHint: "בלי אישור תקציב או חומרים — אי אפשר להפעיל או לעדכן קמפיינים",
+    clientPlaceholder: "עיכוב באישור תקציב, קריאייטיב, או גישה לחשבונות הפרסום — ידחה את הפעלת/עדכון הקמפיינים בהתאמה.",
+    freelancerLabel: "מה קורה אם נוצר עיכוב בהפעלת קמפיין מצדך?",
+    freelancerHint: "הגדר מה קורה כדי שיהיה ברור לשני הצדדים מראש",
+    freelancerPlaceholder: "עיכוב בהפעלת קמפיין יוודע ללקוח מיידית.",
   },
   coach: {
     clientLabel: "מה קורה אם הלקוח מבטל פגישה?",
@@ -810,6 +830,15 @@ const REVISIONS_CONFIG: Record<Profession, {
     definitionLabel: "מה נחשב 'תיקון' לעומת תוכן חדש?",
     definitionPlaceholder: "שינוי טקסט, צבע, תמונה — כלול. שינוי נושא הפוסט לגמרי — נחשב תוכן חדש ויחויב בנפרד.",
   },
+  digitalMarketing: {
+    stepTitle: "כמה שינויי קמפיין כלולים בחודש?",
+    stepSubtitle: "אופטימיזציה שוטפת זה חלק מהעבודה — אבל בקשות לקמפיינים חדשים זה משהו אחר.",
+    showCountAndCost: true,
+    countLabel: "שינויים / אופטימיזציות כלולות",
+    countPlaceholder: "ללא הגבלה (כלול בניהול)",
+    definitionLabel: "מה נחשב 'אופטימיזציה' לעומת קמפיין חדש?",
+    definitionPlaceholder: "שינוי תקציב, יעדים, קהלים, השהיית מודעות — כלול בניהול החודשי. בניית קמפיין חדש לערוץ או מטרה נוספת — יחויב בנפרד.",
+  },
   translator: {
     stepTitle: "כמה סבבי הגהה כלולים?",
     stepSubtitle: "הגדר כמה פעמים הלקוח יכול לבקש תיקונים בתרגום.",
@@ -1045,6 +1074,7 @@ const LATE_PAYMENT_CONFIG: Record<Profession, string> = {
   developer:        "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — הפיתוח מוקפא וגישת הלקוח למערכת מושעית עד לקבלתו.",
   videoEditor:      "תשלום שלא יתקבל תוך 7 ימים ממועד החיוב — מסירת הסרטון הסופי תעוכב עד לקבלתו.",
   socialMedia:      "תשלום חודשי שלא יתקבל עד ה-1 בחודש — הפרסום מוקפא עד לסילוק החוב.",
+  digitalMarketing: "תשלום חודשי שלא יתקבל עד ה-1 בחודש — הקמפיינים יושהו עד לסילוק החוב.",
   coach:            "תשלום שלא יתקבל תוך 7 ימים — הפגישות הבאות יושהו עד לסילוק החוב.",
   sportsInstructor: "תשלום שלא יתקבל תוך 7 ימים — האימונים הבאים יושהו עד לסילוק החוב.",
   tutor:            "תשלום שלא יתקבל תוך 7 ימים — השיעורים הבאים יושהו עד לסילוק החוב.",
@@ -1080,6 +1110,7 @@ const PAYMENT_TIMING_CONFIG: Record<Profession, string> = {
   developer:           "עם השקת הפרויקט ואישור הלקוח",
   videoEditor:         "עם מסירת הסרטון הסופי ואישור הלקוח",
   socialMedia:         "בתחילת כל חודש, לפני תחילת הפרסום",
+  digitalMarketing:    "בתחילת כל חודש, לפני תחילת/המשך הקמפיינים",
   coach:               "לפני כל פגישה, או בתשלום מראש לחבילה",
   sportsInstructor:    "לפני תחילת האימון, או בתחילת כל חודש",
   tutor:               "בתחילת כל חודש, או לפני כל שיעור",
@@ -1109,7 +1140,7 @@ const PAYMENT_TIMING_CONFIG: Record<Profession, string> = {
 
 // Professions that typically have ongoing/recurring engagements
 const ONGOING_PROFESSIONS: Profession[] = [
-  "socialMedia", "consultant", "developer", "coach", "sportsInstructor",
+  "socialMedia", "digitalMarketing", "consultant", "developer", "coach", "sportsInstructor",
   "tutor", "psychologist", "gardener", "kindergarten", "nightNurse",
   "sleepConsultant", "lactationConsultant",
 ];
@@ -1118,7 +1149,7 @@ const ONGOING_PROFESSIONS: Profession[] = [
 const DEFAULT_PAYMENT_FREQUENCY: Record<Profession, FormData["paymentFrequency"]> = {
   photographer: "one-time", designer: "one-time", writer: "one-time",
   consultant: "monthly", developer: "one-time", videoEditor: "one-time",
-  socialMedia: "monthly", coach: "one-time", sportsInstructor: "monthly",
+  socialMedia: "monthly", digitalMarketing: "monthly", coach: "one-time", sportsInstructor: "monthly",
   tutor: "monthly", psychologist: "one-time", interiorDesigner: "one-time",
   architect: "one-time", musician: "one-time", translator: "one-time",
   beauty: "one-time", privateChef: "one-time", kindergarten: "monthly",
